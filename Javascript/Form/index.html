@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>FORM</h1>
+    <div class="outer-box">
+        <form action="">
+            <div class="wrapper">
+                <label for="email" class="label">Email</label>
+                <input type="email" name="email" id="email" class="input" required>
+            </div>
+            <div class="wrapper">
+                <label for="password" class="label">Password</label>
+                <input type="password" name="password" id="password" class="input" required>
+            </div>
+            <div class="wrapper">
+                <label for="Sex" class="label">Sex</label>
+                <select name="Sex" id="sex" class="input">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="wrapper">
+                <div class="label">Roles</div>
+                <input type="radio" name="role" id="admin" value="admin">
+                <label for="admin">Admin</label>
+                <input type="radio" name="role" id="user" value="user">
+                <label for="user">User</label>
+            </div>
+            <div class="wrapper">
+                <div class="label">Permissions</div>
+                <div>
+                <input type="checkbox" name="perm1" id="perm1" value="Permission-1">
+                <label for="perm1">Permission-1</label>
+                <input type="checkbox" name="perm2" id="perm2" value="Permission-2">
+                <label for="perm2">Permission-2</label>
+                <input type="checkbox" name="perm3" id="perm3" value="Permission-3">
+                <label for="perm3">Permission-3</label>
+                <input type="checkbox" name="perm4" id="perm4" value="Permission-4">
+                <label for="perm4">Permission-4</label>
+                </div>
+            </div>
+            <button type="submit" class="button">Submit</button>
+            
+        </form>
+        <div class="preview">
+            <div id="Email"></div>
+            <div id="Password"></div>
+            <div id="Sex"></div>
+            <div id="Role"></div>
+            <div id="Permission"></div>
+            <button class="button">Confirm</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
