@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faRedo} from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
-import { connect } from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 function ResetButton(props) {
+    const isPaused = useSelector((state)=>state.isPaused);
+    const dispatch = useDispatch();
     const handleClick=()=>{
-        if(props.isPaused){
-            props.handleReset();
+        if(isPaused){
+            dispatch({type:'RESET_WATCH'});
         }
     }
     return (
@@ -14,14 +16,5 @@ function ResetButton(props) {
         </div>
     )
 }
-const mapStateToProps=(state)=>{
-    return{
-        isPaused: state.isPaused
-    }
-}
-const mapDispatchToProps=(dispatch)=>{
-    return{
-        handleReset : ()=>{dispatch({'type':'RESET_WATCH'})}
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(ResetButton);
+
+export default ResetButton;

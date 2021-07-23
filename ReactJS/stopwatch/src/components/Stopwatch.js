@@ -1,13 +1,13 @@
-import React, { Component} from 'react'
+import React from 'react'
 import StopWatchTimer from './StopWatchTimer'
 import StartButton from './StartButton'
 import StopButton from './StopButton'
 import ResetButton from './ResetButton'
 import LapButton from './LapButton'
 import Laps from './Laps'
-import { connect } from 'react-redux'
-class Stopwatch extends Component {
-    render() {
+import {useSelector} from 'react-redux'
+function Stopwatch() {
+    const laps = useSelector((state)=>state.Laps);
         return (
             <>
             <div className="main-container">
@@ -22,17 +22,11 @@ class Stopwatch extends Component {
             </div>
             </div>
             <div className="lap-main-container">
-            <div>{(this.props.Laps.length) ?this.props.Laps.map(lap=>{
+            <div>{(laps) ?laps.map(lap=>{
                     return <Laps lap={lap} key={lap.lapNo}/>
                 }): null}</div>
                 </div>
         </>
         )
-    }
 }
-const mapStateToProps =(state)=>{
-    return {
-        Laps: state.Laps
-    }
-}
-export default connect(mapStateToProps)(Stopwatch);
+export default Stopwatch;

@@ -1,11 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react';
 import {faStopwatch} from '@fortawesome/free-solid-svg-icons'
-import { connect } from 'react-redux';
-function LapButton(props) {
+import {useDispatch, useSelector } from 'react-redux';
+function LapButton() {
+    const [isPaused,isActive] = useSelector((state)=>[
+        state.isPaused,
+        state.isActive
+    ]);
+    const dispatch = useDispatch();
     const handleClick=()=>{
-        if(props.isActive&&!props.isPaused){
-            props.handleLap();
+        if(isActive&&!isPaused){
+            dispatch({type:'LAPS'});
         }
     }
     return (
@@ -14,15 +19,5 @@ function LapButton(props) {
         </div>
     )
 }
-const mapStateToProps=(state)=>{
-    return {
-        isPaused : state.isPaused,
-        isActive: state.isActive
-    }
-}
-const mapDispatchToProps=(dispatch)=>{
-    return{
-        handleLap : ()=>{dispatch({'type':'LAPS'})}
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(LapButton)
+
+export default LapButton;

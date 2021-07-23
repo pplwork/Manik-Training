@@ -1,11 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import {useSelector} from 'react-redux';
 
-function StopWatchTimer(props) {
-    let hours= Math.floor(props.time/(60*60*1000));
-    let minutes = Math.floor((props.time - hours*(60*60*1000))/(60*1000));
-    let seconds = Math.floor((props.time - hours*60*60*1000-minutes*60*1000)/1000);
-    let milliSeconds = Math.floor((props.time - hours*60*60*1000-minutes*60*1000-seconds*1000)/10);
+function StopWatchTimer() {
+    const time  = useSelector((state)=>state.time);
+    let hours= Math.floor(time/(60*60*1000));
+    let minutes = Math.floor((time - hours*(60*60*1000))/(60*1000));
+    let seconds = Math.floor((time - hours*60*60*1000-minutes*60*1000)/1000);
+    let milliSeconds = Math.floor((time - hours*60*60*1000-minutes*60*1000-seconds*1000)/10);
     return (
         <div className="timer-screen">
             <div>{(hours >=10)? hours : `0${hours}`}:</div>
@@ -15,9 +16,5 @@ function StopWatchTimer(props) {
         </div>
     )
 }
-const mapStateToProps=(state)=>{
-    return{
-        time: state.time
-    }
-}
-export default connect(mapStateToProps)(StopWatchTimer)
+
+export default StopWatchTimer;

@@ -1,13 +1,18 @@
 import React from 'react'
 import {faStop} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect } from 'react-redux';
-function StopButton(props) {
+import {useDispatch, useSelector } from 'react-redux';
+function StopButton() {
+    const [isActive,intervalID] = useSelector((state)=>[
+        state.isActive,
+        state.intervalID
+    ]);
+    const dispatch = useDispatch();
     const handleClick=()=>{
-        if(props.isActive===true){
+        if(isActive===true){
             document.querySelector('.timer-screen').removeAttribute('style');
-            clearInterval(props.intervalID);
-            props.stopWatch();
+            clearInterval(intervalID);
+            dispatch({type:'STOP_WATCH'});
         }
     }
     return (
@@ -16,15 +21,5 @@ function StopButton(props) {
         </div>
     )
 }
-const mapStateToProps =(state)=>{
-    return{
-        isActive: state.isActive,
-        intervalID: state.intervalID
-    }
-}
-const mapDispatchToProps =(dispatch)=>{
-    return{
-        stopWatch: ()=>{dispatch({'type':'STOP_WATCH'})}
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(StopButton);
+
+export default StopButton;

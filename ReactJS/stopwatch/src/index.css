@@ -109,6 +109,7 @@ code {
 .timer-screen{
   display: flex;
   font-family: 'Roboto Mono', monospace;
+  user-select: none;
 }
 .lap-container{
   background-color: #ff997a27;
