@@ -1,6 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux';
 
-export default function StopWatchTimer(props) {
+function StopWatchTimer(props) {
     let hours= Math.floor(props.time/(60*60*1000));
     let minutes = Math.floor((props.time - hours*(60*60*1000))/(60*1000));
     let seconds = Math.floor((props.time - hours*60*60*1000-minutes*60*1000)/1000);
@@ -14,3 +15,9 @@ export default function StopWatchTimer(props) {
         </div>
     )
 }
+const mapStateToProps=(state)=>{
+    return{
+        time: state.time
+    }
+}
+export default connect(mapStateToProps)(StopWatchTimer)
