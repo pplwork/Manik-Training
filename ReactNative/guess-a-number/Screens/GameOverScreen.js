@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View ,Image} from 'react-native'
 
 const GameOverScreen = (props) => {
     return (
@@ -7,6 +7,7 @@ const GameOverScreen = (props) => {
             <Text>The Game is Over !!!!</Text>
             <Text>Number of Rounds : {props.round}</Text>
             <Button title="NEW GAME" onPress={props.onRestart}  />
+            <Image source={require('../img.png')} style={{width: '50%', height: '50%' , resizeMode: 'contain'}}/>
         </View>
     )
 }
