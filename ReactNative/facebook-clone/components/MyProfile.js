@@ -1,8 +1,19 @@
 import React,{useEffect} from 'react'
-import { StyleSheet, Text, View , Image } from 'react-native'
+import { StyleSheet, Text, View , Image,ScrollView } from 'react-native'
 import {useIsFocused } from '@react-navigation/native';
 import { Entypo , AntDesign ,FontAwesome} from '@expo/vector-icons';
+import FriendCard from './FriendCard';
+import ToolBar from './ToolBar'
+import Feed from './Feed';
 // import {Invert} from 'react-native-image-filter-kit';
+var friends = [
+    {source: require('../assets/user6.jpg'),name:'Alex Dough'},
+    {source: require('../assets/user7.jpg'),name:'Ana klien'},
+    {source: require('../assets/user8.jpg'),name:'Trisha Holland'},
+    {source: require('../assets/user9.jpg'),name:'Mark Dwane'},
+    {source: require('../assets/user10.jpg'),name:'Jeff Harington'},
+    {source: require('../assets/user11.jpg'),name:'Christopher June'},
+]
 const MyProfile = (props) => {
     const isFocused = useIsFocused();
     useEffect(()=>{
@@ -13,6 +24,7 @@ const MyProfile = (props) => {
     });
     return (
         <View style={styles.container}>
+            <ScrollView>
             <View style={styles.coverContainer}>
                 <Image source={require('../assets/coverPhoto.jpeg')} style={styles.coverPhoto}/>
                 <View style={styles.cameraContainer}>
@@ -62,6 +74,28 @@ const MyProfile = (props) => {
                     <Text style={styles.publicText}>Edit Public Details</Text>
                 </View>
             </View>
+            <View style={{...styles.Divider,height: 0.2,marginHorizontal:0,marginVertical: 8}}/>
+            <View style={styles.friendsContainer}>
+                <View style={{...styles.row,width: 'auto', alignItems: 'flex-start'}}>
+                    <View>
+                        <Text style={{fontSize:20 , fontWeight: 'bold'}}>Friends</Text>
+                        <Text style={{fontSize: 16 , color:"#8D949E" , fontWeight: '800'}}>780 friends</Text>
+                    </View>
+                    <Text style={{marginLeft: 'auto',fontSize: 16 , color: '#1877F2',fontWeight: '600'}}>Find Friends</Text>
+                </View>
+                <View style={styles.displayFriends}>
+                    {friends.map((friend)=>{
+                        return <FriendCard key={friend.source} source={friend.source} name={friend.name} />
+                    })}
+                </View>
+                <View style={{...styles.PublicDetails , backgroundColor: '#E4E6EB'}}>
+                    <Text style={{...styles.publicText , color: 'black'}}>See All Friends</Text>
+                </View>
+            </View>
+            <View style={styles.bottomDivider}/>
+            <ToolBar style={{paddingTop: 15}}/>
+            <Feed/>
+            </ScrollView>
         </View>
     )
 }
@@ -158,7 +192,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     Divider:{
-        height: 0.1,
+        height: 0.2,
         backgroundColor: "#8D949E",
         marginHorizontal: 14
     },
@@ -187,10 +221,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#ECF3FF',
         borderRadius: 8,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     publicText:{
         color: '#1877F2',
         fontWeight: 'bold'
+    },
+    friendsContainer:{
+        marginBottom: 15
+    },
+    displayFriends:{
+        marginHorizontal: 14,
+        marginTop: 20,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between'
+    },
+    bottomDivider: {
+        width: '100%',
+        height: 11,
+        backgroundColor: '#CCD0D5' 
     }
 })

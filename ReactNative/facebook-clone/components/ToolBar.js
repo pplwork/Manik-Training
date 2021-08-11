@@ -4,10 +4,10 @@ import Avatar from './Avatar';
 
 import {Ionicons , MaterialIcons , MaterialCommunityIcons} from  '@expo/vector-icons'
 
-const ToolBar = () => {
+const ToolBar = (props) => {
     return (
         <>
-        <View style={styles.container}>
+        <View style={{...styles.container , ...props.style}}>
             <View style={{...styles.row , height: 80}}>
                 <Avatar source={require('../assets/user1.jpg')}/>
                 <TextInput style={styles.Input} placeholder={"What's on your mind?\nयहाँ कुछ लिखो..."} placeholderTextColor="black"/>
@@ -52,7 +52,7 @@ export default ToolBar
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 120,
+        // height: 120,
         backgroundColor: '#fff'
     },
     row:{
@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     Divider:{
-      height: 0.5,
-      width: '100%',
-      backgroundColor: "#8D949E"  
+        height: 0.5,
+        width: '100%',
+        backgroundColor: "#8D949E"  
     },
     Menu:{
         flex: 1,
