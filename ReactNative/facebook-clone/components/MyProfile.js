@@ -24,7 +24,7 @@ const MyProfile = (props) => {
     });
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.coverContainer}>
                 <Image source={require('../assets/coverPhoto.jpeg')} style={styles.coverPhoto}/>
                 <View style={styles.cameraContainer}>

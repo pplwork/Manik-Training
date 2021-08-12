@@ -8,6 +8,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import HomeScreen from './components/HomeScreen';
 import MyProfile from './components/MyProfile';
 import Watch from './components/Watch';
+import Menu from './components/Menu';
+import Notifications from './components/Notifications';
 const Settings =(props)=>{
   const isFocused = useIsFocused();
   useEffect(()=>{
@@ -66,9 +68,9 @@ function HomeScreenNavigator({ navigation }) {
       <Tab.Screen name="Home" >{(props)=> <HomeScreen {...props} StackNavigation = {navigation}/>}</Tab.Screen>
       <Tab.Screen name="Watch" >{(props)=><Watch {...props} StackNavigation = {navigation}/>}</Tab.Screen>
       <Tab.Screen name="Groups" >{(props)=><MyProfile {...props} StackNavigation = {navigation}/>}</Tab.Screen>
-      <Tab.Screen name="Marketplace" >{(props)=><Settings {...props} StackNavigation = {navigation}/>}</Tab.Screen>
-      <Tab.Screen name="Notifications" >{(props)=><Settings {...props} StackNavigation = {navigation}/>}</Tab.Screen>
-      <Tab.Screen name="Menu" >{(props)=><Settings {...props} StackNavigation = {navigation}/>}</Tab.Screen>
+      {/* <Tab.Screen name="Marketplace" >{(props)=><Settings {...props} StackNavigation = {navigation}/>}</Tab.Screen> */}
+      <Tab.Screen name="Notifications" >{(props)=><Notifications {...props} StackNavigation = {navigation}/>}</Tab.Screen>
+      <Tab.Screen name="Menu" >{(props)=><Menu {...props} StackNavigation = {navigation}/>}</Tab.Screen>
     </Tab.Navigator>
   );
 }
