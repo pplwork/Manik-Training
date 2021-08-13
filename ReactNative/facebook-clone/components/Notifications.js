@@ -8,7 +8,7 @@ import NotificationCard from './NotificationCard';
 const notifications = [
     { id : 1,source: require('../assets/user6.jpg') , imgSource: require('../assets/list.png') , name: 'Nikhil Prasad' , text:'added a new Photo.' , time: 'Aug 8 at 11:02 AM', isSeen: false},
     {id : 2,source: require('../assets/user10.jpg') , imgSource: require('../assets/list.png') , name: 'John Gate' , text:'added a new Photo.' , time: 'Aug 8 at 11:02 AM', isSeen: false},
-    {id : 3,source: require('../assets/user8.jpg') , imgSource: require('../assets/list.png') , name: 'Aadra Jain' , text:"shared Olymic's post." , time: 'Aug 8 at 11:02 AM', isSeen: false},
+    {id : 3,source: require('../assets/user8.jpg') , imgSource: require('../assets/list.png') , name: 'Aadra Jain' , text:"shared Olymic's post." , time: 'Aug 8 at 11:02 AM', isSeen: true},
     {id : 4,source: require('../assets/user9.jpg') , imgSource: require('../assets/list.png') , name: 'Levi Ackerman' , text:'added a new Photo.' , time: 'Aug 8 at 11:02 AM', isSeen: false},
     {id : 5,source: require('../assets/user2.jpg') , imgSource: require('../assets/list.png') , name: 'Aarohi Singhania' , text:'added a new Photo.' , time: 'Aug 8 at 11:02 AM', isSeen: false},
     {id : 6,source: require('../assets/user7.jpg') , imgSource: require('../assets/list.png') , name: 'Aasritha Lingam' , text:'added a new Photo.' , time: 'Aug 8 at 11:02 AM', isSeen: false},

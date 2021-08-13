@@ -1,149 +1,60 @@
-import React,{useEffect,useRef} from 'react'
-import { StyleSheet, Text, View , ScrollView ,TouchableOpacity ,Image } from 'react-native'
+import React,{useCallback, useEffect,useRef, useState} from 'react'
+import { StyleSheet, Text, View , ScrollView ,TouchableOpacity ,Image, FlatList } from 'react-native'
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import {Feather , MaterialCommunityIcons , Ionicons , FontAwesome , Entypo ,AntDesign,FontAwesome5} from '@expo/vector-icons';
 import Avatar from './Avatar';
 import { Video , AVPlaybackStatus } from 'expo-av';
+import FeedContainer from './FeedContainer';
+const videos = [
+    {
+        source: require('../assets/video1.mp4'),
+        key: 1
+    },
+    {
+        source: require('../assets/video1.mp4'),
+        key: 2
+    },
+    {
+        source: require('../assets/video1.mp4'),
+        key: 3
+    },
+]
 const Watch = (props) => {
+    const [currentVisible, changeCurrentVisible] = useState(0);
     const isFocused = useIsFocused();
-    const video = useRef(null);
+    const configRef = useRef({itemVisiblePercentThreshold: 80});
+    const videoRef = useRef([]);
     useEffect(()=>{
         if(isFocused){
     props.StackNavigation.setOptions({
         headerShown: false,
     })
-    video.current.playAsync();
+    // video.current.playAsync();
     // video.current.setIsMuted();
     }
     });
+    // const renderItem=({video})=>{
+    //     console.log('inside render Item');
+    //     return <FeedContainer source={video.source}/>
+    // }
+    const ItemsChanged = useCallback((item)=>{
+        if(!item.viewableItems.length){
+            changeCurrentVisible(-1);
+        }
+        else{
+            changeCurrentVisible(item.viewableItems[0].index)
+        }
+    },[])
     return (
         <View style={styles.container}>
-            <ScrollView>
-                <View style={styles.watchHeader}>
-                    <View style={styles.WatchRow}>
-                        <Text style={{fontWeight: 'bold' , fontSize: 25}}>Watch</Text>
-                        <View style={styles.WatchRightBtn}>
-                            <TouchableOpacity style={styles.WatchButton}>
-                                <Ionicons name="person" size={20} color="black" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.WatchButton}>
-                                <FontAwesome name="search" size={20} color="black" />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.TypeContainer}>
-                        <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        >
-                        <TouchableOpacity style={{...styles.WatchBtn,backgroundColor: '#ECF3FF'}}><Text style={{...styles.WatchBtnText,color: '#1877F2'}}>For You</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Live</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Music</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Following</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Saved</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Food</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.WatchBtn}><Text style={styles.WatchBtnText}>Gaming</Text></TouchableOpacity>
-                        </ScrollView>
-                    </View>
-                </View>
-                <View style={styles.bottomDivider}/>
-                <View style={styles.VideoFeedContainer}>
-                        <View style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.row}>
-                    <Avatar source={require('../assets/user3.jpg')}/>
-                    <View style={{paddingLeft: 10}}>
-                        <Text style={styles.UserText}>Royal Entertainment</Text>
-                        <View style={styles.row}>
-                            <Text style={styles.time}>9m</Text>
-                            <Entypo
-                                name="dot-single"
-                                size={13}
-                                color="#747476"
-                            />
-                            <Entypo
-                                name="globe"
-                                size={11}
-                                color="#747476"
-                            />
-                        </View>
-                    </View>
-                </View>
-                <Entypo
-                    // style={{alignSelf: 'flex-start'}}
-                    name="dots-three-horizontal"
-                    size={15}
-                    color="#222121"
+                <FlatList
+                data={videos}
+                renderItem={({item ,index})=>(<FeedContainer source={item.source} index={index} isFocused={isFocused} currentVisible={currentVisible} videoRef={videoRef} />)}
+                keyExtractor={item=>item.key.toString()}
+                viewabilityConfig ={configRef.current}
+                onViewableItemsChanged={ItemsChanged}
                 />
-            </View>
-            <Text style={styles.post}>Lorem ipsum dolor sit amet.</Text>
-            {/* <Image
-            source={require('../assets/post1.jpg')}
-            style={styles.Photo}
-            /> */}
-            <Video
-            ref={video}
-            source={{uri:'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-            resizeMode="cover"
-            isLooping
-            isMuted={true}
-            useNativeControls={false}
-            style={styles.Photo}/>
-            <View style={styles.footer}>
-                <View style={styles.footerCount}>
-                    <View style={styles.row}>
-                        <View style={styles.IconCount}>
-                            <AntDesign name="like1"
-                            size={11}
-                            color="#FFFFFF"
-                            />
-                        </View>
-                        <View style={{...styles.IconCount , backgroundColor: '#FB5A75',marginLeft: -5, zIndex: 1}}>
-                            <AntDesign
-                            name="heart"
-                            size={11}
-                            color="#ffffff"
-                            />
-                        </View>
-                    <Text style={styles.TextCount}>10K</Text>
-                    </View>
-                    <View style={styles.row}>
-                    <Text style={styles.TextCount}>2k Comments</Text>
-                    <Entypo
-                        name="dot-single"
-                        size={12}
-                        color="#747476"
-                    />
-                    <Text style={styles.TextCount}>550 Shares</Text>
-                    </View>
-                </View>
-                <View style={styles.seperator}></View>
-                <View style={styles.footerMenu}>
-                    <TouchableOpacity style={styles.button}>
-                        <View style={styles.Icon}>
-                            <AntDesign name="like2" size={20} color="#747476" />
-                            
-                        </View>
-                        <Text style={styles.Text}>Like</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <View style={styles.Icon}>
-                            <FontAwesome5 name="comment-alt" size={18} color="#747476" />
-                        </View>
-                        <Text style={styles.Text}>Comment</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <View style={styles.Icon}>
-                            <MaterialCommunityIcons name="share-outline" size={26} color="#747476" />
-                        </View>
-                        <Text style={styles.Text}>Share</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
-        <View style={styles.bottomDivider}/>
-        </View>
-            </ScrollView>
+                {/* <FeedContainer isFocused={isFocused}/> */}
         </View>
     )
 }

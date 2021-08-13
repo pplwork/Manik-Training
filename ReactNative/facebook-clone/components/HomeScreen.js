@@ -16,7 +16,7 @@ const HomeScreen = (props) => {
     return (
         <View style={styles.container}>
             <ScrollView style={styles.View}>
-            <ToolBar/>
+            <ToolBar />
             <UsersStory/>
             <Feed/>
             </ScrollView>

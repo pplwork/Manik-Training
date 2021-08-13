@@ -1,9 +1,9 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity , Image} from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity , Image, Animated} from 'react-native'
 import {useFonts} from 'expo-font';
 import {AppLoading} from 'expo';
 import {Feather , MaterialCommunityIcons} from '@expo/vector-icons'
-const AppBar = () => {
+const AppBar = (props) => {
     const [isLoaded] = useFonts({
     klavikaBold : require("../assets/fonts/KlavikaBoldBold.otf"),
     random: require('../assets/fonts/StyleScript-Regular.ttf')
@@ -39,11 +39,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginLeft: -10,
         borderWidth: 0,
-        
     },
     text: {
         color: '#097DEB',
-        fontSize: 35,
+        fontSize:35,
         fontFamily: "klavikaBold",
         letterSpacing: -0.3,
     },

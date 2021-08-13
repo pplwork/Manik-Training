@@ -1,6 +1,6 @@
 import { StatusBar } from 'react-native';
-import React,{useEffect} from 'react';
-import { StyleSheet, Text, View ,Button ,Image} from 'react-native';
+import React,{useEffect, useRef} from 'react';
+import { StyleSheet, Text, View ,Button ,Image, Animated} from 'react-native';
 import AppBar from './components/AppBar';
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createNativeStackNavigator ,  } from '@react-navigation/native-stack';
@@ -32,6 +32,7 @@ const Random =(props)=>{
 }
 const Tab = createMaterialTopTabNavigator();
 function HomeScreenNavigator({ navigation }) {
+
   return (
     <Tab.Navigator initialRouteName="Home"  screenOptions={({route})=>({
       tabBarLabelStyle:{fontSize: 0} ,
@@ -65,7 +66,7 @@ function HomeScreenNavigator({ navigation }) {
         marginTop: -5
       }
     })}>
-      <Tab.Screen name="Home" >{(props)=> <HomeScreen {...props} StackNavigation = {navigation}/>}</Tab.Screen>
+      <Tab.Screen name="Home" >{(props)=> <HomeScreen  {...props} StackNavigation = {navigation}/>}</Tab.Screen>
       <Tab.Screen name="Watch" >{(props)=><Watch {...props} StackNavigation = {navigation}/>}</Tab.Screen>
       <Tab.Screen name="Groups" >{(props)=><MyProfile {...props} StackNavigation = {navigation}/>}</Tab.Screen>
       {/* <Tab.Screen name="Marketplace" >{(props)=><Settings {...props} StackNavigation = {navigation}/>}</Tab.Screen> */}
@@ -78,7 +79,6 @@ function HomeScreenNavigator({ navigation }) {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  
   return (
     <>
       <StatusBar backgroundColor='white' barStyle="dark-content" />
