@@ -6,17 +6,40 @@ import Avatar from './Avatar';
 import { Video , AVPlaybackStatus } from 'expo-av';
 import FeedContainer from './FeedContainer';
 const videos = [
-    {
-        source: require('../assets/video1.mp4'),
-        key: 1
+    {   
+        source: require('../assets/video3.mp4'),
+        key: 1,
+        username: 'Ama Andreson',
+        photo: require('../assets/user7.jpg'),
+        likes: '33k',
+        comments: '550',
+        share: '23',
+        views: '5m Views',
+        time: '9m'
     },
     {
         source: require('../assets/video1.mp4'),
-        key: 2
+        key: 2,
+        username: 'Lara Lington',
+        photo: require('../assets/user11.jpg'),
+        likes: '10k',
+
+        comments: '300',
+        share: '85',
+        views: '',
+        time: '9m'
     },
     {
-        source: require('../assets/video1.mp4'),
-        key: 3
+        source: require('../assets/video4.mp4'),
+        key: 3,
+        username: 'Trisha Holland',
+        photo: require('../assets/user8.jpg'),
+        likes: '550k',
+        comments: '6k',
+        share: '1.5k',
+        views: '25m Views',
+
+        time: '9m'
     },
 ]
 const Watch = (props) => {
@@ -49,7 +72,8 @@ const Watch = (props) => {
         <View style={styles.container}>
                 <FlatList
                 data={videos}
-                renderItem={({item ,index})=>(<FeedContainer source={item.source} index={index} isFocused={isFocused} currentVisible={currentVisible} videoRef={videoRef} />)}
+                renderItem={({item ,index})=>(<FeedContainer source={item.source} views={item.views} photo={item.photo} comments={item.comments}
+                likes={item.likes} share={item.share} time={item.time} username={item.username}  index={index} isFocused={isFocused} currentVisible={currentVisible} videoRef={videoRef} />)}
                 keyExtractor={item=>item.key.toString()}
                 viewabilityConfig ={configRef.current}
                 onViewableItemsChanged={ItemsChanged}

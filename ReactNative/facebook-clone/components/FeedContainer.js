@@ -50,11 +50,11 @@ const FeedContainer = (props) => {
                         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.row}>
-                    <Avatar source={require('../assets/user3.jpg')}/>
+                    <Avatar source={props.photo}/>
                     <View style={{paddingLeft: 10}}>
-                        <Text style={styles.UserText}>Royal Entertainment</Text>
+                        <Text style={styles.UserText}>{props.username}</Text>
                         <View style={styles.row}>
-                            <Text style={styles.time}>9m</Text>
+                            <Text style={styles.time}>{props.time}</Text>
                             <Entypo
                                 name="dot-single"
                                 size={13}
@@ -104,22 +104,22 @@ const FeedContainer = (props) => {
                             color="#ffffff"
                             />
                         </View>
-                    <Text style={styles.TextCount}>10K</Text>
+                    <Text style={styles.TextCount}>{props.likes}</Text>
                     </View>
                     <View style={styles.row}>
-                    <Text style={styles.TextCount}>2k Comments</Text>
+                    <Text style={styles.TextCount}>{props.comments} Comments</Text>
                     <Entypo
                         name="dot-single"
                         size={12}
                         color="#747476"
                     />
-                    <Text style={styles.TextCount}>550 Shares</Text>
+                    <Text style={styles.TextCount}>{props.share} Shares</Text>
                     <Entypo
                         name="dot-single"
                         size={12}
                         color="#747476"
                     />
-                    <Text style={styles.TextCount}>39M Views</Text>
+                    <Text style={styles.TextCount}>{props.views}</Text>
                     </View>
                 </View>
                 <View style={styles.seperator}></View>

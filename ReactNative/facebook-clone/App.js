@@ -10,26 +10,7 @@ import MyProfile from './components/MyProfile';
 import Watch from './components/Watch';
 import Menu from './components/Menu';
 import Notifications from './components/Notifications';
-const Settings =(props)=>{
-  const isFocused = useIsFocused();
-  useEffect(()=>{
-      if(isFocused)
-    props.StackNavigation.setOptions({
-      headerShown: false,
-    })
-  });
-  return <View style={{backgroundColor: 'white'}}><Text>HEllo</Text></View>
-}
-const Random =(props)=>{
-  const isFocused = useIsFocused();
-  useEffect(()=>{
-  if(isFocused)
-    props.StackNavigation.setOptions({
-      headerShown: true
-    })
-  });
-  return <View><Text>HEllo</Text></View>
-}
+
 const Tab = createMaterialTopTabNavigator();
 function HomeScreenNavigator({ navigation }) {
 
