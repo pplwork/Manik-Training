@@ -1,0 +1,3 @@
+E:\Pplwork\Training\ReactNative\ReactNative_Kotlin_Bridge\android\app\src\main\java\com\reactnative_kotlin_bridge\kotlinVideoStreaming\StreamManager.kt
+E:\Pplwork\Training\ReactNative\ReactNative_Kotlin_Bridge\android\app\src\main\java\com\reactnative_kotlin_bridge\kotlinVideoStreaming\StreamPackage.kt
+E:\Pplwork\Training\ReactNative\ReactNative_Kotlin_Bridge\android\app\src\main\java\com\reactnative_kotlin_bridge\kotlinVideoStreaming\VideoStreamingActivity.kt

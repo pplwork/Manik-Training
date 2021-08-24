@@ -1,0 +1,186 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.manikarora01.facebookclone"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="30" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:6:3-75
+11-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:6:20-73
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:2:3-64
+12-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:2:20-62
+13    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+13-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:3:3-77
+13-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:3:20-75
+14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+14-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:4:3-77
+14-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:4:20-75
+15    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+15-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:5:3-68
+15-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:5:20-66
+16    <uses-permission android:name="android.permission.VIBRATE" />
+16-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:7:3-63
+16-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:7:20-61
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:8:3-78
+17-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:8:20-76
+18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+18-->[com.facebook.flipper:flipper:0.54.0] C:\Users\91836\.gradle\caches\transforms-3\7ced98fae9ea2b5aa64e54aefef0d400\transformed\jetified-flipper-0.54.0\AndroidManifest.xml:16:5-76
+18-->[com.facebook.flipper:flipper:0.54.0] C:\Users\91836\.gradle\caches\transforms-3\7ced98fae9ea2b5aa64e54aefef0d400\transformed\jetified-flipper-0.54.0\AndroidManifest.xml:16:22-73
+19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+19-->[:expo-updates] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-updates\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-79
+19-->[:expo-updates] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-updates\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-76
+20
+21    <queries>
+21-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-22:15
+22
+23        <!-- Query open documents -->
+24        <intent>
+24-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-21:18
+25            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+25-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-79
+25-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:21-76
+26        </intent>
+27    </queries>
+28
+29    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+29-->[com.android.installreferrer:installreferrer:1.0] C:\Users\91836\.gradle\caches\transforms-3\01487adee8b56b2425e322fd0bc141f2\transformed\jetified-installreferrer-1.0\AndroidManifest.xml:9:5-110
+29-->[com.android.installreferrer:installreferrer:1.0] C:\Users\91836\.gradle\caches\transforms-3\01487adee8b56b2425e322fd0bc141f2\transformed\jetified-installreferrer-1.0\AndroidManifest.xml:9:22-107
+30
+31    <application
+31-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:3-28:17
+32        android:name="com.manikarora01.facebookclone.MainApplication"
+32-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:16-47
+33        android:allowBackup="true"
+33-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:162-188
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.3.0] C:\Users\91836\.gradle\caches\transforms-3\fe3cf0882eb40046447bd9893532f7c5\transformed\core-1.3.0\AndroidManifest.xml:24:18-86
+35        android:debuggable="true"
+36        android:icon="@mipmap/ic_launcher"
+36-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:81-115
+37        android:label="@string/app_name"
+37-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:48-80
+38        android:roundIcon="@mipmap/ic_launcher_round"
+38-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:116-161
+39        android:theme="@style/AppTheme"
+39-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:189-220
+40        android:usesCleartextTraffic="true" >
+40-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:9:221-256
+41        <meta-data
+41-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:10:5-82
+42            android:name="expo.modules.updates.ENABLED"
+42-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:10:16-59
+43            android:value="true" />
+43-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:10:60-80
+44        <meta-data
+44-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:11:5-93
+45            android:name="expo.modules.updates.EXPO_SDK_VERSION"
+45-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:11:16-68
+46            android:value="42.0.0" />
+46-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:11:69-91
+47        <meta-data
+47-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:12:5-105
+48            android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+48-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:12:16-80
+49            android:value="ALWAYS" />
+49-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:12:81-103
+50        <meta-data
+50-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:13:5-99
+51            android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+51-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:13:16-79
+52            android:value="0" />
+52-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:13:80-97
+53        <meta-data
+53-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:14:5-131
+54            android:name="expo.modules.updates.EXPO_UPDATE_URL"
+54-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:14:16-67
+55            android:value="https://exp.host/@manikarora01/facebook-clone" />
+55-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:14:68-129
+56
+57        <activity
+57-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:5-26:16
+58            android:name="com.manikarora01.facebookclone.MainActivity"
+58-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:15-43
+59            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+59-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:77-154
+60            android:label="@string/app_name"
+60-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:44-76
+61            android:launchMode="singleTask"
+61-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:155-186
+62            android:screenOrientation="portrait"
+62-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:276-312
+63            android:theme="@style/Theme.App.SplashScreen"
+63-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:230-275
+64            android:windowSoftInputMode="adjustResize" >
+64-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:15:187-229
+65            <intent-filter>
+65-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:16:7-19:23
+66                <action android:name="android.intent.action.MAIN" />
+66-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:17:9-60
+66-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:17:17-58
+67
+68                <category android:name="android.intent.category.LAUNCHER" />
+68-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:18:9-68
+68-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:18:19-66
+69            </intent-filter>
+70            <intent-filter>
+70-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:20:7-25:23
+71                <action android:name="android.intent.action.VIEW" />
+71-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:21:9-60
+71-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:21:17-58
+72
+73                <category android:name="android.intent.category.DEFAULT" />
+73-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:22:9-67
+73-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:22:19-65
+74                <category android:name="android.intent.category.BROWSABLE" />
+74-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:23:9-69
+74-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:23:19-67
+75
+76                <data android:scheme="com.manikarora01.facebookclone" />
+76-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:24:9-64
+76-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:24:15-62
+77            </intent-filter>
+78        </activity>
+79        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+79-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:27:5-81
+79-->E:\Pplwork\Training\ReactNative\facebook-clone\android\app\src\main\AndroidManifest.xml:27:15-79
+80
+81        <meta-data
+81-->[:unimodules-react-native-adapter] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\@unimodules\react-native-adapter\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-14:91
+82            android:name="org.unimodules.core.AppLoader#react-native-headless"
+82-->[:unimodules-react-native-adapter] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\@unimodules\react-native-adapter\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-79
+83            android:value="org.unimodules.adapters.react.apploader.RNHeadlessAppLoader" />
+83-->[:unimodules-react-native-adapter] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\@unimodules\react-native-adapter\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-88
+84
+85        <provider
+85-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:9-34:20
+86            android:name="expo.modules.filesystem.FileSystemFileProvider"
+86-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-74
+87            android:authorities="com.manikarora01.facebookclone.FileSystemFileProvider"
+87-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-74
+88            android:exported="false"
+88-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-37
+89            android:grantUriPermissions="true" >
+89-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-47
+90            <meta-data
+90-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:13-33:70
+91                android:name="android.support.FILE_PROVIDER_PATHS"
+91-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:17-67
+92                android:resource="@xml/file_system_provider_paths" />
+92-->[:expo-file-system] E:\Pplwork\Training\ReactNative\facebook-clone\node_modules\expo-file-system\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:17-67
+93        </provider>
+94
+95        <service
+95-->[androidx.room:room-runtime:2.1.0] C:\Users\91836\.gradle\caches\transforms-3\3b5db4b3b22ae452a34a6490900f58b2\transformed\room-runtime-2.1.0\AndroidManifest.xml:25:9-27:40
+96            android:name="androidx.room.MultiInstanceInvalidationService"
+96-->[androidx.room:room-runtime:2.1.0] C:\Users\91836\.gradle\caches\transforms-3\3b5db4b3b22ae452a34a6490900f58b2\transformed\room-runtime-2.1.0\AndroidManifest.xml:26:13-74
+97            android:exported="false" />
+97-->[androidx.room:room-runtime:2.1.0] C:\Users\91836\.gradle\caches\transforms-3\3b5db4b3b22ae452a34a6490900f58b2\transformed\room-runtime-2.1.0\AndroidManifest.xml:27:13-37
+98    </application>
+99
+100</manifest>

@@ -1,0 +1,21 @@
+com/switchapp/SwitchManager.java
+ com.switchapp.SwitchManager
+com/switchapp/ReactNativeFlipper.java
+ com.switchapp.ReactNativeFlipper
+ com.switchapp.ReactNativeFlipper$1
+ com.switchapp.ReactNativeFlipper$2
+ com.switchapp.ReactNativeFlipper$2$1
+com/switchapp/MainApplication.java
+ com.switchapp.MainApplication
+ com.switchapp.MainApplication$1
+com/switchapp/SwitchPackage.java
+ com.switchapp.SwitchPackage
+com/switchapp/MainActivity.java
+ com.switchapp.MainActivity
+com/switchapp/BuildConfig.java
+ com.switchapp.BuildConfig
+com/switchapp/Switch.java
+ com.switchapp.Switch
+ com.switchapp.Switch$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList

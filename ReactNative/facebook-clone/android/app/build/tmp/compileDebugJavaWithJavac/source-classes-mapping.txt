@@ -1,0 +1,17 @@
+com/manikarora01/facebookclone/generated/BasePackageList.java
+ com.manikarora01.facebookclone.generated.BasePackageList
+com/manikarora01/facebookclone/BuildConfig.java
+ com.manikarora01.facebookclone.BuildConfig
+com/manikarora01/facebookclone/MainApplication.java
+ com.manikarora01.facebookclone.MainApplication
+ com.manikarora01.facebookclone.MainApplication$1
+com/manikarora01/facebookclone/ReactNativeFlipper.java
+ com.manikarora01.facebookclone.ReactNativeFlipper
+ com.manikarora01.facebookclone.ReactNativeFlipper$1
+ com.manikarora01.facebookclone.ReactNativeFlipper$2
+ com.manikarora01.facebookclone.ReactNativeFlipper$2$1
+com/manikarora01/facebookclone/MainActivity.java
+ com.manikarora01.facebookclone.MainActivity
+ com.manikarora01.facebookclone.MainActivity$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList

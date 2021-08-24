@@ -1,0 +1,18 @@
+com/bridgedemo/BuildConfig.java
+ com.bridgedemo.BuildConfig
+com/bridgedemo/MyPackage.java
+ main.java.com.bridgedemo.MyPackage
+com/bridgedemo/MainApplication.java
+ com.bridgedemo.MainApplication
+ com.bridgedemo.MainApplication$1
+com/bridgedemo/ReactNativeFlipper.java
+ com.bridgedemo.ReactNativeFlipper
+ com.bridgedemo.ReactNativeFlipper$1
+ com.bridgedemo.ReactNativeFlipper$2
+ com.bridgedemo.ReactNativeFlipper$2$1
+com/bridgedemo/ToastModule.java
+ main.java.com.bridgedemo.ToastModule
+com/bridgedemo/MainActivity.java
+ com.bridgedemo.MainActivity
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
