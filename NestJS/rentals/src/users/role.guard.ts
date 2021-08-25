@@ -6,8 +6,8 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const role = this.reflector.get<string>('role', context.getHandler());
-    const { user } = context.switchToHttp().getRequest();
-    if(role.includes(user.role)){
+    const { user,params } = context.switchToHttp().getRequest();
+    if(role.includes(user.role) || user.id===params.id){
         return true;
     }
     throw new HttpException("You don't have the permissions to perform the task" , HttpStatus.FORBIDDEN);

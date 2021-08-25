@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
@@ -29,8 +29,8 @@ export class AuthService {
         const check = await this.userRepo.findOne({email: User.email});
         if(!check){
             const newUser = this.userRepo.create({
-            name: User.name,
-            email: User.email.toLowerCase(),
+            name: User.name.trim(),
+            email: User.email.toLowerCase().trim(),
             password: bcrypt.hashSync(User.password,10),
             role: 'user'
     })

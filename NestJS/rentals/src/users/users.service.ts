@@ -33,9 +33,9 @@ export class UsersService {
           error: 'User not found with the given id',
         },HttpStatus.NOT_FOUND);
     }
-    user.name = updateUserDto.name;
+    user.name = updateUserDto.name.trim();
     user.password = updateUserDto.password;
-    user.email = updateUserDto.email;
+    user.email = updateUserDto.email.toLowerCase().trim();
     return this.userRepo.save(user);
   }
   async changeRole(body){

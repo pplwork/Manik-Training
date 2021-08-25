@@ -12,7 +12,7 @@ export class AppartmentsService {
     @InjectRepository(Appartment) private appRepo: Repository<Appartment>,
     @InjectRepository(User) private userRepo: Repository<User>
   ){}
-  async create(createAppartmentDto: CreateAppartmentDto , user): Promise<Appartment> {
+  async create(createAppartmentDto: CreateAppartmentDto , user: User): Promise<Appartment> {
     let today = new Date();
     let date =today.getDate()+'-'+(today.getMonth()+1)+'-'+ today.getFullYear();
     const newApp = this.appRepo.create(createAppartmentDto);
@@ -22,7 +22,7 @@ export class AppartmentsService {
     return this.appRepo.save(newApp);
   }
 
-  async findAll(sizeMin:number,sizeMax:number ,PriceMin:number, PriceMax:number,RoomsMin:number,RoomsMax:number) {
+  async findAll(sizeMin:number,sizeMax:number ,PriceMin:number, PriceMax:number,RoomsMin:number,RoomsMax:number,req) {
     let apps =await this.appRepo.find();
     if(sizeMin&&sizeMax){
       apps=apps.filter((ele)=>{
@@ -51,6 +51,10 @@ export class AppartmentsService {
       })
       apps.sort((app1, app2)=>{if(app1.price<=app2.price){return -1;} else return 1;})
     }
+    if(req.user.role==='user'){
+      console.log('aaya kya');
+      apps=apps.filter((app)=>{if(app.isRentable==true) return true; else return false;})
+    }
     return apps;
   }
 
@@ -68,7 +72,8 @@ export class AppartmentsService {
       app.floorSize= updateAppartmentDto.floorSize;
       app.Rooms= updateAppartmentDto.Rooms;
       app.geoCord= updateAppartmentDto.geoCord;
-      app.price= updateAppartmentDto.price
+      app.price= updateAppartmentDto.price;
+      app.isRentable = updateAppartmentDto.isRentable;
     }
     return this.appRepo.save(app);
   }

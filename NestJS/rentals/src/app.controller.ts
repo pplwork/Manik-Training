@@ -2,12 +2,11 @@ import { Controller, Get, Post , Request , SetMetadata, UseGuards , Body } from 
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
-import { CreateUserDto } from './auth/dto/create-user.dto';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { CreateUserDto } from './users/dto/create-user.dto';
 import { LocalAuthGuard } from './auth/local-auth.guard';
-import { RolesGuard } from './users/role.guard';
-
-
+import { ApiTags,ApiBody } from '@nestjs/swagger';
+import { LoginDto } from './auth/dto/login.dto';
+@ApiTags('Authentication')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService,
@@ -16,7 +15,7 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req){
+  async login(@Request() req,@Body() body:LoginDto){
     return this.authService.login(req.user);
   }
   @Post('auth/signup')
@@ -24,11 +23,11 @@ export class AppController {
     return this.authService.signup(createUserDto);
   }
   
-  @SetMetadata('role',['admin'])
-  @UseGuards(RolesGuard)
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req){
-    return req.user;
-  }
+  // @SetMetadata('role',['admin'])
+  // @UseGuards(RolesGuard)
+  // @UseGuards(JwtAuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req){
+  //   return req.user;
+  // }
 }
