@@ -16,7 +16,7 @@ export class User {
     @ApiProperty()
     password: string;
     @Column()
-    @ApiProperty({example: 'user'})
+    @ApiProperty({example: 'user|realtor|admin'})
     role: string;
     @OneToMany(()=>Appartment,appartment=>appartment.realtor)
     appartments: Appartment[]

@@ -17,10 +17,7 @@ export class UsersService {
   async findOne(id: number):Promise<User| undefined> {
     const user = await this.userRepo.findOne(id);
     if(!user){
-      throw new HttpException({
-          status: HttpStatus.NOT_FOUND,
-          error: 'User not found with the given id',
-        },HttpStatus.NOT_FOUND);
+      this.exception();
     }
     return user;
   }
@@ -28,10 +25,7 @@ export class UsersService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user =await this.userRepo.findOne(id);
     if(!user){
-      throw new HttpException({
-          status: HttpStatus.NOT_FOUND,
-          error: 'User not found with the given id',
-        },HttpStatus.NOT_FOUND);
+      this.exception();
     }
     user.name = updateUserDto.name.trim();
     user.password = updateUserDto.password;
@@ -40,11 +34,15 @@ export class UsersService {
   }
   async changeRole(body){
     const user =await this.userRepo.findOne({email: body.email});
-    if(!user){
+    const enumRole=['user','realtor','admin'];
+    if(!enumRole.includes(body.role)){
       throw new HttpException({
           status: HttpStatus.NOT_FOUND,
-          error: 'User not found with the given id',
+          error: 'Please specify a valid role',
         },HttpStatus.NOT_FOUND);
+    }
+    if(!user){
+      this.exception();
     }
     if(body.role){
       user.role = body.role;
@@ -54,11 +52,14 @@ export class UsersService {
   async remove(id: number) {
     const user =await this.userRepo.findOne(id);
     if(!user){
-      throw new HttpException({
+      this.exception();
+    }
+    return this.userRepo.remove(user);
+  }
+  exception(){
+    throw new HttpException({
           status: HttpStatus.NOT_FOUND,
           error: 'User not found with the given id',
         },HttpStatus.NOT_FOUND);
-    }
-    return this.userRepo.remove(user);
   }
 }

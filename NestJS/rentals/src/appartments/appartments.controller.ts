@@ -4,12 +4,12 @@ import { RolesGuard } from 'src/users/role.guard';
 import { AppartmentsService } from './appartments.service';
 import { CreateAppartmentDto } from './dto/create-appartment.dto';
 import { UpdateAppartmentDto } from './dto/update-appartment.dto';
-import { ApiTags , ApiBearerAuth ,ApiQuery ,ApiCreatedResponse,ApiBadRequestResponse ,ApiUnauthorizedResponse,ApiInternalServerErrorResponse} from '@nestjs/swagger';
+import { ApiTags , ApiBearerAuth ,ApiQuery ,ApiCreatedResponse,ApiBadRequestResponse ,ApiUnauthorizedResponse,ApiInternalServerErrorResponse,ApiForbiddenResponse, ApiOkResponse,ApiNotFoundResponse} from '@nestjs/swagger';
 import { Appartment } from './entities/appartment.entity';
 @ApiTags('Apartments')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('appartments')
+@Controller('apartments')
 export class AppartmentsController {
   constructor(private readonly appartmentsService: AppartmentsService) {}
   @SetMetadata('role',['admin','realtor'])
@@ -32,7 +32,15 @@ export class AppartmentsController {
       properties:{
         status:{type:'string',default:401},
         message:{type: 'string'},
-        error: {type:'string'}
+      }
+    }
+  })
+  @ApiForbiddenResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:403},
+        message:{type: 'string'},
       }
     }
   })
@@ -57,7 +65,46 @@ export class AppartmentsController {
   @ApiQuery({name: 'PriceMax',required: false,type: 'number' , description:''})
   @ApiQuery({name: 'RoomsMin',required: false,type: 'number' , description:''})
   @ApiQuery({name: 'RoomsMax',required: false,type: 'number' , description:''})
-  findAll(@Query('sizeMin') sizeMin: number ,@Query('sizeMax') sizeMax: number,@Query('PriceMin') PriceMin: number ,@Query('PriceMax') PriceMax: number,@Query('RoomsMin') RoomsMin: number ,@Query('RoomsMax') RoomsMax: number,@Request() req) {
+  @ApiOkResponse({type:Appartment , isArray: true})
+  @ApiBadRequestResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:400},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  @ApiUnauthorizedResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:401},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiForbiddenResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:403},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiInternalServerErrorResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:500},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  findAll(@Query('sizeMin') sizeMin: Number ,@Query('sizeMax') sizeMax: number,@Query('PriceMin') PriceMin: number ,@Query('PriceMax') PriceMax: number,@Query('RoomsMin') RoomsMin: number ,@Query('RoomsMax') RoomsMax: number,@Request() req) {
     return this.appartmentsService.findAll(sizeMin,sizeMax ,PriceMin , PriceMax,RoomsMin,RoomsMax,req);
   }
 
@@ -68,12 +115,108 @@ export class AppartmentsController {
   @SetMetadata('role',['admin','realtor'])
   @UseGuards(RolesGuard)
   @Patch(':id')
+  @ApiOkResponse({type:Appartment})
+  @ApiBadRequestResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:400},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  @ApiUnauthorizedResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:401},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiForbiddenResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:403},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiNotFoundResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:404},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiInternalServerErrorResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:500},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
   update(@Param('id') id: string, @Body() updateAppartmentDto: UpdateAppartmentDto) {
     return this.appartmentsService.update(+id, updateAppartmentDto);
   }
   @SetMetadata('role',['admin','realtor'])
   @UseGuards(RolesGuard)
   @Delete(':id')
+  @ApiOkResponse({type:Appartment})
+  @ApiBadRequestResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:400},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  @ApiUnauthorizedResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:401},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiForbiddenResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:403},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiNotFoundResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:404},
+        message:{type: 'string'},
+      }
+    }
+  })
+  @ApiInternalServerErrorResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:500},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
   remove(@Param('id') id: string) {
     return this.appartmentsService.remove(+id);
   }

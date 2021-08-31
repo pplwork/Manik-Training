@@ -1,0 +1,7 @@
+@import './variables.scss';
+.navbar{
+    background-color: $color-primary;
+    &__btn{
+        font-size: 1.35rem !important;
+    }
+}

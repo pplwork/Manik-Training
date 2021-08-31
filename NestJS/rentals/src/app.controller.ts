@@ -4,8 +4,9 @@ import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { LocalAuthGuard } from './auth/local-auth.guard';
-import { ApiTags,ApiBody } from '@nestjs/swagger';
 import { LoginDto } from './auth/dto/login.dto';
+import { ApiTags ,ApiCreatedResponse,ApiBadRequestResponse ,ApiUnauthorizedResponse, ApiOkResponse,ApiConflictResponse} from '@nestjs/swagger';
+import { User } from './users/entities/user.entity';
 @ApiTags('Authentication')
 @Controller()
 export class AppController {
@@ -14,10 +15,55 @@ export class AppController {
     ) {}
 
   @UseGuards(LocalAuthGuard)
+  @ApiOkResponse({schema:{
+    type:'object',
+    properties:{
+      access_token:{type:'string'}
+    }
+  }})
+  @ApiBadRequestResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:400},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  @ApiUnauthorizedResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:401},
+        message:{type: 'string'},
+      }
+    }
+  })
   @Post('auth/login')
   async login(@Request() req,@Body() body:LoginDto){
     return this.authService.login(req.user);
   }
+  @ApiCreatedResponse({type: User})
+  @ApiBadRequestResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:400},
+        message:{type: 'string'},
+        error: {type:'string'}
+      }
+    }
+  })
+  @ApiConflictResponse({
+    schema:{
+      type: 'object',
+      properties:{
+        status:{type:'string',default:409},
+        message:{type: 'string'},
+      }
+    }
+  })
   @Post('auth/signup')
   async signup(@Body() createUserDto: CreateUserDto){
     return this.authService.signup(createUserDto);

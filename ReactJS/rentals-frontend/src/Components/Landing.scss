@@ -1,0 +1,132 @@
+@import './variables.scss';
+.story{
+    // margin: 4rem 0;
+    z-index: -1;
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    // width: 95%;
+    height: 100vh;
+    &__pictures{
+        background-color: $color-primary;
+        display: flex;
+        width: 70%;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-image:linear-gradient(rgba($color-primary,.9) , rgba($color-primary,.9)) , url(../assets/back.jpg);
+    //     @media only screen and (max-width: $bp-medium){
+    //     grid-column: 1/-1;
+    //     padding: 6rem;
+    // }
+    }
+    &__img--1{
+        width: 45rem;
+        height: 35rem;
+        position: absolute;
+        box-shadow: 0 2rem  5rem rgba(#000,.1);
+    //     @media only screen and (max-width: $bp-medium){
+    //     grid-column: 1/5;
+    //     grid-row: 1/-1;
+    // }
+    }
+    &__img--2{
+        height: 25rem;
+        width: 40rem;
+        transform: translate(50%,50%);
+        box-shadow: 0 2rem  5rem rgba(#000,.2);
+    //     @media only screen and (max-width: $bp-medium){
+    //     grid-row: 1/-1;
+    //     width: 100%;
+    // }
+    }
+    &__content{
+        background-color: $color-grey-light-1;
+        grid-column: col-start 5/-1;
+        padding: 6rem 8vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    //     @media only screen and (max-width: $bp-medium){
+    //     grid-column: 1/-1;
+    //     grid-row: 5/6;
+    // }
+
+    }
+    &__text{
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 4rem;
+    }
+}
+
+%heading{
+    font-family: $font-display;
+    font-weight: 400;
+}
+.heading-1{
+    @extend %heading;
+    font-size: 4.5rem;
+    color: $color-grey-light-1;
+    line-height: 1;
+}
+.heading-2{
+    @extend %heading;
+    font-size: 4rem;
+    font-style: italic;
+    line-height: 1;
+    &__light{
+        color: $color-grey-light-1;
+    }
+    &__dark{
+        color: $color-grey-dark-1;
+    }
+}
+.heading-3{
+    @extend %heading;
+    font-size: 1.6rem;
+    color: $color-primary;
+    text-transform: uppercase;
+}
+.heading-4{
+    @extend %heading;
+    font-size: 1.9rem;
+    &__light{
+        color: $color-grey-light-1;
+    }
+    &__dark{
+        color: $color-grey-dark-1;
+    }
+}
+
+.btn{
+    background-color: $color-primary;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    font-family: $font-display;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    padding: 1.8rem 3rem;
+    cursor: pointer;
+    transition: all .2s;
+    &:hover{
+        background-color: $color-primary-dark;
+    }
+}
+
+
+.mb-sm{
+    margin-bottom: 2rem;
+}
+.mb-md{
+    margin-bottom: 3rem;
+}
+.mb-lg{
+    margin-bottom: 4rem;
+}
+.mb-hg{
+    margin-bottom: 8rem;
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -21,9 +21,14 @@ export class AppartmentsService {
     newApp.date = date;
     return this.appRepo.save(newApp);
   }
-
-  async findAll(sizeMin:number,sizeMax:number ,PriceMin:number, PriceMax:number,RoomsMin:number,RoomsMax:number,req) {
-    let apps =await this.appRepo.find();
+  exception(){
+    throw new HttpException({
+          status: HttpStatus.NOT_FOUND,
+          error: 'Apartment not found with the given id',
+        },HttpStatus.NOT_FOUND);
+  }
+  async findAll(sizeMin:Number,sizeMax:number ,PriceMin:number, PriceMax:number,RoomsMin:number,RoomsMax:number,req) {
+    let apps =await this.appRepo.find({relations:['realtor']});
     if(sizeMin&&sizeMax){
       apps=apps.filter((ele)=>{
         if(ele.floorSize>=sizeMin&&ele.floorSize<=sizeMax){
@@ -65,7 +70,7 @@ export class AppartmentsService {
   }
 
   async update(id: number, updateAppartmentDto: UpdateAppartmentDto) {
-    const app = await this.appRepo.findOne(id,{relations: ['realtor']});
+    const app = await this.appRepo.findOne(id);
     if(app){
       app.name= updateAppartmentDto.name;
       app.description= updateAppartmentDto.description;
@@ -74,8 +79,13 @@ export class AppartmentsService {
       app.geoCord= updateAppartmentDto.geoCord;
       app.price= updateAppartmentDto.price;
       app.isRentable = updateAppartmentDto.isRentable;
+      await this.appRepo.save(app);
+      return this.appRepo.findOne(id,{relations: ['realtor']});
     }
-    return this.appRepo.save(app);
+    else{
+      this.exception();
+    }
+    
   }
 
   async remove(id: number) {
@@ -83,6 +93,8 @@ export class AppartmentsService {
     if(app){
       return this.appRepo.remove(app);
     }
-    return null ;
+    else{
+      this.exception();
+    }
   }
 }

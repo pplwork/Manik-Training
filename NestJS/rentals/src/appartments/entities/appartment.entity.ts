@@ -34,7 +34,7 @@ export class Appartment {
     @Column()
     date: string;
 
-    @ApiProperty({example: 'true'})
+    @ApiProperty({example: 'true|false'})
     @Column()
     isRentable: boolean;
 
