@@ -1,7 +1,17 @@
 @import './variables.scss';
 .navbar{
-    background-color: $color-primary;
+    background-color: $color-secondary;
     &__btn{
         font-size: 1.35rem !important;
+    }
+    &__link{
+        text-decoration: none;
+        color: white;
+        &s{
+            text-decoration: none;
+            color: white;
+            display: flex;
+            margin-right: auto;
+        }
     }
 }

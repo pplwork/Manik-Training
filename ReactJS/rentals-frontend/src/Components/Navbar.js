@@ -6,7 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import './Navbar.scss'
-import icon from '../assets/icon-white.png'
+import icon from '../assets/icon-white.png';
+import { Link } from 'react-router-dom';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -30,12 +32,22 @@ export default function ButtonAppBar() {
         <Toolbar className="navbar">
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           </IconButton>
+          <Link className="navbar__links" to="/">
           <img src={icon} style={{height:'2.5rem',marginRight:'1rem'}} alt="" />
           <Typography variant="h6" className={classes.title}>
             rentals
           </Typography>
-          <Button className="navbar__btn" color="inherit">Sign Up</Button>
-          <Button className="navbar__btn" color="inherit">Login</Button>
+          </Link>
+          <Link to="/signup" className="navbar__link"><Button className="navbar__btn" color="inherit">Sign Up</Button></Link>
+          <Link to="/login" className="navbar__link"><Button className="navbar__btn" color="inherit">Log In</Button></Link>
+          <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+              <AccountCircle />
+              </IconButton>
         </Toolbar>
       </AppBar>
     </div>

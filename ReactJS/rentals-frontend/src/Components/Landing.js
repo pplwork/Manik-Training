@@ -2,7 +2,7 @@ import React from 'react';
 import './Landing.scss';
 import story1 from '../assets/story-1.jpeg';
 import story2 from '../assets/story-2.jpeg';
-import Gallery from './gallery';
+// import Gallery from './gallery';
 function Landing() {
     return (
         <>

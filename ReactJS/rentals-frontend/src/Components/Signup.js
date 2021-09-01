@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEye,faEyeSlash,} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -36,7 +37,7 @@ function Signup() {
             style={{marginLeft:'0'}}
             InputLabelProps={{style:{fontSize: '1.5rem'}}} inputProps={{style:{fontSize: '1.5rem'}}}
             type={iconVisible?"text":"password"}
-/>
+            />
             <FontAwesomeIcon icon={iconVisible?faEye:faEyeSlash} style={{fontSize:'12px',position:'absolute',right:'10px',bottom:'20px'}} onClick={()=>setIconVisible(prev=>!prev)}/>
             </div>
             <TextField
@@ -49,7 +50,7 @@ function Signup() {
             <Button variant="outlined" className="signup__btn" style={{width:'15rem', height:'4rem',border:'2px solid #c69963', alignSelf:'center'}}>
                 Sign up
             </Button>
-            <div className="signup__text">Already registered? <b className="signup__text--b">Login Now!</b></div>
+            <div className="signup__text">Already registered? <Link to="login" className="signup__link"><b className="signup__text--b">Login Now!</b></Link></div>
         </div>
     </form>
                 </div>

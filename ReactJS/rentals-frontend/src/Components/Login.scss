@@ -8,10 +8,11 @@
         height: 70%;
         width: 70%;
         display: flex;
-        border: 2px solid $color-secondary;
+        // border: 2px solid $color-secondary;
         &--left{
-            background-image:linear-gradient(90deg,rgba($color-primary,0.3), rgba($color-primary-dark,0.3)),url(../assets/gal-4.jpeg);
+            background-image:linear-gradient(90deg,rgba($color-primary,0.3), rgba($color-primary-dark,0.3)),url(../assets/gal-10.jpeg);
             background-size: cover;
+            background-position: center;
             width: 65%;
             height: 100%;
         }
@@ -21,6 +22,8 @@
             flex-direction: column;
             flex: 1;
             align-items: center;
+            border: 0.1px solid $color-secondary;
+            border-left: 0;
         }
     }
     &__heading{
@@ -41,6 +44,7 @@
         &--b{
             text-decoration: underline;
             cursor: pointer;
+            color: $color-primary-dark;
         }
     }
     &__btn{

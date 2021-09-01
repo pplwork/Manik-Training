@@ -15,7 +15,7 @@ export class AppController {
     ) {}
 
   @UseGuards(LocalAuthGuard)
-  @ApiOkResponse({schema:{
+  @ApiCreatedResponse({schema:{
     type:'object',
     properties:{
       access_token:{type:'string'}
