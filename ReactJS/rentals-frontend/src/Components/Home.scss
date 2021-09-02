@@ -1,0 +1,48 @@
+.home{
+    width: 100%;
+    background-color: #f4f4f4;
+    min-height: 91.5vh;
+    display: flex;
+    &__filter{
+        width: 30rem;
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.473);
+        margin-left: 15rem;
+        margin-top: 5rem;
+        border-radius: 0.5rem;
+        padding: 2rem;
+    }
+    &__apartments{
+        width: 80rem;
+        min-height: 20vh;
+        border: 1px solid brown;
+        margin-left: 10rem;
+    }
+}
+.divider{
+    border-bottom: 0.1px solid rgba(0, 0, 0, 0.137);
+}
+.filter{
+    &__heading{
+        padding: 1rem;
+        font-size: 2rem;
+        color: black;
+        font-weight: 600;
+    }
+    &__box{
+        height: 10rem;
+        margin-bottom: 4rem;
+    }
+    &__budget{
+        &--heading{
+            font-size: 1.5rem;
+            padding: 1rem;
+            color: black;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+    }
+}

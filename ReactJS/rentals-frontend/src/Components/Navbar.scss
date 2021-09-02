@@ -1,17 +1,35 @@
-@import './variables.scss';
-.navbar{
-    background-color: $color-secondary;
-    &__btn{
-        font-size: 1.35rem !important;
+@import "./variables.scss";
+.navbar {
+  background-color: $color-secondary;
+  &__btn {
+    font-size: 1.35rem !important;
+  }
+  &__link {
+    text-decoration: none;
+    color: white;
+    &s {
+      text-decoration: none;
+      color: white;
+      display: flex;
+      margin-right: auto;
     }
-    &__link{
-        text-decoration: none;
-        color: white;
-        &s{
-            text-decoration: none;
-            color: white;
-            display: flex;
-            margin-right: auto;
-        }
-    }
+  }
+}
+.dialog {
+  &__title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-secondary;
+  }
+}
+
+.AppImage {
+  width: 70%;
+  margin-top: 2rem;
+}
+
+.helper {
+  display: flex;
+  gap: 12rem;
+  margin: 2rem 0;
 }

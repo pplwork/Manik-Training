@@ -7,21 +7,20 @@ export class CreateAppartmentDto {
     @Matches(/^[a-z\d\-_\s]+$/i,{message: 'Name must contain only Alphabet and Numbers'})
     @MaxLength(25)
     name: string;
-
-
-    @ApiProperty({example: 'Constructed in 2019 and much more' , description: 'About the apartment'})
+    @ApiProperty({example: 'Constructed in 2020 and much more' , description: 'About the apartment'})
     @IsNotEmpty()
     @Matches(/^[a-z\d\-_\s]+$/i,{message: 'Name must contain only Alphabet and Numbers'})
     @MaxLength(50)
     description: string;
-
-
+    @ApiProperty({example:'https://res.cloudinary.com/xxxxxxxx/image/upload/xxxxxxxx.jpg'})
+    @Matches(/https:\/\/res\.cloudinary\.com\/.+\/image\/upload\/.+\/.+\.(jpg|png|jpeg|jfif)/)
+    @IsNotEmpty()
+    photoLink: string;
     @ApiProperty({example: '1250' , description: 'Carpet Area of Apartment'})
     @IsNumber()
     @IsNotEmpty()
     @IsPositive()
     floorSize: number;
-
 
     @ApiProperty({example: '2500000' , description: 'Price in Rupees'})
     @IsNumber()

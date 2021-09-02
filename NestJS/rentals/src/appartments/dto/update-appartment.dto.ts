@@ -14,6 +14,10 @@ export class UpdateAppartmentDto extends PartialType(CreateAppartmentDto) {
     @MaxLength(50)
     description: string;
 
+    @ApiProperty({example:'https://res.cloudinary.com/xxxxxxxx/image/upload/xxxxxxxx.jpg'})
+    @Matches(/https:\/\/res\.cloudinary\.com\/.+\/image\/upload\/.+\/.+\.(jpg|png|jpeg|jfif)/)
+    @IsNotEmpty()
+    photoLink: string;;
 
     @ApiProperty({example: '1250' , description: 'Carpet Area of Apartment'})
     @IsNumber()

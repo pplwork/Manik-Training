@@ -10,6 +10,10 @@ export class Appartment {
     @ApiProperty({example: 'Aravali Hills'})
     name: string;
 
+    @Column()
+    @ApiProperty({example:'https://res.cloudinary.com/xxxxxxxx/image/upload/xxxxxxxx.jpg'})
+    photoLink: string;
+
     @ApiProperty({example: 'Constructed in 2019 and much more'})
     @Column()
     description: string;

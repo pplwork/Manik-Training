@@ -84,9 +84,9 @@ export function signup(name ,email, password){
             body: JSON.stringify({name,email,password})
         }).then((response)=>response.json())
         .then((data)=>{
-            if(data.success){
-                localStorage.setItem('token',data.data.token);
-                dispatch(signupSuccessful(data.data.user));
+          console.log('signup data',data);
+            if(data.name){
+                dispatch(signupSuccessful(data));
                 return ;
             }
             dispatch(signupFailed(data.message));

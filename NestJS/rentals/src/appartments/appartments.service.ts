@@ -79,6 +79,7 @@ export class AppartmentsService {
       app.geoCord= updateAppartmentDto.geoCord;
       app.price= updateAppartmentDto.price;
       app.isRentable = updateAppartmentDto.isRentable;
+      app.photoLink = updateAppartmentDto.photoLink;
       await this.appRepo.save(app);
       return this.appRepo.findOne(id,{relations: ['realtor']});
     }

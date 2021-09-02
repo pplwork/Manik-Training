@@ -12,6 +12,7 @@ import {
 import TemporaryDrawer from './Components/test';
 import { useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
+import Home from './Components/Home';
 function App() {
   useEffect (()=>{
     const token = getAuthTokenFromLocalStorage();
@@ -28,6 +29,9 @@ function App() {
           <Switch>
             <Route exact path="/" render={()=>{
               return <Landing/>
+            }}/>
+            <Route exact path="/home" render={()=>{
+              return <Home/>
             }}/>
             <Route exact path="/signup" render={()=>{
               return <Signup/>
