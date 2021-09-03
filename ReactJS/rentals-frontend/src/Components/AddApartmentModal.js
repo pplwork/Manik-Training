@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -13,19 +13,33 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Input from "@material-ui/core/Input";
 import Fab from "@material-ui/core/Fab";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import {
+  addApartment,
+  changeApartment,
+  createApartment,
+} from "../actions/apartments";
 function AddApartmentModal(props) {
-  const { open, handleClose } = props;
-  const [name, setName] = useState("");
-  const [Description, setDescription] = useState("");
-  const [GeoCord, setGeoCord] = useState("");
-  const [floorSize, setFloorSize] = useState("");
-  const [imageLink, setImageLink] = useState("");
-  const [rooms, setRooms] = React.useState("");
-  const [ammount, setAmmount] = React.useState("");
+  const { open, handleClose, app } = props;
+  const [name, setName] = useState(app ? app.name : "");
+  const [description, setDescription] = useState(app ? app.description : "");
+  const [geoCord, setgeoCord] = useState(app ? app.geoCord : "");
+  const [floorsize, setfloorsize] = useState(app ? app.floorSize : "");
+  const [photoLink, setphotoLink] = useState(app ? app.photoLink : "");
+  const [Rooms, setRooms] = React.useState(app ? app.Rooms : "");
+  const [ammount, setAmmount] = React.useState(app ? app.price : "");
+  let [isRentable, setIsRentable] = useState(app ? `${app.isRentable}` : "");
   const handleChange = (event) => {
     setRooms(event.target.value);
   };
-
+  const handleChangeRentable = (event) => {
+    setIsRentable(event.target.value);
+  };
+  const dispatch = useDispatch();
   const handleUploadClick = (e) => {
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);
@@ -38,21 +52,55 @@ function AddApartmentModal(props) {
       .then((data) => data.json())
       .then((data) => {
         document.querySelector(".AppImage").src = data.secure_url;
-        setImageLink(data.secure_url);
+        setphotoLink(data.secure_url);
       });
   };
   const handleSubmit = () => {
     console.log(
       name,
-      Description,
-      floorSize,
+      description,
+      floorsize,
       ammount,
-      imageLink,
-      GeoCord,
-      rooms
+      photoLink,
+      geoCord,
+      Rooms,
+      isRentable
     );
-    setAmmount("");
-    setFloorSize("");
+    let floorSize = parseInt(floorsize);
+    let price = parseInt(ammount);
+    if (isRentable == "true") {
+      isRentable = true;
+    } else {
+      isRentable = false;
+    }
+    if (app) {
+      dispatch(
+        changeApartment(
+          {
+            name,
+            description,
+            floorSize,
+            price,
+            photoLink,
+            geoCord,
+            Rooms,
+            isRentable,
+          },
+          app.id
+        )
+      );
+    }
+    // dispatch(
+    //   createApartment({
+    //     name,
+    //     description,
+    //     floorSize,
+    //     price,
+    //     photoLink,
+    //     geoCord,
+    //     Rooms,
+    //   })
+    // );
   };
   return (
     <Dialog
@@ -70,12 +118,12 @@ function AddApartmentModal(props) {
             occasionally.
           </DialogContentText> */}
         <TextField
-          autoFocus
           margin="dense"
           id="name"
           label="Name"
           type="text"
           fullWidth
+          defaultValue={app ? app.name : ""}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
@@ -83,12 +131,12 @@ function AddApartmentModal(props) {
           }}
         />
         <TextField
-          autoFocus
           margin="dense"
-          id="Description"
-          label="Description"
+          id="description"
+          label="description"
           type="text"
           fullWidth
+          defaultValue={app ? app.description : ""}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
@@ -96,16 +144,16 @@ function AddApartmentModal(props) {
           }}
         />
         <TextField
-          autoFocus
           margin="dense"
           id="geoCord"
           label="Geo Coordinates"
           type="text"
           fullWidth
+          defaultValue={app ? app.geoCord : ""}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setGeoCord(e.target.value);
+            setgeoCord(e.target.value);
           }}
         />
         <div className="helper">
@@ -119,7 +167,7 @@ function AddApartmentModal(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={rooms}
+              value={Rooms}
               onChange={handleChange}
               style={{ fontSize: "1.5rem", width: "20rem" }}
             >
@@ -140,14 +188,14 @@ function AddApartmentModal(props) {
             </InputLabel>
             <Input
               className="standard-adornment-size"
-              value={floorSize}
+              value={floorsize}
               style={{ fontSize: "1.5rem", width: "20rem" }}
               type="number"
               startAdornment={
                 <InputAdornment position="start">Sq.ft.</InputAdornment>
               }
               onChange={(e) => {
-                setFloorSize(e.target.value);
+                setfloorsize(e.target.value);
               }}
             />
           </div>
@@ -168,6 +216,41 @@ function AddApartmentModal(props) {
           type="number"
           startAdornment={<InputAdornment position="start">Rs.</InputAdornment>}
         />
+        <FormControl style={{ display: "block" }} component="fieldset">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: "2rem",
+            }}
+          >
+            <FormLabel
+              component="legend"
+              style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+            >
+              Is Rentable ? :
+            </FormLabel>
+            <RadioGroup
+              aria-label="gender"
+              name="gender1"
+              value={isRentable}
+              onChange={handleChangeRentable}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="True"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="False"
+                />
+              </div>
+            </RadioGroup>
+          </div>
+        </FormControl>
         <div>
           <input
             accept="image/*"
@@ -192,7 +275,7 @@ function AddApartmentModal(props) {
             </Fab>
           </label>
         </div>
-        <img src="" alt="" className="AppImage" />
+        <img src={app ? app.photoLink : ""} alt="" className="AppImage" />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.scss";
 import Slider from "@material-ui/core/Slider";
 import Fab from "@material-ui/core/Fab";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchApartments } from "../actions/apartments";
+import ApartmentCard from "./ApartmentCard";
 function valuetext(value) {
   return `${value}`;
 }
@@ -86,7 +89,11 @@ function Home() {
   const [budgetValue, setBudgetValue] = React.useState([1, 50]);
   const [bedroomValue, setBedroomValue] = React.useState([1, 6]);
   const [sizeValue, setSizeValue] = React.useState([1, 2000]);
-  const [imageSelected, setImageSelected] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(async () => {
+    await dispatch(fetchApartments());
+  }, []);
   const handleChangeBudget = (event, newValue) => {
     console.log(newValue);
     setBudgetValue(newValue);
@@ -95,9 +102,9 @@ function Home() {
     setBedroomValue(newValue);
   };
   const handleSize = (event, newValue) => {
-    console.log(newValue);
     setSizeValue(newValue);
   };
+  const apartments = useSelector((state) => state.apartments);
   return (
     <div className="home">
       <div className="home__filter">
@@ -154,7 +161,11 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="home__apartments"></div>
+      <div className="home__apartments">
+        {apartments.map((app) => {
+          return <ApartmentCard app={app} key={app.id} />;
+        })}
+      </div>
     </div>
   );
 }
