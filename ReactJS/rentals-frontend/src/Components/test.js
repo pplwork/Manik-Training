@@ -13,6 +13,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import "./test.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import AddApartmentModal from "./AddApartmentModal";
 // import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
   list: {
@@ -75,7 +76,6 @@ export default function TemporaryDrawer() {
       </List>
     </div>
   );
-
   return (
     <div className="leftDrawer">
       {["left"].map((anchor) => (

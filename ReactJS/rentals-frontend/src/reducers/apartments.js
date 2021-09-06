@@ -21,6 +21,11 @@ export default function apartments(state = [], action) {
       state[index] = { ...state[index], ...action.apartment };
       return [...state];
     }
+    case DELETE_APARTMENT: {
+      return state.filter((val) => {
+        return val.id !== action.id;
+      });
+    }
     default:
       return state;
   }

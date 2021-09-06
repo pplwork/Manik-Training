@@ -11,7 +11,21 @@ import { getAuthTokenFromLocalStorage, getFormBody } from "../helpers/utils";
 export function fetchApartments() {
   return (dispatch) => {
     const url = APIUrls.fetchApartments();
-    console.log(url);
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(updateApartments(data));
+      });
+  };
+}
+
+export function fetchFilterApartments(Price, Rooms, size) {
+  return (dispatch) => {
+    const url = APIUrls.fetchFilterApartments(Price, Rooms, size);
     fetch(url, {
       headers: {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
@@ -51,6 +65,7 @@ export function createApartment(content) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (!data.statusCode) {
           dispatch(addApartment(data));
         }
@@ -79,6 +94,30 @@ export function changeApartment(content, id) {
       .then((data) => {
         console.log(data);
         dispatch(changeUpdate(data));
+      });
+  };
+}
+
+export function deleteUpdate(id) {
+  return {
+    type: DELETE_APARTMENT,
+    id,
+  };
+}
+export function deleteApartment(id) {
+  return (dispatch) => {
+    const url = APIUrls.deleteApartment(id);
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          dispatch(deleteUpdate(id));
+        }
       });
   };
 }

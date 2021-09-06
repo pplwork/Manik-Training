@@ -75,12 +75,13 @@
 }
 #simple-popover
   > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
-  height: 10rem;
+  height: 9rem;
   width: 20rem;
   border-radius: 10px;
 }
 
 .helper__btn {
-  border: 1px solid red;
   display: flex;
+  margin: 1rem 0rem;
+  justify-content: space-evenly;
 }

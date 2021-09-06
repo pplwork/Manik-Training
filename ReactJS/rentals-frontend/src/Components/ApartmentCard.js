@@ -4,11 +4,14 @@ import Button from "@material-ui/core/Button";
 import AddApartmentModal from "./AddApartmentModal";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
+import { useDispatch } from "react-redux";
+import { deleteApartment } from "../actions/apartments";
 function ApartmentCard(props) {
   const { app } = props;
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openPoper = Boolean(anchorEl);
+  const dispatch = useDispatch();
   const id = openPoper ? "simple-popover" : undefined;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,6 +25,9 @@ function ApartmentCard(props) {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDelete = () => {
+    dispatch(deleteApartment(app.id));
   };
   return (
     <div className="apartment">
@@ -93,8 +99,19 @@ function ApartmentCard(props) {
             Are you sure you want to delete?
           </Typography>
           <div className="helper__btn">
-            <Button variant="outlined">Edit</Button>
-            <Button variant="outlined" color="secondary">
+            <Button
+              style={{ height: "3rem" }}
+              variant="outlined"
+              onClick={handleClosePoper}
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{ height: "3rem" }}
+              variant="outlined"
+              color="secondary"
+              onClick={handleDelete}
+            >
               Delete
             </Button>
           </div>

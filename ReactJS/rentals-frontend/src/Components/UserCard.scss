@@ -1,0 +1,31 @@
+.userCard {
+  height: 40rem;
+  width: 30rem;
+  box-shadow: 0px 0px 4px 1px #101d2c63;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 2rem;
+  &__left {
+    display: flex;
+    align-self: stretch;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__img {
+    height: 15rem;
+    width: 60%;
+  }
+  &__name {
+    font-size: 3rem;
+    font-weight: 400;
+    text-transform: capitalize;
+  }
+  &__btnWrapper {
+    align-self: center;
+  }
+  &__btn {
+    width: 10rem;
+    font-size: 1.5rem !important;
+  }
+}

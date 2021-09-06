@@ -89,18 +89,20 @@ function AddApartmentModal(props) {
           app.id
         )
       );
+      handleClose();
+    } else {
+      dispatch(
+        createApartment({
+          name,
+          description,
+          floorSize,
+          price,
+          photoLink,
+          geoCord,
+          Rooms,
+        })
+      );
     }
-    // dispatch(
-    //   createApartment({
-    //     name,
-    //     description,
-    //     floorSize,
-    //     price,
-    //     photoLink,
-    //     geoCord,
-    //     Rooms,
-    //   })
-    // );
   };
   return (
     <Dialog

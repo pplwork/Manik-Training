@@ -7,47 +7,48 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
-    constructor(
-        private jwtService: JwtService,
-        @InjectRepository(User) private userRepo: Repository<User>
-    ){}
-    async validateUser(email: string , pass: string): Promise<any>{
-        const user = await this.find(email);
-        if(user){
-            const match = await bcrypt.compare(pass , user.password);
-            if(match){
-                const {password ,...result}=user;
-                return result;
-            }
-            else
-            throw new HttpException('Email and password does not match', HttpStatus.UNAUTHORIZED);
-        }
-        else
-            throw new HttpException('Email does not exist', HttpStatus.UNAUTHORIZED);
+  constructor(
+    private jwtService: JwtService,
+    @InjectRepository(User) private userRepo: Repository<User>,
+  ) {}
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.find(email);
+    if (user) {
+      const match = await bcrypt.compare(pass, user.password);
+      if (match) {
+        const { password, ...result } = user;
+        return result;
+      } else
+        throw new HttpException(
+          'Email and password does not match',
+          HttpStatus.UNAUTHORIZED,
+        );
+    } else
+      throw new HttpException('Email does not exist', HttpStatus.UNAUTHORIZED);
+  }
+  async signup(User: CreateUserDto) {
+    console.log('yeah i am here');
+    const check = await this.userRepo.findOne({ email: User.email });
+    if (!check) {
+      const newUser = this.userRepo.create({
+        name: User.name.trim(),
+        email: User.email.toLowerCase().trim(),
+        password: bcrypt.hashSync(User.password, 10),
+        role: 'user',
+      });
+      return this.userRepo.save(newUser);
+    } else {
+      throw new HttpException('Email not available', HttpStatus.CONFLICT);
     }
-    async signup(User: CreateUserDto){
-        console.log('yeah i am here');
-        const check = await this.userRepo.findOne({email: User.email});
-        if(!check){
-            const newUser = this.userRepo.create({
-            name: User.name.trim(),
-            email: User.email.toLowerCase().trim(),
-            password: bcrypt.hashSync(User.password,10),
-            role: 'user'
-    })
-    return this.userRepo.save(newUser);
-    }
-    else{
-        throw new HttpException('Email not available' ,HttpStatus.CONFLICT);
-    }
-    }
-    async login(user: any){
-        const payload ={email: user.email,name: user.name, sub: user.userId};
-        return {
-            access_token: this.jwtService.sign(payload),
-        }
-    }
-    find(email: string): Promise<User>{
-        return this.userRepo.findOne({email: email});
-    }
+  }
+  async login(user: any) {
+    const payload = { email: user.email, name: user.name, sub: user.userId };
+    console.log('aaya hu bhai');
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+  find(email: string): Promise<User> {
+    return this.userRepo.findOne({ email: email });
+  }
 }

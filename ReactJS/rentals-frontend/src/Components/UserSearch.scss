@@ -1,0 +1,18 @@
+.search {
+  height: 91.5vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 5rem 0;
+  &__inputLabel {
+    font-size: 1.75rem !important;
+  }
+}
+
+#input-with-icon-adornment {
+  &::placeholder {
+    font-size: 2rem !important;
+  }
+}
