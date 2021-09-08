@@ -25,16 +25,30 @@ import {
 } from "../actions/apartments";
 function AddApartmentModal(props) {
   const { open, handleClose, app } = props;
-  const [name, setName] = useState(app ? app.name : "");
-  const [description, setDescription] = useState(app ? app.description : "");
-  const [geoCord, setgeoCord] = useState(app ? app.geoCord : "");
-  const [floorsize, setfloorsize] = useState(app ? app.floorSize : "");
-  const [photoLink, setphotoLink] = useState(app ? app.photoLink : "");
-  const [Rooms, setRooms] = React.useState(app ? app.Rooms : "");
-  const [ammount, setAmmount] = React.useState(app ? app.price : "");
+  const [name, setName] = useState(
+    app ? { value: app.name, error: null } : { value: "", error: null }
+  );
+  const [description, setDescription] = useState(
+    app ? { value: app.description, error: null } : { value: "", error: null }
+  );
+  const [Address, setAddress] = useState(
+    app ? { value: app.Address, error: null } : { value: "", error: null }
+  );
+  const [photoLink, setphotoLink] = useState(
+    app ? { value: app.photoLink, error: null } : { value: "", error: null }
+  );
+  const [floorsize, setfloorsize] = useState(
+    app ? { value: app.floorSize, error: null } : { value: "", error: null }
+  );
+  const [Rooms, setRooms] = React.useState(
+    app ? { value: app.Rooms, error: null } : { value: "", error: null }
+  );
+  const [ammount, setAmmount] = React.useState(
+    app ? { value: app.price, error: null } : { value: "", error: null }
+  );
   let [isRentable, setIsRentable] = useState(app ? `${app.isRentable}` : "");
-  const handleChange = (event) => {
-    setRooms(event.target.value);
+  const handleChange = (e) => {
+    setRooms({ value: e.target.value, error: null });
   };
   const handleChangeRentable = (event) => {
     setIsRentable(event.target.value);
@@ -52,38 +66,58 @@ function AddApartmentModal(props) {
       .then((data) => data.json())
       .then((data) => {
         document.querySelector(".AppImage").src = data.secure_url;
-        setphotoLink(data.secure_url);
+        setphotoLink({ value: data.secure_url, error: null });
       });
   };
   const handleSubmit = () => {
-    console.log(
-      name,
-      description,
-      floorsize,
-      ammount,
-      photoLink,
-      geoCord,
-      Rooms,
-      isRentable
-    );
-    let floorSize = parseInt(floorsize);
-    let price = parseInt(ammount);
+    let floorSize = parseInt(floorsize.value);
+    let price = parseInt(ammount.value);
+    let send = true;
     if (isRentable == "true") {
       isRentable = true;
     } else {
       isRentable = false;
     }
-    if (app) {
+    if (!name.value) {
+      setName({ value: "", error: "Please Enter Name" });
+      send = false;
+    }
+    if (!description.value) {
+      setDescription({ value: "", error: "Please Enter Description" });
+      send = false;
+    }
+    if (!Address.value) {
+      setAddress({ value: "", error: "Please Enter Address" });
+      send = false;
+    }
+    if (!Rooms.value) {
+      setRooms({ value: "", error: "Please Enter Rooms" });
+      send = false;
+    }
+    if (!floorSize) {
+      setfloorsize({ value: "", error: "Please Enter floor size" });
+      send = false;
+    }
+    if (!price) {
+      setAmmount({ value: "", error: "Please Enter Price" });
+      send = false;
+    }
+    if (!photoLink.value) {
+      setphotoLink({ value: "", error: "Please Add photo" });
+    }
+    if (send === false) {
+      return;
+    } else if (app) {
       dispatch(
         changeApartment(
           {
-            name,
-            description,
+            name: name.value,
+            description: description.value,
             floorSize,
             price,
-            photoLink,
-            geoCord,
-            Rooms,
+            photoLink: photoLink.value,
+            Address: Address.value,
+            Rooms: Rooms.value,
             isRentable,
           },
           app.id
@@ -93,15 +127,16 @@ function AddApartmentModal(props) {
     } else {
       dispatch(
         createApartment({
-          name,
-          description,
+          name: name.value,
+          description: description.value,
           floorSize,
           price,
-          photoLink,
-          geoCord,
-          Rooms,
+          photoLink: photoLink.value,
+          Address: Address.value,
+          Rooms: Rooms.value,
         })
       );
+      handleClose();
     }
   };
   return (
@@ -111,9 +146,16 @@ function AddApartmentModal(props) {
       aria-labelledby="form-dialog-title"
       className="dialog"
     >
-      <DialogTitle id="form-dialog-title" className="dialog__title">
-        Add Apartment
-      </DialogTitle>
+      {app ? (
+        <DialogTitle id="form-dialog-title" className="dialog__title">
+          Edit Apartment
+        </DialogTitle>
+      ) : (
+        <DialogTitle id="form-dialog-title" className="dialog__title">
+          Add Apartment
+        </DialogTitle>
+      )}
+
       <DialogContent>
         {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We will send updates
@@ -124,12 +166,26 @@ function AddApartmentModal(props) {
           id="name"
           label="Name"
           type="text"
+          required
           fullWidth
+          {...(name.error
+            ? { error: true, helperText: name.error }
+            : { error: false, helperText: "" })}
           defaultValue={app ? app.name : ""}
+          FormHelperTextProps={{ style: { fontSize: "1rem" } }}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setName(e.target.value);
+            if (/^[\da-zA-Z\s-]+$/.test(e.target.value)) {
+              setName({ value: e.target.value, error: null });
+            } else if (e.target.value === "") {
+              setName({ value: e.target.value, error: "Please Enter Name" });
+            } else {
+              setName({
+                value: e.target.value,
+                error: "Please Enter a valid Name",
+              });
+            }
           }}
         />
         <TextField
@@ -138,24 +194,54 @@ function AddApartmentModal(props) {
           label="description"
           type="text"
           fullWidth
+          required
+          {...(description.error
+            ? { error: true, helperText: description.error }
+            : { error: false, helperText: "" })}
           defaultValue={app ? app.description : ""}
+          FormHelperTextProps={{ style: { fontSize: "1rem", width: "15rem" } }}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setDescription(e.target.value);
+            if (e.target.value == "") {
+              setDescription({
+                value: e.target.value,
+                error: "Please Enter Description",
+              });
+            } else if (e.target.value.split(" ").length < 30) {
+              setDescription({
+                value: e.target.value,
+                error: "Description should be greater than 30 words",
+              });
+            } else {
+              setDescription({ value: e.target.value, error: null });
+            }
           }}
         />
         <TextField
           margin="dense"
           id="geoCord"
-          label="Geo Coordinates"
+          label="Address"
           type="text"
           fullWidth
-          defaultValue={app ? app.geoCord : ""}
+          required
+          {...(Address.error
+            ? { error: true, helperText: Address.error }
+            : { error: false, helperText: "" })}
+          FormHelperTextProps={{ style: { fontSize: "1rem" } }}
+          defaultValue={app ? app.Address : ""}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setgeoCord(e.target.value);
+            if (/^[\da-zA-Z\s\.(),-]+$/.test(e.target.value)) {
+              setAddress({ value: e.target.value, error: null });
+            } else {
+              console.log("fail ho gya bhai");
+              setAddress({
+                value: e.target.value,
+                error: "Please Enter Address",
+              });
+            }
           }}
         />
         <div className="helper">
@@ -163,13 +249,17 @@ function AddApartmentModal(props) {
             <InputLabel
               id="demo-simple-select-label"
               style={{ fontSize: "1.5rem" }}
+              required
+              {...(Rooms.error ? { error: true } : { error: false })}
             >
               Rooms
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={Rooms}
+              value={Rooms.value}
+              required
+              {...(Rooms.error ? { error: true } : { error: false })}
               onChange={handleChange}
               style={{ fontSize: "1.5rem", width: "20rem" }}
             >
@@ -185,39 +275,81 @@ function AddApartmentModal(props) {
             <InputLabel
               htmlFor="standard-adornment-size"
               style={{ fontSize: "1.5rem" }}
+              required
+              {...(floorsize.error ? { error: true } : { error: false })}
             >
               Floor Size
             </InputLabel>
             <Input
               className="standard-adornment-size"
-              value={floorsize}
+              value={floorsize.value}
+              {...(floorsize.error ? { error: true } : { error: false })}
               style={{ fontSize: "1.5rem", width: "20rem" }}
               type="number"
               startAdornment={
                 <InputAdornment position="start">Sq.ft.</InputAdornment>
               }
               onChange={(e) => {
-                setfloorsize(e.target.value);
+                if (e.target.value > 4000) {
+                  setfloorsize({
+                    value: e.target.value,
+                    error: "Max Size : 4000 Sq.ft",
+                  });
+                } else if (!e.target.value) {
+                  setfloorsize({
+                    value: e.target.value,
+                    error: "Enter Floor Size",
+                  });
+                } else {
+                  setfloorsize({ value: e.target.value, error: null });
+                }
               }}
             />
+            {floorsize.error ? (
+              <div
+                style={{ color: "red", fontSize: "1rem", paddingTop: "0.3rem" }}
+              >
+                {floorsize.error}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <InputLabel
           htmlFor="standard-adornment-amount"
           style={{ fontSize: "1.5rem" }}
+          required
+          {...(ammount.error ? { error: true } : { error: false })}
         >
           Amount
         </InputLabel>
         <Input
           className="standard-adornment-amount"
-          value={ammount}
+          value={ammount.value}
+          {...(ammount.error ? { error: true } : { error: false })}
           onChange={(e) => {
-            setAmmount(e.target.value);
+            if (!e.target.value) {
+              setAmmount({
+                value: e.target.value,
+                error: "Please Enter Price",
+              });
+            } else {
+              setAmmount({ value: e.target.value, error: null });
+            }
           }}
           style={{ fontSize: "1.5rem", width: "20rem" }}
           type="number"
           startAdornment={<InputAdornment position="start">Rs.</InputAdornment>}
         />
+
+        {ammount.error ? (
+          <div style={{ color: "red", marginTop: "0.3rem" }}>
+            {ammount.error}
+          </div>
+        ) : (
+          ""
+        )}
         <FormControl style={{ display: "block" }} component="fieldset">
           <div
             style={{
@@ -261,6 +393,7 @@ function AddApartmentModal(props) {
             type="file"
             onChange={handleUploadClick}
             style={{ display: "none" }}
+            required
           />
           <label htmlFor="contained-button-file">
             <div
@@ -268,6 +401,8 @@ function AddApartmentModal(props) {
                 display: "inline-block",
                 marginRight: "1rem",
                 marginTop: "3rem",
+                fontSize: "1.2rem",
+                color: photoLink.error ? "red" : "inherit",
               }}
             >
               Add Photo:{" "}
@@ -280,7 +415,19 @@ function AddApartmentModal(props) {
         <img src={app ? app.photoLink : ""} alt="" className="AppImage" />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button
+          onClick={() => {
+            setName({ value: "", error: null });
+            setDescription({ value: "", error: null });
+            setAmmount({ value: "", error: null });
+            setRooms({ value: "", error: null });
+            setfloorsize({ value: "", error: null });
+            setphotoLink({ value: "", error: null });
+            setAddress({ value: "", error: null });
+            handleClose();
+          }}
+          color="primary"
+        >
           Cancel
         </Button>
         <Button onClick={handleSubmit} color="primary">

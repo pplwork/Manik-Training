@@ -17,19 +17,24 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 function AddApartmentModal(props) {
   const { open, handleClose } = props;
-  const [name, setName] = useState(props.user.name);
-  const [email, setEmail] = useState(props.user.email);
-  const [role, setRole] = useState(props.user.role);
+  const [name, setName] = useState({ value: props.user.name, error: null });
+  const [email, setEmail] = useState({ value: props.user.email, error: null });
+  const [role, setRole] = useState({ value: props.user.role, error: null });
   //   const dispatch = useDispatch();
   const handleSubmit = () => {
     const url = APIUrls.updateUser(props.user.id);
+    console.log(name, email, role);
     fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: JSON.stringify({ name, email, role }),
+      body: JSON.stringify({
+        name: name.value,
+        email: email.value,
+        role: role.value,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -58,6 +63,9 @@ function AddApartmentModal(props) {
           label="Name"
           type="text"
           defaultValue={props.user.name}
+          {...(name.error
+            ? { error: true, helperText: name.error }
+            : { error: false, helperText: "" })}
           style={{ paddingLeft: "2rem", width: "85%" }}
           InputLabelProps={{
             style: {
@@ -67,7 +75,16 @@ function AddApartmentModal(props) {
           }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setName(e.target.value);
+            if (/^[\da-zA-Z\s-]+$/.test(e.target.value)) {
+              setName({ value: e.target.value, error: null });
+            } else if (e.target.value === "") {
+              setName({ value: e.target.value, error: "Please Enter Name" });
+            } else {
+              setName({
+                value: e.target.value,
+                error: "Please Enter a valid Name",
+              });
+            }
           }}
         />
         <TextField
@@ -77,10 +94,27 @@ function AddApartmentModal(props) {
           type="text"
           fullWidth
           defaultValue={props.user.email}
+          {...(email.error
+            ? { error: true, helperText: email.error }
+            : { error: false, helperText: "" })}
+          FormHelperTextProps={{ style: { fontSize: "1rem" } }}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            setEmail(e.target.value);
+            if (!e.target.value) {
+              setEmail({ value: e.target.value, error: "Please Enter Mail" });
+            } else if (
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                e.target.value
+              )
+            ) {
+              setEmail({ value: e.target.value, error: null });
+            } else {
+              setEmail({
+                value: e.target.value,
+                error: "Please Enter Valid Mail",
+              });
+            }
           }}
         />
         <div
@@ -99,9 +133,9 @@ function AddApartmentModal(props) {
           <RadioGroup
             aria-label="gender"
             name="gender1"
-            value={role}
+            value={role.value}
             onChange={(e) => {
-              setRole(e.target.value);
+              setRole({ value: e.target.value, error: null });
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>

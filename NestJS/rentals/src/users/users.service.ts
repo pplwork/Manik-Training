@@ -39,6 +39,7 @@ export class UsersService {
         HttpStatus.NOT_FOUND,
       );
     }
+    console.log(check.email, user.email);
     if (!check || check.email == user.email) {
       user.name = updateUserDto.name.trim();
       user.password = updateUserDto.password;

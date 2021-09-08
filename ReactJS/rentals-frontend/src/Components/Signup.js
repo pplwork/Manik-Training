@@ -8,22 +8,23 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { startSignup, signup, clearAuthState } from "../actions/auth";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: 270,
-    },
-  },
-}));
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import FilledInput from "@material-ui/core/FilledInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import { FormControl } from "@material-ui/core";
+
 class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: { value: "", error: null },
+      email: { value: "", error: null },
+      password: { value: "", error: null },
+      confirmPassword: { value: "", error: null },
       iconVisible: false,
     };
   }
@@ -32,27 +33,81 @@ class Signup extends Component {
   }
 
   handleInputChange = (field, value) => {
+    let error = null;
+    if (field === "name") {
+      if (!value) {
+        error = "Please Enter Name";
+      } else if (!/^[\da-zA-Z\s-]+$/.test(value)) {
+        error = "Please Enter Valid Name";
+      }
+    } else if (field === "email") {
+      if (!value) {
+        error = "Please Enter Email";
+      } else if (
+        !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          value
+        )
+      ) {
+        error = "Please Enter Valid Email";
+      }
+    } else if (field == "password") {
+      if (!value) {
+        error = "Please Enter Password";
+      } else if (value.length < 6) {
+        error = "Password should be greater than 6 letters";
+      }
+    } else if (field == "confirmPassword") {
+      if (!value) {
+        error = "Please Enter Confirm Password";
+      } else if (value != this.state.password.value) {
+        error = "The password you entered does not match!";
+      }
+    }
     this.setState({
-      [field]: value,
+      [field]: { value: value, error: error },
     });
   };
   onFormSubmit = (e) => {
     e.preventDefault();
-    const { email, password, name } = this.state;
-
-    if (email && password && name) {
+    const { email, password, name, confirmPassword } = this.state;
+    let send = true;
+    if (!email.value) {
+      this.setState({
+        email: { value: email.value, error: "Please Enter Email" },
+      });
+      send = false;
+    }
+    if (!password.value) {
+      this.setState({
+        password: { value: password.value, error: "Please Enter Password" },
+      });
+      send = false;
+    }
+    if (!confirmPassword.value) {
+      this.setState({
+        confirmPassword: {
+          value: confirmPassword.value,
+          error: "Please Enter Confirm Password",
+        },
+      });
+      send = false;
+    }
+    if (!name.value) {
+      this.setState({
+        name: { value: name.value, error: "Please Enter Name" },
+      });
+      send = false;
+    }
+    if (send === true) {
       this.props.dispatch(startSignup());
       this.props.dispatch(signup(name, email, password));
     }
   };
 
-  // const classes = useStyles();
-  // const [iconVisible,setIconVisible]=useState(false);
   render() {
     const { inProgress, error, isLoggedin, isSignedUp } = this.props.auth;
-    if (isSignedUp) {
-      return <Redirect to="/login" />;
-    } else if (isLoggedin) {
+    const { name, email, password, confirmPassword } = this.state;
+    if (isLoggedin) {
       return <Redirect to="/" />;
     }
     return (
@@ -65,9 +120,18 @@ class Signup extends Component {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <TextField
                   id="standard-error"
-                  InputLabelProps={{ style: { fontSize: "1.5rem" } }}
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "1.5rem",
+                      color: name.error ? "red" : "inherit",
+                    },
+                  }}
                   inputProps={{ style: { fontSize: "1.5rem" } }}
                   label="Name"
+                  {...(name.error
+                    ? { error: true, helperText: name.error }
+                    : { error: false, helperText: "" })}
+                  FormHelperTextProps={{ style: { fontSize: "1rem" } }}
                   className="signup__input"
                   type="text"
                   onChange={(e) => {
@@ -76,20 +140,45 @@ class Signup extends Component {
                 />
                 <TextField
                   id="standard-error"
-                  InputLabelProps={{ style: { fontSize: "1.5rem" } }}
-                  inputProps={{ style: { fontSize: "1.5rem" } }}
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "1.5rem",
+                      color: email.error ? "red" : "inherit",
+                    },
+                  }}
+                  inputProps={{
+                    style: {
+                      fontSize: "1.5rem",
+                    },
+                  }}
                   label="Email"
                   className="signup__input"
                   type="email"
+                  {...(email.error
+                    ? { error: true, helperText: email.error }
+                    : { error: false, helperText: "" })}
+                  FormHelperTextProps={{ style: { fontSize: "1rem" } }}
                   onChange={(e) => {
                     this.handleInputChange("email", e.target.value);
                   }}
                 />
-                <div style={{ width: "fit-content", position: "relative" }}>
+                <div
+                  style={{
+                    width: "fit-content",
+                    position: "relative",
+                  }}
+                >
                   <TextField
                     className="standard-error-helper-text signup__input"
                     label="Password"
-                    InputLabelProps={{ style: { fontSize: "1.5rem" } }}
+                    {...(password.error ? { error: true } : { error: false })}
+                    FormHelperTextProps={{ style: { fontSize: "1rem" } }}
+                    InputLabelProps={{
+                      style: {
+                        fontSize: "1.5rem",
+                        color: password.error ? "red" : "inherit",
+                      },
+                    }}
                     inputProps={{ style: { fontSize: "1.5rem" } }}
                     type={this.state.iconVisible ? "text" : "password"}
                     onChange={(e) => {
@@ -111,11 +200,33 @@ class Signup extends Component {
                     }}
                   />
                 </div>
+                {password.error ? (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "1rem",
+                      marginBottom: "0.3rem",
+                    }}
+                  >
+                    {password.error}
+                  </div>
+                ) : (
+                  ""
+                )}
                 <TextField
                   className="standard-error-helper-text"
                   label="Confirm Password"
+                  {...(confirmPassword.error
+                    ? { error: true, helperText: confirmPassword.error }
+                    : { error: false, helperText: "" })}
+                  FormHelperTextProps={{ style: { fontSize: "1rem" } }}
                   style={{ marginLeft: "0", marginBottom: "4rem" }}
-                  InputLabelProps={{ style: { fontSize: "1.5rem" } }}
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "1.5rem",
+                      color: confirmPassword.error ? "red" : "inherit",
+                    },
+                  }}
                   inputProps={{ style: { fontSize: "1.5rem" } }}
                   type="password"
                   onChange={(e) => {

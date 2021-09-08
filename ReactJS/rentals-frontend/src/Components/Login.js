@@ -14,8 +14,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: { value: "", error: null },
+      password: { value: "", error: null },
       iconVisible: false,
     };
   }
@@ -32,13 +32,29 @@ class Login extends Component {
     this.props.dispatch(clearAuthState());
   }
   handleEmailChange = (e) => {
+    let error = null;
+    if (!e.target.value) {
+      error = "Please Enter Email";
+    } else if (
+      !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        e.target.value
+      )
+    ) {
+      error = "Please Enter Valid Email";
+    }
     this.setState({
-      email: e.target.value,
+      email: { value: e.target.value, error: error },
     });
   };
   handlePasswordChange = (e) => {
+    let error = null;
+    if (!e.target.value) {
+      error = "Please Enter Password";
+    } else if (e.target.value.length < 6) {
+      error = "Password should be greater than 6 letters";
+    }
     this.setState({
-      password: e.target.value,
+      password: { value: e.target.value, error: error },
     });
   };
   changeIconVisibleState = () => {
@@ -48,15 +64,28 @@ class Login extends Component {
   };
   handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("this.state", this.state);
+    let send = true;
     const { email, password } = this.state;
-
-    if (email && password) {
-      this.props.dispatch(login(email, password));
+    if (!email.value) {
+      this.setState({
+        email: { value: email.value, error: "Please Enter Email" },
+      });
+      send = false;
+    }
+    if (!password.value) {
+      this.setState({
+        password: { value: password.value, error: "Please Enter Password" },
+      });
+      send = false;
+    }
+    if (email && password && send) {
+      console.log("aaaya");
+      this.props.dispatch(login(email.value, password.value));
     }
   };
   render() {
     const { error, inProgress, isLoggedin } = this.props.auth;
+    const { email, password } = this.state;
     if (isLoggedin) {
       return <Redirect to="/" />;
     }
@@ -68,39 +97,63 @@ class Login extends Component {
             <div className="login__card--right">
               <div className="login__heading">login</div>
               <form noValidate autoComplete="off">
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <TextField
-                    id="standard-error"
-                    InputLabelProps={{ style: { fontSize: "1.5rem" } }}
-                    inputProps={{ style: { fontSize: "1.5rem" } }}
-                    label="Email"
-                    required
-                    style={{ marginLeft: "0", marginBottom: "2rem" }}
-                    type="email"
-                    onChange={this.handleEmailChange}
-                  />
-                  <div style={{ position: "relative", marginBottom: "4rem" }}>
+                <div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <TextField
-                      id="standard-error-helper-text"
-                      label="Password"
-                      style={{ marginLeft: "0", width: "270px" }}
+                      id="standard-error"
                       InputLabelProps={{ style: { fontSize: "1.5rem" } }}
                       inputProps={{ style: { fontSize: "1.5rem" } }}
+                      label="Email"
                       required
-                      error={{ error } ? false : true}
-                      type={this.state.iconVisible ? "text" : "password"}
-                      onChange={this.handlePasswordChange}
+                      {...(email.error
+                        ? { error: true, helperText: email.error }
+                        : { error: false, helperText: "" })}
+                      FormHelperTextProps={{ style: { fontSize: "1rem" } }}
+                      style={{ marginLeft: "0", marginBottom: "2rem" }}
+                      type="email"
+                      onChange={this.handleEmailChange}
                     />
-                    <FontAwesomeIcon
-                      icon={this.state.iconVisible ? faEye : faEyeSlash}
-                      style={{
-                        fontSize: "12px",
-                        position: "absolute",
-                        right: "10px",
-                        bottom: "1rem",
-                      }}
-                      onClick={this.changeIconVisibleState}
-                    />
+                    <div style={{ marginBottom: "5rem" }}>
+                      <div
+                        style={{ position: "relative", marginBottom: "0.3rem" }}
+                      >
+                        <TextField
+                          id="standard-error-helper-text"
+                          label="Password"
+                          {...(password.error
+                            ? { error: true }
+                            : { error: false })}
+                          style={{ marginLeft: "0", width: "270px" }}
+                          InputLabelProps={{ style: { fontSize: "1.5rem" } }}
+                          inputProps={{ style: { fontSize: "1.5rem" } }}
+                          required
+                          type={this.state.iconVisible ? "text" : "password"}
+                          onChange={this.handlePasswordChange}
+                        />
+                        <FontAwesomeIcon
+                          icon={this.state.iconVisible ? faEye : faEyeSlash}
+                          style={{
+                            fontSize: "12px",
+                            position: "absolute",
+                            right: "10px",
+                            bottom: "1rem",
+                          }}
+                          onClick={this.changeIconVisibleState}
+                        />
+                      </div>
+                      {password.error ? (
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "1rem",
+                          }}
+                        >
+                          {password.error}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                   <Button
                     variant="outlined"

@@ -66,7 +66,7 @@ export function createApartment(content) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (!data.statusCode) {
+        if (!data.statusCode && !data.error && !data.status) {
           dispatch(addApartment(data));
         }
       });

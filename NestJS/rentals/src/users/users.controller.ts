@@ -28,12 +28,12 @@ import { User } from './entities/user.entity';
 import { ChangeRoleDto } from './dto/change-role.dto';
 @ApiTags('Users')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @SetMetadata('role', ['admin'])
   @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: User, isArray: true })
   @ApiBadRequestResponse({
     schema: {
@@ -77,8 +77,8 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-  @SetMetadata('role', ['admin'])
-  @UseGuards(RolesGuard)
+  // @SetMetadata('role', ['admin'])
+  // @UseGuards(RolesGuard)
   @ApiOkResponse({ type: User })
   @ApiBadRequestResponse({
     schema: {
@@ -124,6 +124,7 @@ export class UsersController {
   @SetMetadata('role', ['admin'])
   @UseGuards(RolesGuard)
   @Patch('/changeRole')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: User })
   @ApiBadRequestResponse({
     schema: {
@@ -178,6 +179,7 @@ export class UsersController {
   @SetMetadata('role', ['admin'])
   @UseGuards(RolesGuard)
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: User })
   @ApiBadRequestResponse({
     schema: {
@@ -280,6 +282,7 @@ export class UsersController {
       },
     },
   })
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }

@@ -6,13 +6,16 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import SearchIcon from "@material-ui/icons/Search";
 import UserCard from "./UserCard";
-import Button from "@material-ui/core/Button";
 import { APIUrls } from "../helpers/urls";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
+import Geocode from "react-geocode";
 import nothing from "../assets/empty.svg";
 function UserSearch() {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState("");
+  Geocode.setApiKey("AIzaSyAywJ46VQknaZbBSC5aZKgkQHffaoqEDII");
+  Geocode.setLanguage("en");
+  Geocode.setRegion("in");
   const handleSubmit = () => {
     const url = APIUrls.fetchUser(email);
     fetch(url, {

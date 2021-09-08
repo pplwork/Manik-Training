@@ -8,59 +8,71 @@ import {
   SIGNUP_FAILED,
   SIGNUP_SUCCESS,
   CLEAR_AUTH_STATE,
-} from './actionTypes';
-import { APIUrls } from '../helpers/urls';
-import axios from 'axios';
-export function startLogin(){
-    return {
-        type: LOGIN_START
-    };
+} from "./actionTypes";
+import { APIUrls } from "../helpers/urls";
+import axios from "axios";
+export function startLogin() {
+  return {
+    type: LOGIN_START,
+  };
 }
 
-export function loginFailed(errorMessage){
-    return{
-        type: LOGIN_FAILED,
-        error: errorMessage
-    };
+export function loginFailed(errorMessage) {
+  return {
+    type: LOGIN_FAILED,
+    error: errorMessage,
+  };
 }
 
-export function loginSuccess(user){
-    return {
-        type: LOGIN_SUCCESS,
-        user,
-    }
+export function loginSuccess(user) {
+  return {
+    type: LOGIN_SUCCESS,
+    user,
+  };
 }
 
-export function login(email,password){
-    return (dispatch)=>{
-        dispatch(startLogin());
-        const url = APIUrls.login();
-        // axios.post(url ,{
-        //   email,
-        //   password
-        // }).then((res)=>{
-        //   console.log(res.data);
-        // })
-        fetch(url,{
-            method:"POST",
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email,password}),            
-        })
-        .then((response)=>response.json())
-        .then((data)=>{
-            if(data.access_token){
-            localStorage.setItem('token', data.access_token);
-            dispatch(loginSuccess(data.user));
-            return;
-            }
-            dispatch(loginFailed(data.message))
-        })
-    }
+export function login(email, password) {
+  return (dispatch) => {
+    dispatch(startLogin());
+    const url = APIUrls.login();
+    // axios.post(url ,{
+    //   email,
+    //   password
+    // }).then((res)=>{
+    //   console.log(res.data);
+    // })
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.access_token) {
+          localStorage.setItem("token", data.access_token);
+          console.log(data.user);
+          dispatch(loginSuccess(data.user));
+          return;
+        }
+        dispatch(loginFailed(data.message));
+      });
+  };
 }
 
 export function authenticateUser(user) {
+  return (dispatch) => {
+    const url = APIUrls.fetchUser(user.email);
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setAuthenticatedUser(data));
+      });
+  };
+}
+
+export function setAuthenticatedUser(user) {
   return {
     type: AUTHENTICATE_USER,
     user,
@@ -73,26 +85,26 @@ export function logoutUser() {
   };
 }
 
-export function signup(name ,email, password){
-    return (dispatch)=>{
-        const url = APIUrls.signup();
-        fetch(url,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({name,email,password})
-        }).then((response)=>response.json())
-        .then((data)=>{
-          console.log('signup data',data);
-            if(data.name){
-                dispatch(signupSuccessful(data));
-                return ;
-            }
-            dispatch(signupFailed(data.message));
-        });
-
-    }
+export function signup(name, email, password) {
+  return (dispatch) => {
+    const url = APIUrls.signup();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("signup data", data);
+        if (data.name) {
+          dispatch(signupSuccessful(data));
+          return;
+        }
+        dispatch(signupFailed(data.message));
+      });
+  };
 }
 export function startSignup() {
   return {

@@ -4,6 +4,58 @@ import Slider from "@material-ui/core/Slider";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchApartments, fetchFilterApartments } from "../actions/apartments";
 import ApartmentCard from "./ApartmentCard";
+import WrappedMap from "./Map";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Toolbar from "@material-ui/core/Toolbar";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+const Accordion = withStyles({
+  root: {
+    border: "1px solid rgba(0, 0, 0, .125)",
+    boxShadow: "none",
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    "&:before": {
+      display: "none",
+    },
+    "&$expanded": {
+      margin: "auto",
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
+
+const AccordionSummary = withStyles({
+  root: {
+    backgroundColor: "rgba(0, 0, 0, .03)",
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
+    marginBottom: -1,
+    minHeight: 56,
+    "&$expanded": {
+      minHeight: 56,
+    },
+  },
+  content: {
+    "&$expanded": {
+      margin: "12px 0",
+    },
+  },
+  expanded: {},
+})(MuiAccordionSummary);
+
+const AccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiAccordionDetails);
+const drawerWidth = 240;
 function valuetext(value) {
   return `${value}`;
 }
@@ -82,12 +134,34 @@ const sizeMarks = [
     label: "4000 sq.ft.",
   },
 ];
-
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerContainer: {
+    overflow: "auto",
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
 function Home() {
   const [budgetValue, setBudgetValue] = React.useState([1, 80]);
   const [bedroomValue, setBedroomValue] = React.useState([1, 6]);
   const [sizeValue, setSizeValue] = React.useState([1, 3500]);
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(async () => {
     await dispatch(fetchApartments());
@@ -105,9 +179,46 @@ function Home() {
     setSizeValue(newValue);
   };
   const apartments = useSelector((state) => state.apartments);
-  console.log("apartments are", apartments);
+  const [expanded, setExpanded] = React.useState("");
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
   return (
     <div className="home">
+      <div className="drawer">
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <Toolbar />
+          <div className={classes.drawerContainer}>
+            {/* <Divider /> */}
+            <Accordion
+              square
+              expanded={expanded === "panel1"}
+              onChange={handleChange("panel1")}
+            >
+              <AccordionSummary
+                aria-controls="panel1d-content"
+                id="panel1d-header"
+                style={{
+                  backgroundColor: "#ffffff",
+                }}
+              >
+                <Typography>Apartments</Typography>
+                <ExpandMore style={{ marginLeft: "auto" }} />
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>Okay</Typography>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </Drawer>
+      </div>
       <div className="home__filter">
         <div className="filter__heading">Filters</div>
         <div className="divider"></div>
@@ -166,6 +277,18 @@ function Home() {
         </div>
       </div>
       <div className="home__apartments">
+        <div className="map">
+          <WrappedMap
+            app={apartments}
+            googleMapURL={
+              "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAywJ46VQknaZbBSC5aZKgkQHffaoqEDII"
+            }
+            loadingElement={<div style={{ height: "100%" }} />}
+            containerElement={<div style={{ height: "400px" }} />}
+            mapElement={<div style={{ height: "100%" }} />}
+          />
+        </div>
+        <div className="home__title">Propery for Rent in Delhi for Family</div>
         {apartments
           ? apartments.map((app) => {
               return <ApartmentCard app={app} key={app.id} />;

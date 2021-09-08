@@ -63,10 +63,10 @@ export class CreateAppartmentDto {
   Rooms: number;
 
   @ApiProperty({
-    example: '150.36.92',
-    description: 'Coordinates of Apartment',
+    example: 'House no. 82 , Aravali Apartments, Dwarka sec-14 , New Delhi',
+    description: 'Address of Apartment',
   })
   @IsNotEmpty()
-  @IsLatLong()
-  geoCord: string;
+  @Matches(/[\da-zA-Z\s\.(),-]+/)
+  Address: string;
 }
