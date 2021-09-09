@@ -13,17 +13,15 @@ import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 function AddApartmentModal(props) {
   const { open, handleClose } = props;
   const [name, setName] = useState({ value: props.user.name, error: null });
   const [email, setEmail] = useState({ value: props.user.email, error: null });
   const [role, setRole] = useState({ value: props.user.role, error: null });
-  //   const dispatch = useDispatch();
   const handleSubmit = () => {
     const url = APIUrls.updateUser(props.user.id);
-    console.log(name, email, role);
+    console.log(email.value);
     fetch(url, {
       method: "PUT",
       headers: {
@@ -39,9 +37,14 @@ function AddApartmentModal(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (!data.status) {
+        if (data.id) {
           props.setUser(data);
           handleClose();
+          props.setOpen(true);
+          props.setError({ value: null, message: "User updated successfuly!" });
+        } else {
+          props.setOpen(true);
+          props.setError({ value: true, message: data.message });
         }
       });
   };

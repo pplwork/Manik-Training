@@ -11,6 +11,7 @@ import {
 } from "./actionTypes";
 import { APIUrls } from "../helpers/urls";
 import axios from "axios";
+import { toast } from "react-toastify";
 export function startLogin() {
   return {
     type: LOGIN_START,
@@ -35,12 +36,6 @@ export function login(email, password) {
   return (dispatch) => {
     dispatch(startLogin());
     const url = APIUrls.login();
-    // axios.post(url ,{
-    //   email,
-    //   password
-    // }).then((res)=>{
-    //   console.log(res.data);
-    // })
     fetch(url, {
       method: "POST",
       headers: {

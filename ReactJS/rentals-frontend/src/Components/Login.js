@@ -8,6 +8,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, Redirect } from "react-router-dom";
 import { login, clearAuthState } from "../actions/auth";
 import { connect } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import axios from 'axios';
 
 class Login extends Component {
@@ -65,6 +67,7 @@ class Login extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     let send = true;
+    toast("🦄 Wow so easy!");
     const { email, password } = this.state;
     if (!email.value) {
       this.setState({
@@ -86,6 +89,8 @@ class Login extends Component {
   render() {
     const { error, inProgress, isLoggedin } = this.props.auth;
     const { email, password } = this.state;
+    if (inProgress) {
+    }
     if (isLoggedin) {
       return <Redirect to="/" />;
     }
@@ -179,6 +184,17 @@ class Login extends Component {
             </div>
           </div>
         </div>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </>
     );
   }

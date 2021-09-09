@@ -26,6 +26,8 @@ export class UsersService {
     if (!user) {
       this.exception();
     }
+    console.log(user);
+    console.log(updateUserDto.email);
     let check = await this.userRepo.findOne({
       email: updateUserDto.email.toLowerCase().trim(),
     });
@@ -50,7 +52,7 @@ export class UsersService {
       throw new HttpException(
         {
           status: HttpStatus.CONFLICT,
-          error: 'Email already taken',
+          message: 'Email already taken',
         },
         HttpStatus.CONFLICT,
       );
@@ -85,10 +87,7 @@ export class UsersService {
   }
   exception() {
     throw new HttpException(
-      {
-        status: HttpStatus.NOT_FOUND,
-        error: 'User not found with the given id',
-      },
+      'User not found With the given ID',
       HttpStatus.NOT_FOUND,
     );
   }

@@ -38,6 +38,11 @@ function UserCard(props) {
         if (!data.status) {
           handleClosePoper();
           props.setUser("");
+          props.setOpen(true);
+          props.setError({ value: null, message: "User deleted sucessfuly!" });
+        } else {
+          props.setOpen(true);
+          props.setError({ value: true, message: "User not deleted!" });
         }
       });
   };
@@ -65,6 +70,8 @@ function UserCard(props) {
           open={open}
           handleClose={handleClose}
           setUser={props.setUser}
+          setError={props.setError}
+          setOpen={props.setOpen}
         />
         <Button
           color="secondary"
