@@ -18,11 +18,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import {
-  addApartment,
-  changeApartment,
-  createApartment,
-} from "../actions/apartments";
+import { changeApartment, createApartment } from "../actions/apartments";
 function AddApartmentModal(props) {
   const { open, handleClose, app } = props;
   const [name, setName] = useState(
@@ -73,7 +69,7 @@ function AddApartmentModal(props) {
     let floorSize = parseInt(floorsize.value);
     let price = parseInt(ammount.value);
     let send = true;
-    if (isRentable == "true") {
+    if (isRentable === "true") {
       isRentable = true;
     } else {
       isRentable = false;
@@ -120,23 +116,27 @@ function AddApartmentModal(props) {
             Rooms: Rooms.value,
             isRentable,
           },
-          app.id
+          app.id,
+          handleClose
         )
       );
-      handleClose();
+      // handleClose();
     } else {
       dispatch(
-        createApartment({
-          name: name.value,
-          description: description.value,
-          floorSize,
-          price,
-          photoLink: photoLink.value,
-          Address: Address.value,
-          Rooms: Rooms.value,
-        })
+        createApartment(
+          {
+            name: name.value,
+            description: description.value,
+            floorSize,
+            price,
+            photoLink: photoLink.value,
+            Address: Address.value,
+            Rooms: Rooms.value,
+          },
+          handleClose
+        )
       );
-      handleClose();
+      // handleClose();
     }
   };
   return (
@@ -203,7 +203,7 @@ function AddApartmentModal(props) {
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            if (e.target.value == "") {
+            if (e.target.value === "") {
               setDescription({
                 value: e.target.value,
                 error: "Please Enter Description",

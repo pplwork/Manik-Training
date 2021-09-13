@@ -31,7 +31,4 @@ function Landing() {
     </>
   );
 }
-const mapStateToProps = ({ auth }) => ({
-  auth,
-});
 export default Landing;

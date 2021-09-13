@@ -100,7 +100,7 @@ class Signup extends Component {
     }
     if (send === true) {
       this.props.dispatch(startSignup());
-      this.props.dispatch(signup(name, email, password));
+      this.props.dispatch(signup(name.value, email.value, password.value));
     }
   };
 

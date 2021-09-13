@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./ApartmentCard.scss";
 import Button from "@material-ui/core/Button";
 import AddApartmentModal from "./AddApartmentModal";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteApartment } from "../actions/apartments";
 function ApartmentCard(props) {
   const { app } = props;
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const auth = useSelector((state) => state.auth);
   const openPoper = Boolean(anchorEl);
   const dispatch = useDispatch();
   const id = openPoper ? "simple-popover" : undefined;
@@ -59,8 +60,35 @@ function ApartmentCard(props) {
           Posted by Realtor
           <h2>{app.realtor.name}</h2>
         </div>
-
-        <Button
+        {auth.user.role == "user" ? (
+          <Button
+            className="apartment__btn"
+            style={{ marginLeft: "auto" }}
+            variant="contained"
+            color="primary"
+          >
+            Contact Realtor
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant="outlined"
+              onClick={handleClickOpen}
+              style={{ marginLeft: "auto", marginRight: "1rem" }}
+            >
+              Edit
+            </Button>
+            <AddApartmentModal
+              app={app}
+              open={open}
+              handleClose={handleClose}
+            />
+            <Button variant="outlined" color="secondary" onClick={handleClick}>
+              Delete
+            </Button>
+          </>
+        )}
+        {/* <Button
           className="apartment__btn"
           style={{ marginLeft: "auto" }}
           variant="contained"
@@ -74,7 +102,7 @@ function ApartmentCard(props) {
         <AddApartmentModal app={app} open={open} handleClose={handleClose} />
         <Button variant="outlined" color="secondary" onClick={handleClick}>
           Delete
-        </Button>
+        </Button> */}
         <Popover
           id={id}
           open={openPoper}

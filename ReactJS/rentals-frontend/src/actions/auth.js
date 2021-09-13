@@ -34,25 +34,43 @@ export function loginSuccess(user) {
 
 export function login(email, password) {
   return (dispatch) => {
-    dispatch(startLogin());
-    const url = APIUrls.login();
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    let promise = new Promise((resolve, reject) => {
+      dispatch(startLogin());
+      const url = APIUrls.login();
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.access_token) {
+            localStorage.setItem("token", data.access_token);
+            console.log(data.user);
+            dispatch(loginSuccess(data.user));
+            resolve("Login Sucessful!");
+            return;
+          }
+          reject(data.message);
+          dispatch(loginFailed(data.error));
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.access_token) {
-          localStorage.setItem("token", data.access_token);
-          console.log(data.user);
-          dispatch(loginSuccess(data.user));
-          return;
-        }
-        dispatch(loginFailed(data.message));
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
 }
 
@@ -75,6 +93,7 @@ export function setAuthenticatedUser(user) {
 }
 
 export function logoutUser() {
+  localStorage.removeItem("token");
   return {
     type: LOG_OUT,
   };
@@ -82,23 +101,40 @@ export function logoutUser() {
 
 export function signup(name, email, password) {
   return (dispatch) => {
-    const url = APIUrls.signup();
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.signup();
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("signup data", data);
+          if (data.name) {
+            dispatch(signupSuccessful(data));
+            resolve("Sign up Successful");
+            return;
+          }
+          reject(data.message);
+          dispatch(signupFailed(data.message));
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-      body: JSON.stringify({ name, email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("signup data", data);
-        if (data.name) {
-          dispatch(signupSuccessful(data));
-          return;
-        }
-        dispatch(signupFailed(data.message));
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
 }
 export function startSignup() {

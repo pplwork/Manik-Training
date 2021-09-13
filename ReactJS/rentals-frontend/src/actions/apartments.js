@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   UPDATE_APARTMENT,
   ADD_APARTMENT,
@@ -18,7 +19,10 @@ export function fetchApartments() {
     })
       .then((response) => response.json())
       .then((data) => {
-        dispatch(updateApartments(data));
+        console.log(data);
+        if (!data.statusCode && !data.status && !data.error) {
+          dispatch(updateApartments(data));
+        }
       });
   };
 }
@@ -52,9 +56,10 @@ export function addApartment(apartment) {
   };
 }
 
-export function createApartment(content) {
+export function createApartment(content, handleClose) {
   return (dispatch) => {
     const url = APIUrls.createApartment();
+    console.log(content);
     fetch(url, {
       method: "POST",
       headers: {
@@ -68,10 +73,15 @@ export function createApartment(content) {
         console.log(data);
         if (!data.statusCode && !data.error && !data.status) {
           dispatch(addApartment(data));
+          toast.success("Apartment added Sucessfuly!");
+          handleClose();
+        } else {
+          toast.error(`${data.message}`);
         }
       });
   };
 }
+
 export function changeUpdate(apartment) {
   return {
     type: CHANGE_APARTMENT,
@@ -79,7 +89,7 @@ export function changeUpdate(apartment) {
   };
 }
 
-export function changeApartment(content, id) {
+export function changeApartment(content, id, handleClose) {
   return (dispatch) => {
     const url = APIUrls.changeApartment(id);
     fetch(url, {
@@ -93,7 +103,13 @@ export function changeApartment(content, id) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        dispatch(changeUpdate(data));
+        if (!data.statusCode && !data.error && !data.status) {
+          dispatch(changeUpdate(data));
+          toast.success("Apartment Edited Sucessfuly!");
+          handleClose();
+        } else {
+          toast.error(`${data.message}`);
+        }
       });
   };
 }
@@ -117,6 +133,7 @@ export function deleteApartment(id) {
       .then((data) => {
         if (!data.status) {
           dispatch(deleteUpdate(id));
+          toast.success("Apartment Deleted Successfuly!");
         }
       });
   };

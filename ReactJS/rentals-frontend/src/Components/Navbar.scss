@@ -33,3 +33,23 @@
   gap: 12rem;
   margin: 2rem 0;
 }
+
+.nav {
+  &__list {
+    position: absolute;
+    display: none;
+    box-shadow: 0px 0px 3px 2px #00000038;
+    top: 5.7rem;
+    left: 1rem;
+    color: black;
+    background-color: white;
+  }
+  &__wrapper {
+    display: flex;
+    height: 6.5rem;
+    align-items: center;
+    &:hover .nav__list {
+      display: block;
+    }
+  }
+}

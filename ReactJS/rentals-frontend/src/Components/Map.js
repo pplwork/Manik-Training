@@ -6,7 +6,6 @@ import {
   Marker,
   InfoWindow,
 } from "react-google-maps";
-import home from "../assets/home.png";
 import MapCard from "./MapCard";
 import mapstyles from "./mapStyle";
 function Map({ app }) {

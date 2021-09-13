@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./MapCard.scss";
 import Button from "@material-ui/core/Button";
-import AddApartmentModal from "./AddApartmentModal";
-import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
 function MapCard(props) {
   const { app } = props;
 

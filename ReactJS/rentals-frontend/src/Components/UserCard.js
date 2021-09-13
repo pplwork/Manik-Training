@@ -7,10 +7,13 @@ import Typography from "@material-ui/core/Typography";
 import EditUserModal from "./EditUserModal";
 import { APIUrls } from "../helpers/urls";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 function UserCard(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openPoper = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
+  const auth = useSelector((state) => state.auth);
 
   const id = openPoper ? "simple-popover" : undefined;
   const handleClosePoper = () => {
@@ -35,14 +38,13 @@ function UserCard(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.status) {
+        console.log(data);
+        if (data.name) {
           handleClosePoper();
           props.setUser("");
-          props.setOpen(true);
-          props.setError({ value: null, message: "User deleted sucessfuly!" });
+          toast.success("User Deleted!");
         } else {
-          props.setOpen(true);
-          props.setError({ value: true, message: "User not deleted!" });
+          toast.error(data.message);
         }
       });
   };
@@ -61,67 +63,69 @@ function UserCard(props) {
           <span style={{ textTransform: "capitalize" }}>{props.user.role}</span>
         </div>
       </div>
-      <div className="userCard__btnWrapper">
-        <Button className="userCard__btn" onClick={handleClickOpen}>
-          Edit
-        </Button>
-        <EditUserModal
-          user={props.user}
-          open={open}
-          handleClose={handleClose}
-          setUser={props.setUser}
-          setError={props.setError}
-          setOpen={props.setOpen}
-        />
-        <Button
-          color="secondary"
-          className="userCard__btn"
-          onClick={handleClick}
-        >
-          Delete
-        </Button>
-        <Popover
-          id={id}
-          open={openPoper}
-          anchorEl={anchorEl}
-          className="popper"
-          onClose={handleClosePoper}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-        >
-          <Typography
-            style={{
-              fontSize: "1.2rem",
-              padding: "0.7rem",
+      {auth.user.role === "admin" ? (
+        <div className="userCard__btnWrapper">
+          <Button className="userCard__btn" onClick={handleClickOpen}>
+            Edit
+          </Button>
+          <EditUserModal
+            user={props.user}
+            open={open}
+            handleClose={handleClose}
+            setUser={props.setUser}
+          />
+          <Button
+            color="secondary"
+            className="userCard__btn"
+            onClick={handleClick}
+          >
+            Delete
+          </Button>
+          <Popover
+            id={id}
+            open={openPoper}
+            anchorEl={anchorEl}
+            className="popper"
+            onClose={handleClosePoper}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
             }}
           >
-            Are you sure you want to delete?
-          </Typography>
-          <div className="helper__btn">
-            <Button
-              style={{ height: "3rem" }}
-              variant="outlined"
-              onClick={handleClosePoper}
+            <Typography
+              style={{
+                fontSize: "1.2rem",
+                padding: "0.7rem",
+              }}
             >
-              Cancel
-            </Button>
-            <Button
-              style={{ height: "3rem" }}
-              variant="outlined"
-              color="secondary"
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
-          </div>
-        </Popover>
-      </div>
+              Are you sure you want to delete?
+            </Typography>
+            <div className="helper__btn">
+              <Button
+                style={{ height: "3rem" }}
+                variant="outlined"
+                onClick={handleClosePoper}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ height: "3rem" }}
+                variant="outlined"
+                color="secondary"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </div>
+          </Popover>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

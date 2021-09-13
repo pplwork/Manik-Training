@@ -10,9 +10,7 @@ import { APIUrls } from "../helpers/urls";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 import Geocode from "react-geocode";
 import nothing from "../assets/empty.svg";
-import axios from "axios";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
+import { toast } from "react-toastify";
 function UserSearch() {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState("");
@@ -46,15 +44,10 @@ function UserSearch() {
         console.log(data);
         if (data.id) {
           setUser(data);
-          setOpen(true);
-          setError({ value: false, message: "User Found!" });
+          toast.success("User Found !");
         } else {
           setUser("");
-          setOpen(true);
-          setError({
-            value: true,
-            message: "User not found with given Email!",
-          });
+          toast.error(data.message);
         }
       });
   };
@@ -70,17 +63,6 @@ function UserSearch() {
       Email.removeEventListener("keypress", fun);
     };
   }, [handleSubmit]);
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
   return (
     <div className="search">
       <div>
@@ -110,12 +92,7 @@ function UserSearch() {
       </div>
       <div>
         {user ? (
-          <UserCard
-            user={user}
-            setUser={setUser}
-            setOpen={setOpen}
-            setError={setError}
-          />
+          <UserCard user={user} setUser={setUser} />
         ) : (
           <div
             style={{
@@ -138,37 +115,6 @@ function UserSearch() {
           </div>
         )}
       </div>
-      {error.value ? (
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={open}
-          autoHideDuration={1500}
-          onClose={handleClose}
-        >
-          <Alert
-            severity="error"
-            onClose={handleClose}
-            style={{ fontSize: "1.2rem" }}
-          >
-            {error.message}
-          </Alert>
-        </Snackbar>
-      ) : (
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={open}
-          autoHideDuration={1500}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            style={{ fontSize: "1.2rem" }}
-          >
-            {error.message}
-          </Alert>
-        </Snackbar>
-      )}
     </div>
   );
 }

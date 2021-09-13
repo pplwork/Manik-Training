@@ -1,7 +1,7 @@
 .home {
-  width: 100%;
+  // width: 100%;
   background-color: #f4f4f4;
-  min-height: 91.5vh;
+  height: 91vh;
   display: flex;
   &__filter {
     width: 30rem;
@@ -9,24 +9,25 @@
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    // margin-left: 15rem;
-    margin-top: 5rem;
+    margin-left: 3rem;
+    margin-top: 4rem;
     border-radius: 0.5rem;
     padding: 2rem;
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.212);
   }
   &__apartments {
-    width: 82rem;
-    padding: 3rem 2rem 0rem 2rem;
+    flex: 1;
+    padding: 1rem 6rem 0rem 6rem;
     height: 91.5vh;
-    margin-left: 10rem;
+    // border: 2px solid red;
+    // margin-left: 5rem;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;
     }
   }
   &__title {
-    padding: 3rem 0rem;
+    padding: 2rem 0rem;
     font-size: 1.75rem;
     font-weight: 600;
     color: black;
@@ -60,4 +61,22 @@
 
 .map {
   margin-bottom: 3rem;
+}
+
+.homepagemain {
+  display: flex;
+  flex: 1;
+  background-color: #f4f4f4;
+}
+.sidebar {
+  &__links {
+    text-decoration: none;
+    color: black;
+    font-size: 1.1rem;
+  }
+  &__ele {
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
 }

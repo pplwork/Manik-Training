@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -14,6 +13,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
+import { toast } from "react-toastify";
 function AddApartmentModal(props) {
   const { open, handleClose } = props;
   const [name, setName] = useState({ value: props.user.name, error: null });
@@ -40,11 +40,9 @@ function AddApartmentModal(props) {
         if (data.id) {
           props.setUser(data);
           handleClose();
-          props.setOpen(true);
-          props.setError({ value: null, message: "User updated successfuly!" });
+          toast.success("User edited Successfuly");
         } else {
-          props.setOpen(true);
-          props.setError({ value: true, message: data.message });
+          toast.error(data.message);
         }
       });
   };

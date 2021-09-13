@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,9 +10,9 @@ import icon from "../assets/icon-white.png";
 import { Link } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddApartmentModal from "./AddApartmentModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import { logoutUser } from "../actions/auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -36,6 +36,7 @@ export default function ButtonAppBar() {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const [open, setOpen] = React.useState(false);
+  const disatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openProfile = Boolean(anchorEl);
   const handleClickOpen = () => {
@@ -44,11 +45,8 @@ export default function ButtonAppBar() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleLogout = () => {
+    disatch(logoutUser());
   };
   return (
     <div className={classes.root}>
@@ -70,16 +68,21 @@ export default function ButtonAppBar() {
               rentals
             </Typography>
           </Link>
-          <Button
-            style={{
-              color: "white",
-              fontSize: "1.3rem",
-              textTransform: "capitalize",
-            }}
-            onClick={handleClickOpen}
-          >
-            Post Property
-          </Button>
+          {auth.user.role === "admin" && auth.user ? (
+            <Button
+              style={{
+                color: "white",
+                fontSize: "1.3rem",
+                textTransform: "capitalize",
+              }}
+              onClick={handleClickOpen}
+            >
+              Post Property
+            </Button>
+          ) : (
+            ""
+          )}
+
           <AddApartmentModal open={open} handleClose={handleClose} />
           {!auth.isLoggedin ? (
             <>
@@ -96,34 +99,35 @@ export default function ButtonAppBar() {
             </>
           ) : (
             <>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={handleMenu}
-              >
-                <AccountCircle style={{ fontSize: "2.5rem" }} />
-              </IconButton>
-              <div>{auth.user.name}</div>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "bottom",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "bottom",
-                }}
-                open={openProfile}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-              </Menu>
+              <div className="nav__wrapper">
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  style={{ position: "relative" }}
+                >
+                  <AccountCircle style={{ fontSize: "2.5rem" }} />
+                  <div className="nav__list">
+                    <Link className="sidebar__links" to="user/profile">
+                      <MenuItem style={{ fontSize: "1.5rem" }}>
+                        Profile
+                      </MenuItem>
+                    </Link>
+                    <MenuItem
+                      onClick={handleLogout}
+                      style={{ fontSize: "1.5rem" }}
+                    >
+                      Sign out
+                    </MenuItem>
+                  </div>
+                </IconButton>
+                <div
+                  style={{ fontSize: "1.5rem", textTransform: "capitalize" }}
+                >
+                  {auth.user.name}
+                </div>
+              </div>
             </>
           )}
         </Toolbar>
