@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: "10",
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 101,
     position: "relative",
   },
   menuButton: {
@@ -82,7 +82,6 @@ export default function ButtonAppBar() {
           ) : (
             ""
           )}
-
           <AddApartmentModal open={open} handleClose={handleClose} />
           {!auth.isLoggedin ? (
             <>
@@ -109,7 +108,7 @@ export default function ButtonAppBar() {
                 >
                   <AccountCircle style={{ fontSize: "2.5rem" }} />
                   <div className="nav__list">
-                    <Link className="sidebar__links" to="user/profile">
+                    <Link className="sidebar__links" to="/user/profile">
                       <MenuItem style={{ fontSize: "1.5rem" }}>
                         Profile
                       </MenuItem>

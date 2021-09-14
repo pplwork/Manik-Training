@@ -18,7 +18,7 @@ export class CreateAppartmentDto {
     description: 'Enter the name of your Apartment',
   })
   @IsNotEmpty()
-  @Matches(/^[a-z\d\-_\s]+$/i, {
+  @Matches(/^[\da-zA-Z\s-]+$/, {
     message: 'Name must contain only Alphabet and Numbers',
   })
   @MaxLength(25)
@@ -28,9 +28,6 @@ export class CreateAppartmentDto {
     description: 'About the apartment',
   })
   @IsNotEmpty()
-  @Matches(/^[a-z\d\-_\s]+$/i, {
-    message: 'Name must contain only Alphabet and Numbers',
-  })
   @MaxLength(250)
   description: string;
   @ApiProperty({

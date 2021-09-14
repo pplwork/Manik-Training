@@ -30,9 +30,6 @@ export class UpdateAppartmentDto extends PartialType(CreateAppartmentDto) {
     description: 'About the apartment',
   })
   @IsNotEmpty()
-  @Matches(/^[a-z\d\-_\s]+$/i, {
-    message: 'Name must contain only Alphabet and Numbers',
-  })
   @MaxLength(250)
   description: string;
 

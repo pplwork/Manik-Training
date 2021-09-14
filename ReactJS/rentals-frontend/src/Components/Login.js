@@ -103,6 +103,7 @@ class Login extends Component {
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <TextField
                       id="standard-error"
+                      className="login__input"
                       InputLabelProps={{ style: { fontSize: "1.5rem" } }}
                       inputProps={{ style: { fontSize: "1.5rem" } }}
                       label="Email"
@@ -122,6 +123,7 @@ class Login extends Component {
                         <TextField
                           id="standard-error-helper-text"
                           label="Password"
+                          className="login__input"
                           {...(password.error
                             ? { error: true }
                             : { error: false })}

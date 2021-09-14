@@ -14,6 +14,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { toast } from "react-toastify";
+import "./EditUserModal.scss";
 function AddApartmentModal(props) {
   const { open, handleClose } = props;
   const [name, setName] = useState({ value: props.user.name, error: null });
@@ -63,11 +64,11 @@ function AddApartmentModal(props) {
           id="name"
           label="Name"
           type="text"
+          className="edit__input"
           defaultValue={props.user.name}
           {...(name.error
             ? { error: true, helperText: name.error }
             : { error: false, helperText: "" })}
-          style={{ paddingLeft: "2rem", width: "85%" }}
           InputLabelProps={{
             style: {
               fontSize: "1.5rem",

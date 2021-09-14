@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-function HomeMainPage() {
+function HomeMainPage(props) {
   const apartments = useSelector((state) => state.apartments);
   const [budgetValue, setBudgetValue] = React.useState([1, 80]);
   const [bedroomValue, setBedroomValue] = React.useState([1, 6]);
@@ -129,63 +129,66 @@ function HomeMainPage() {
 
   return (
     <div className="homepagemain">
-      <div className="home__filter">
-        <div className="filter__heading">Filters</div>
-        <div className="divider"></div>
-        <div className="filter__box filter__budget">
-          <div className="filter__budget--heading">Budget (in Lac)</div>
-          <div>
-            <Slider
-              value={budgetValue}
-              onChange={handleChangeBudget}
-              onChangeCommitted={handleSubmitFilter}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              getAriaValueText={valuetext}
-              step={4}
-              style={{ color: "#101D2C" }}
-              marks={BudgetMarks}
-            />
+      {props.right ? null : (
+        <div className="home__filter ml-mt-md">
+          <div className="filter__heading">Filters</div>
+          <div className="divider"></div>
+          <div className="filter__box filter__budget">
+            <div className="filter__budget--heading">Budget (in Lac)</div>
+            <div>
+              <Slider
+                value={budgetValue}
+                onChange={handleChangeBudget}
+                onChangeCommitted={handleSubmitFilter}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+                step={4}
+                style={{ color: "#101D2C" }}
+                marks={BudgetMarks}
+              />
+            </div>
+          </div>
+          <div className="divider"></div>
+          <div className="filter__box filter__bedroom">
+            <div className="filter__budget--heading">No. of BedRooms</div>
+            <div>
+              <Slider
+                value={bedroomValue}
+                onChange={handleChangeBedroom}
+                onChangeCommitted={handleSubmitFilter}
+                valueLabelDisplay="off"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+                min={1}
+                max={6}
+                style={{ color: "#101D2C", width: "95%" }}
+                marks={marks}
+              />
+            </div>
+          </div>
+          <div className="divider"></div>
+          <div className="filter__box filter__size">
+            <div className="filter__budget--heading">Size</div>
+            <div>
+              <Slider
+                value={sizeValue}
+                onChange={handleSize}
+                onChangeCommitted={handleSubmitFilter}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                getAriaValueText={valuetext}
+                min={0}
+                step={100}
+                max={4000}
+                style={{ color: "#101D2C", width: "95%" }}
+                marks={sizeMarks}
+              />
+            </div>
           </div>
         </div>
-        <div className="divider"></div>
-        <div className="filter__box filter__bedroom">
-          <div className="filter__budget--heading">No. of BedRooms</div>
-          <div>
-            <Slider
-              value={bedroomValue}
-              onChange={handleChangeBedroom}
-              onChangeCommitted={handleSubmitFilter}
-              valueLabelDisplay="off"
-              aria-labelledby="range-slider"
-              getAriaValueText={valuetext}
-              min={1}
-              max={6}
-              style={{ color: "#101D2C", width: "95%" }}
-              marks={marks}
-            />
-          </div>
-        </div>
-        <div className="divider"></div>
-        <div className="filter__box filter__size">
-          <div className="filter__budget--heading">Size</div>
-          <div>
-            <Slider
-              value={sizeValue}
-              onChange={handleSize}
-              onChangeCommitted={handleSubmitFilter}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              getAriaValueText={valuetext}
-              min={0}
-              step={100}
-              max={4000}
-              style={{ color: "#101D2C", width: "95%" }}
-              marks={sizeMarks}
-            />
-          </div>
-        </div>
-      </div>
+      )}
+
       <div className="home__apartments">
         <div className="home__title">View Property on Map</div>
         <div className="map">

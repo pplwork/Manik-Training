@@ -117,8 +117,14 @@ class Signup extends Component {
           <div className="signup__card--right">
             <div className="signup__heading">sign up</div>
             <form noValidate autoComplete="off">
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 <TextField
+                  fullWidth
                   id="standard-error"
                   InputLabelProps={{
                     style: {
@@ -214,7 +220,7 @@ class Signup extends Component {
                   ""
                 )}
                 <TextField
-                  className="standard-error-helper-text"
+                  className="standard-error-helper-text signup__input"
                   label="Confirm Password"
                   {...(confirmPassword.error
                     ? { error: true, helperText: confirmPassword.error }

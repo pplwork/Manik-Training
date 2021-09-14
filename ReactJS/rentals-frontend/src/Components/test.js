@@ -12,8 +12,18 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import "./test.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import MenuIcon from "@material-ui/icons/Menu";
+import { faArrowRight, faHamburger } from "@fortawesome/free-solid-svg-icons";
 import AddApartmentModal from "./AddApartmentModal";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 // import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
   list: {
@@ -23,7 +33,46 @@ const useStyles = makeStyles({
     width: "auto",
   },
 });
+const Accordion = withStyles({
+  root: {
+    border: "1px solid rgba(0, 0, 0, .125)",
+    boxShadow: "none",
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    "&:before": {
+      display: "none",
+    },
+    "&$expanded": {
+      margin: "auto",
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
 
+const AccordionSummary = withStyles({
+  root: {
+    backgroundColor: "rgba(0, 0, 0, .03)",
+    borderBottom: "1px solid rgba(0, 0, 0, .125)",
+    marginBottom: -1,
+    minHeight: 56,
+    "&$expanded": {
+      minHeight: 56,
+    },
+  },
+  content: {
+    "&$expanded": {
+      margin: "12px 0",
+    },
+  },
+  expanded: {},
+})(MuiAccordionSummary);
+
+const AccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiAccordionDetails);
 export default function TemporaryDrawer() {
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -32,7 +81,11 @@ export default function TemporaryDrawer() {
     bottom: false,
     right: false,
   });
-
+  const auth = useSelector((state) => state.auth);
+  const [expanded, setExpanded] = React.useState("");
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -50,30 +103,70 @@ export default function TemporaryDrawer() {
         [classes.fullList]: anchor === "top" || anchor === "bottom",
       })}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+      style={{ marginTop: "25rem" }}
     >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <div className={classes.drawerContainer}>
+        {/* <Divider /> */}
+        <Accordion
+          square
+          expanded={expanded === "panel1"}
+          onChange={handleChange("panel1")}
+        >
+          <AccordionSummary
+            aria-controls="panel1d-content"
+            id="panel1d-header"
+            style={{
+              backgroundColor: "#ffffff",
+            }}
+          >
+            <Typography style={{ fontSize: "1.3rem", fontWeight: "500" }}>
+              Apartments
+            </Typography>
+            <ExpandMore style={{ marginLeft: "auto" }} />
+          </AccordionSummary>
+          <AccordionDetails className="sidebar__ele">
+            <Link
+              className="sidebar__links"
+              to="/home"
+              onClick={toggleDrawer(anchor, false)}
+            >
+              <Typography>View Apartments</Typography>
+            </Link>
+          </AccordionDetails>
+        </Accordion>
+        {auth.user.role === "admin" ? (
+          <Accordion
+            square
+            expanded={expanded === "panel2"}
+            onChange={handleChange("panel2")}
+          >
+            <AccordionSummary
+              aria-controls="panel1d-content"
+              id="panel1d-header"
+              style={{
+                backgroundColor: "#ffffff",
+              }}
+            >
+              <Typography style={{ fontSize: "1.3rem", fontWeight: "500" }}>
+                Users
+              </Typography>
+              <ExpandMore style={{ marginLeft: "auto" }} />
+            </AccordionSummary>
+            <AccordionDetails className="sidebar__ele">
+              <Link
+                className="sidebar__links"
+                to="/users"
+                onClick={toggleDrawer(anchor, false)}
+              >
+                <Typography>Edit User</Typography>
+              </Link>
+            </AccordionDetails>
+          </Accordion>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
   return (
@@ -82,13 +175,14 @@ export default function TemporaryDrawer() {
         <React.Fragment key={anchor}>
           <Button
             onClick={toggleDrawer(anchor, true)}
-            style={{ backgroundColor: "white" }}
+            // style={{ backgroundColor: "white" }}
           >
             {" "}
-            <FontAwesomeIcon
-              icon={faArrowRight}
+            {/* <FontAwesomeIcon
+              icon={faHamburger}
               style={{ fontSize: "1.5rem" }}
-            />{" "}
+            /> */}
+            <MenuIcon style={{ fontSize: "2.5rem" }} />{" "}
           </Button>
           <Drawer
             anchor={anchor}

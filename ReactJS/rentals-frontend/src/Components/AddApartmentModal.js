@@ -177,12 +177,15 @@ function AddApartmentModal(props) {
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
             if (/^[\da-zA-Z\s-]+$/.test(e.target.value)) {
-              setName({ value: e.target.value, error: null });
+              setName({ value: e.target.value.trim(), error: null });
             } else if (e.target.value === "") {
-              setName({ value: e.target.value, error: "Please Enter Name" });
+              setName({
+                value: e.target.value.trim(),
+                error: "Please Enter Name",
+              });
             } else {
               setName({
-                value: e.target.value,
+                value: e.target.value.trim(),
                 error: "Please Enter a valid Name",
               });
             }
@@ -199,7 +202,12 @@ function AddApartmentModal(props) {
             ? { error: true, helperText: description.error }
             : { error: false, helperText: "" })}
           defaultValue={app ? app.description : ""}
-          FormHelperTextProps={{ style: { fontSize: "1rem", width: "15rem" } }}
+          FormHelperTextProps={{
+            style: {
+              fontSize: "1rem",
+              width: "15rem",
+            },
+          }}
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
@@ -208,10 +216,10 @@ function AddApartmentModal(props) {
                 value: e.target.value,
                 error: "Please Enter Description",
               });
-            } else if (e.target.value.split(" ").length < 30) {
+            } else if (e.target.value.split(" ").length < 20) {
               setDescription({
                 value: e.target.value,
-                error: "Description should be greater than 30 words",
+                error: "Description should be greater than 20 words",
               });
             } else {
               setDescription({ value: e.target.value, error: null });
@@ -333,6 +341,11 @@ function AddApartmentModal(props) {
               setAmmount({
                 value: e.target.value,
                 error: "Please Enter Price",
+              });
+            } else if (e.target.value > 100000) {
+              setAmmount({
+                value: e.target.value,
+                error: "Max Price : Rs. 100000",
               });
             } else {
               setAmmount({ value: e.target.value, error: null });

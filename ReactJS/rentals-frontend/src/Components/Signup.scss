@@ -1,13 +1,24 @@
 @import "./variables.scss";
 .signup {
   display: flex;
-  align-items: center;
-  height: 91.5vh;
+  // align-items: center;
+  margin-top: 10rem;
   justify-content: center;
   &__card {
-    // height: 70%;
     width: 70%;
     display: flex;
+    @media only screen and (max-width: 75em) {
+      width: 85%;
+    }
+    @media only screen and (max-width: 50em) {
+      width: 60%;
+    }
+    @media only screen and (max-width: 37.5em) {
+      width: 80%;
+    }
+    @media only screen and (max-width: 26.25em) {
+      width: 90%;
+    }
     &--left {
       background-image: linear-gradient(
           90deg,
@@ -17,17 +28,28 @@
         url(../assets/gal-10.jpeg);
       background-size: cover;
       background-position: center;
-      width: 65%;
+      width: 45vw;
       height: 70vh;
+      @media only screen and (max-width: 75em) {
+        width: 55vw;
+      }
+      @media only screen and (max-width: 50em) {
+        width: 0vw;
+      }
     }
     &--right {
       display: flex;
+      min-height: 70vh;
+      padding: 0rem 0rem;
       gap: 2rem;
       flex-direction: column;
       align-items: center;
       flex: 1;
       border: 0.2px solid $color-secondary;
       border-left: 0;
+      @media only screen and (max-width: 50em) {
+        border: 1px solid $color-secondary;
+      }
     }
   }
   &__heading {
@@ -36,9 +58,6 @@
     color: $color-primary;
     font-weight: 400;
     margin-top: 2rem;
-  }
-  &__input {
-    width: 70%;
   }
   &__text {
     margin-top: 2rem;
@@ -53,6 +72,8 @@
   &__btn {
     font-size: 1.5rem !important;
     color: $color-primary !important;
+    margin-top: 3rem !important;
+    // margin-bottom: 2rem;
     &:hover {
       background-color: $color-primary !important;
       color: white !important;
@@ -61,6 +82,21 @@
   &__input {
     margin-left: 0;
     margin-bottom: 1rem !important;
-    width: 27rem;
+    width: 18vw !important;
+    @media only screen and (max-width: 75em) {
+      width: 25vw !important;
+    }
+    @media only screen and (max-width: 50em) {
+      width: 42vw !important;
+    }
+    @media only screen and (max-width: 37.5em) {
+      width: 55vw !important;
+    }
+    @media only screen and (max-width: 25em) {
+      width: 60vw !important;
+    }
+    @media only screen and (max-width: 26.25em) {
+      width: 70vw !important;
+    }
   }
 }

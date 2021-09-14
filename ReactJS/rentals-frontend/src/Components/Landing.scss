@@ -6,6 +6,9 @@
   top: 0;
   left: 0;
   height: 100vh;
+  @media only screen and (max-width: 62.5em) {
+    flex-direction: column-reverse;
+  }
   &__pictures {
     background-color: $color-primary;
     display: flex;
@@ -13,6 +16,14 @@
     align-items: center;
     justify-content: center;
     background-size: cover;
+    @media only screen and (max-width: 62.5em) {
+      width: 100%;
+      height: 45vh;
+    }
+    @media only screen and (max-width: 50em) {
+      width: 0;
+      height: 0;
+    }
     background-image: linear-gradient(
         rgba($color-primary, 0.9),
         rgba($color-primary, 0.9)
@@ -23,26 +34,57 @@
     width: 25vw;
     position: absolute;
     box-shadow: 0 2rem 5rem rgba(#000, 0.1);
+    @media only screen and (max-width: 62.5em) {
+      width: 30vw;
+    }
+    @media only screen and (max-width: 50em) {
+      width: 0;
+      height: 0;
+    }
   }
   &__img--2 {
     width: 25vw;
     transform: translate(50%, 50%);
     box-shadow: 0 2rem 5rem rgba(#000, 0.2);
+    @media only screen and (max-width: 62.5em) {
+      width: 30vw;
+    }
+    @media only screen and (max-width: 50em) {
+      width: 0;
+      height: 0;
+    }
   }
   &__content {
-    border: 1px solid red;
     background-color: $color-grey-light-1;
-    grid-column: col-start 5/-1;
     padding: 6rem 8vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    @media only screen and (max-width: 81.25em) {
+      padding: 6rem 6rem 6rem 9vw;
+    }
+    @media only screen and (max-width: 50em) {
+      height: 100vh;
+    }
+    @media only screen and (max-width: 33.125em) {
+      padding: 6rem 2.5rem;
+      justify-content: flex-start;
+      padding-top: 20rem;
+    }
   }
   &__text {
     font-size: 1.5rem;
     font-style: italic;
     margin-bottom: 4rem;
+    word-break: break-all;
+    @media only screen and (max-width: 37.5em) {
+      font-size: 1.3rem;
+    }
+    @media only screen and (max-width: 28.75em) {
+      font-size: 1.2rem;
+      margin-bottom: 4rem;
+    }
   }
 }
 
@@ -66,6 +108,15 @@
   }
   &__dark {
     color: $color-grey-dark-1;
+  }
+  @media only screen and (max-width: 81.25em) {
+    font-size: 3.5rem;
+  }
+  @media only screen and (max-width: 37.5em) {
+    font-size: 3rem;
+  }
+  @media only screen and (max-width: 28.75em) {
+    font-size: 2rem;
   }
 }
 .heading-3 {
@@ -99,13 +150,16 @@
   &:hover {
     background-color: $color-primary-dark;
   }
+  @media only screen and (max-width: 28.75em) {
+    font-size: 1.2rem;
+  }
 }
 
 .mb-sm {
   margin-bottom: 2rem;
 }
 .mb-md {
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 .mb-lg {
   margin-bottom: 4rem;
