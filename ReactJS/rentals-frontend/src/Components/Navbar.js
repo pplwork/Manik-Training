@@ -13,6 +13,7 @@ import AddApartmentModal from "./AddApartmentModal";
 import { useDispatch, useSelector } from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
 import { logoutUser } from "../actions/auth";
+import { useHistory } from "react-router";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,19 +35,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
+  const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const [open, setOpen] = React.useState(false);
   const disatch = useDispatch();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const openProfile = Boolean(anchorEl);
+  // const openProfile = Boolean(anchorEl);
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const handleLogout = () => {
     disatch(logoutUser());
+    history.push("/");
   };
   return (
     <div className={classes.root}>
@@ -82,7 +82,7 @@ export default function ButtonAppBar() {
           ) : (
             ""
           )}
-          <AddApartmentModal open={open} handleClose={handleClose} />
+          <AddApartmentModal open={open} setOpen={setOpen} />
           {!auth.isLoggedin ? (
             <>
               <Link to="/signup" className="navbar__link">

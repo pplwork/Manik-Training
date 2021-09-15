@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchApartments, fetchFilterApartments } from "../actions/apartments";
 import ApartmentCard from "./ApartmentCard";
 import WrappedMap from "./Map";
-import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
 const BudgetMarks = [
   {
@@ -82,21 +81,21 @@ const sizeMarks = [
     label: "4000 sq.ft.",
   },
 ];
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  drawerContainer: {
-    overflow: "auto",
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//   },
+//   appBar: {
+//     zIndex: theme.zIndex.drawer + 1,
+//   },
+//   drawerContainer: {
+//     overflow: "auto",
+//   },
+//   content: {
+//     flexGrow: 1,
+//     padding: theme.spacing(3),
+//   },
+// }));
 function HomeMainPage(props) {
   const apartments = useSelector((state) => state.apartments);
   const [budgetValue, setBudgetValue] = React.useState([1, 80]);
@@ -198,7 +197,7 @@ function HomeMainPage(props) {
               "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAywJ46VQknaZbBSC5aZKgkQHffaoqEDII"
             }
             loadingElement={<div style={{ height: "100%" }} />}
-            containerElement={<div style={{ height: "400px" }} />}
+            containerElement={<div className="map__dimensions" />}
             mapElement={<div style={{ height: "100%" }} />}
           />
         </div>

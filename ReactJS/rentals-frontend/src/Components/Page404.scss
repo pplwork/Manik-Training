@@ -10,6 +10,9 @@
   }
   &__text {
     font-size: 3rem;
+    @media only screen and (max-width: 31.25em) {
+      font-size: 2rem;
+    }
   }
   &__btn {
     background-color: $color-secondary !important;

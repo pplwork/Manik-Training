@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Home.scss";
-import Slider from "@material-ui/core/Slider";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchApartments, fetchFilterApartments } from "../actions/apartments";
-import ApartmentCard from "./ApartmentCard";
-import WrappedMap from "./Map";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -15,11 +11,7 @@ import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import HomeMainPage from "./HomeMainPage";
-import UserSearch from "./UserSearch";
-import { Divider } from "@material-ui/core";
 const Accordion = withStyles({
   root: {
     border: "1px solid rgba(0, 0, 0, .125)",

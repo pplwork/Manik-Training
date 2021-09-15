@@ -20,7 +20,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { changeApartment, createApartment } from "../actions/apartments";
 function AddApartmentModal(props) {
-  const { open, handleClose, app } = props;
+  const { open, setOpen, app } = props;
   const [name, setName] = useState(
     app ? { value: app.name, error: null } : { value: "", error: null }
   );
@@ -49,25 +49,42 @@ function AddApartmentModal(props) {
   const handleChangeRentable = (event) => {
     setIsRentable(event.target.value);
   };
+  const handleClose = () => {
+    setOpen(false);
+    if (!app) {
+      setName({ value: "", error: null });
+      setDescription({ value: "", error: null });
+      setphotoLink({ value: "", error: null });
+      setRooms({ value: "", error: null });
+      setfloorsize({ value: "", error: null });
+      setAmmount({ value: "", error: null });
+      setAddress({ value: "", error: null });
+    }
+  };
   const dispatch = useDispatch();
   const handleUploadClick = (e) => {
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);
     formdata.append("upload_preset", "ofy9z5sj");
-    console.log("filesssssss ", e.target.files[0]);
-    fetch("https://api.cloudinary.com/v1_1/dmimdxlso/image/upload", {
-      method: "POST",
-      body: formdata,
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        document.querySelector(".AppImage").src = data.secure_url;
-        setphotoLink({ value: data.secure_url, error: null });
-      });
+    console.log(e.target.files[0]);
+    if (e.target.files[0].size > 1048576) {
+      setphotoLink({ value: "", error: "Max Size: 1 MB" });
+    } else {
+      fetch("https://api.cloudinary.com/v1_1/dmimdxlso/image/upload", {
+        method: "POST",
+        body: formdata,
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          document.querySelector(".AppImage").src = data.secure_url;
+          setphotoLink({ value: data.secure_url, error: null });
+        });
+    }
   };
   const handleSubmit = () => {
     let floorSize = parseInt(floorsize.value);
     let price = parseInt(ammount.value);
+
     let send = true;
     if (isRentable === "true") {
       isRentable = true;
@@ -147,20 +164,24 @@ function AddApartmentModal(props) {
       className="dialog"
     >
       {app ? (
-        <DialogTitle id="form-dialog-title" className="dialog__title">
+        <DialogTitle
+          id="form-dialog-title"
+          style={{ marginTop: "2rem" }}
+          className="dialog__title"
+        >
           Edit Apartment
         </DialogTitle>
       ) : (
-        <DialogTitle id="form-dialog-title" className="dialog__title">
+        <DialogTitle
+          id="form-dialog-title"
+          className="dialog__title"
+          style={{ marginTop: photoLink.value ? "2rem" : "0" }}
+        >
           Add Apartment
         </DialogTitle>
       )}
 
       <DialogContent>
-        {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText> */}
         <TextField
           margin="dense"
           id="name"
@@ -211,18 +232,18 @@ function AddApartmentModal(props) {
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            if (e.target.value === "") {
+            if (e.target.value.trim() === "") {
               setDescription({
-                value: e.target.value,
+                value: e.target.value.trim(),
                 error: "Please Enter Description",
               });
             } else if (e.target.value.split(" ").length < 20) {
               setDescription({
-                value: e.target.value,
+                value: e.target.value.trim(),
                 error: "Description should be greater than 20 words",
               });
             } else {
-              setDescription({ value: e.target.value, error: null });
+              setDescription({ value: e.target.value.trim(), error: null });
             }
           }}
         />
@@ -241,12 +262,11 @@ function AddApartmentModal(props) {
           InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           InputProps={{ style: { fontSize: "1.5rem" } }}
           onChange={(e) => {
-            if (/^[\da-zA-Z\s\.(),-]+$/.test(e.target.value)) {
-              setAddress({ value: e.target.value, error: null });
+            if (/^[\da-zA-Z\s.(),-]+$/.test(e.target.value.trim())) {
+              setAddress({ value: e.target.value.trim(), error: null });
             } else {
-              console.log("fail ho gya bhai");
               setAddress({
-                value: e.target.value,
+                value: e.target.value.trim(),
                 error: "Please Enter Address",
               });
             }
@@ -363,41 +383,44 @@ function AddApartmentModal(props) {
         ) : (
           ""
         )}
-        <FormControl style={{ display: "block" }} component="fieldset">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "2rem",
-            }}
-          >
-            <FormLabel
-              component="legend"
-              style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+        {app ? (
+          <FormControl style={{ display: "block" }} component="fieldset">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2rem",
+              }}
             >
-              Is Rentable ? :
-            </FormLabel>
-            <RadioGroup
-              aria-label="gender"
-              name="gender1"
-              value={isRentable}
-              onChange={handleChangeRentable}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="True"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="False"
-                />
-              </div>
-            </RadioGroup>
-          </div>
-        </FormControl>
+              <FormLabel
+                component="legend"
+                style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+              >
+                Is Rentable ? :
+              </FormLabel>
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                value={isRentable}
+                onChange={handleChangeRentable}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="True"
+                  />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="False"
+                  />
+                </div>
+              </RadioGroup>
+            </div>
+          </FormControl>
+        ) : null}
+
         <div>
           <input
             accept="image/*"
@@ -424,6 +447,16 @@ function AddApartmentModal(props) {
               <AddPhotoAlternateIcon />
             </Fab>
           </label>
+          {photoLink.error ? (
+            <div
+              style={{
+                color: "red",
+                fontSize: "1rem",
+              }}
+            >
+              {photoLink.error}
+            </div>
+          ) : null}
         </div>
         <img src={app ? app.photoLink : ""} alt="" className="AppImage" />
       </DialogContent>

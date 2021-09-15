@@ -9,6 +9,9 @@
   flex-direction: column;
   box-shadow: 0px 0px 4px 1px #00000038;
   transition: all 0.3s;
+  @media only screen and (max-width: 37.5em) {
+    gap: 0.5rem;
+  }
   &__upper {
     height: 75%;
     display: flex;
@@ -21,17 +24,27 @@
     flex: 1;
     display: flex;
     padding: 1rem 2rem;
+    @media only screen and (max-width: 37.5em) {
+      padding: 1rem;
+    }
   }
   &__left {
     width: 35%;
-    // height: 22rem;
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    // max-height: 18rem;
+    @media only screen and (max-width: 31.25em) {
+      width: 30%;
+    }
   }
   &__right {
     width: 65%;
   }
   &__image {
     height: 100%;
+    object-fit: cover;
+    object-position: center;
     width: 100%;
     border-radius: 0.5rem;
   }
@@ -51,6 +64,14 @@
     @media only screen and (max-width: 51.25em) {
       padding: 1rem;
     }
+    @media only screen and (max-width: 37.5em) {
+      padding: 0.5rem;
+      font-weight: 500;
+    }
+    @media only screen and (max-width: 31.25em) {
+      font-size: 1.5rem;
+      padding: 0.2rem;
+    }
   }
   &__details {
     display: flex;
@@ -67,6 +88,12 @@
     @media only screen and (max-width: 37.5em) {
       gap: 1.5rem;
     }
+    @media only screen and (max-width: 37.5em) {
+      padding: 0.5rem;
+    }
+    @media only screen and (max-width: 31.25em) {
+      padding: 0.2rem;
+    }
   }
   &__bold {
     font-weight: 600;
@@ -74,6 +101,10 @@
     font-size: 2rem;
     @media only screen and (max-width: 37.5em) {
       font-size: 1.7rem;
+      font-weight: 500;
+    }
+    @media only screen and (max-width: 31.25em) {
+      font-size: 1.3rem;
     }
   }
   &__light {
@@ -81,6 +112,9 @@
     margin-left: 0.2rem;
     @media only screen and (max-width: 37.5em) {
       font-size: 1.1rem;
+    }
+    @media only screen and (max-width: 31.25em) {
+      font-size: 0.9rem;
     }
   }
   &__description {
@@ -92,6 +126,13 @@
     }
     @media only screen and (max-width: 51.25em) {
       padding: 1rem;
+    }
+    @media only screen and (max-width: 37.5em) {
+      padding: 0.5rem;
+    }
+    @media only screen and (max-width: 31.25em) {
+      font-size: 0.9rem;
+      padding: 0.2rem;
     }
   }
   &__realtor h2 {

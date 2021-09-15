@@ -28,7 +28,7 @@ export class CreateAppartmentDto {
     description: 'About the apartment',
   })
   @IsNotEmpty()
-  @MaxLength(250)
+  @MaxLength(1000)
   description: string;
   @ApiProperty({
     example: 'https://res.cloudinary.com/xxxxxxxx/image/upload/xxxxxxxx.jpg',

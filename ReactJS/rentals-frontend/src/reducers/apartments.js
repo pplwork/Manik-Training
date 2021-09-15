@@ -17,7 +17,7 @@ export default function apartments(state = [], action) {
     }
     case CHANGE_APARTMENT: {
       console.log(action);
-      let index = state.findIndex((val) => val.id == action.apartment.id);
+      let index = state.findIndex((val) => val.id === action.apartment.id);
       state[index] = { ...state[index], ...action.apartment };
       return [...state];
     }

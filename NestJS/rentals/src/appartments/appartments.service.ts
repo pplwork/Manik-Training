@@ -28,6 +28,7 @@ export class AppartmentsService {
       (today.getMonth() + 1) +
       '-' +
       today.getFullYear();
+    console.log('aaa gya req');
     const newApp = this.appRepo.create(createAppartmentDto);
     newApp.realtor = user;
     newApp.isRentable = true;
@@ -37,7 +38,7 @@ export class AppartmentsService {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: 'Please Enter valid Address',
+          message: 'Please Enter valid Address',
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -49,7 +50,7 @@ export class AppartmentsService {
     throw new HttpException(
       {
         status: HttpStatus.NOT_FOUND,
-        error: 'Apartment not found with the given id',
+        message: 'Apartment not found with the given id',
       },
       HttpStatus.NOT_FOUND,
     );
@@ -128,7 +129,7 @@ export class AppartmentsService {
           throw new HttpException(
             {
               status: HttpStatus.BAD_REQUEST,
-              error: 'Please Enter valid Address',
+              message: 'Please Enter valid Address',
             },
             HttpStatus.BAD_REQUEST,
           );

@@ -3,30 +3,12 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import "./RightDrawer.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MenuIcon from "@material-ui/icons/Menu";
-import { faArrowRight, faHamburger } from "@fortawesome/free-solid-svg-icons";
-import AddApartmentModal from "./AddApartmentModal";
-import MuiAccordion from "@material-ui/core/Accordion";
-import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
-import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { Link } from 'react-router-dom';
 import Slider from "@material-ui/core/Slider";
-import { fetchApartments, fetchFilterApartments } from "../actions/apartments";
+import { fetchFilterApartments } from "../actions/apartments";
+import FilterListIcon from "@material-ui/icons/FilterList";
 const BudgetMarks = [
   {
     value: 1,
@@ -110,46 +92,46 @@ const useStyles = makeStyles({
     width: "auto",
   },
 });
-const Accordion = withStyles({
-  root: {
-    border: "1px solid rgba(0, 0, 0, .125)",
-    boxShadow: "none",
-    "&:not(:last-child)": {
-      borderBottom: 0,
-    },
-    "&:before": {
-      display: "none",
-    },
-    "&$expanded": {
-      margin: "auto",
-    },
-  },
-  expanded: {},
-})(MuiAccordion);
+// const Accordion = withStyles({
+//   root: {
+//     border: "1px solid rgba(0, 0, 0, .125)",
+//     boxShadow: "none",
+//     "&:not(:last-child)": {
+//       borderBottom: 0,
+//     },
+//     "&:before": {
+//       display: "none",
+//     },
+//     "&$expanded": {
+//       margin: "auto",
+//     },
+//   },
+//   expanded: {},
+// })(MuiAccordion);
 
-const AccordionSummary = withStyles({
-  root: {
-    backgroundColor: "rgba(0, 0, 0, .03)",
-    borderBottom: "1px solid rgba(0, 0, 0, .125)",
-    marginBottom: -1,
-    minHeight: 56,
-    "&$expanded": {
-      minHeight: 56,
-    },
-  },
-  content: {
-    "&$expanded": {
-      margin: "12px 0",
-    },
-  },
-  expanded: {},
-})(MuiAccordionSummary);
+// const AccordionSummary = withStyles({
+//   root: {
+//     backgroundColor: "rgba(0, 0, 0, .03)",
+//     borderBottom: "1px solid rgba(0, 0, 0, .125)",
+//     marginBottom: -1,
+//     minHeight: 56,
+//     "&$expanded": {
+//       minHeight: 56,
+//     },
+//   },
+//   content: {
+//     "&$expanded": {
+//       margin: "12px 0",
+//     },
+//   },
+//   expanded: {},
+// })(MuiAccordionSummary);
 
-const AccordionDetails = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiAccordionDetails);
+// const AccordionDetails = withStyles((theme) => ({
+//   root: {
+//     padding: theme.spacing(2),
+//   },
+// }))(MuiAccordionDetails);
 export default function RightDrawer() {
   const classes = useStyles();
   const [budgetValue, setBudgetValue] = React.useState([1, 80]);
@@ -162,8 +144,7 @@ export default function RightDrawer() {
     bottom: false,
     right: false,
   });
-  const auth = useSelector((state) => state.auth);
-  const [expanded, setExpanded] = React.useState("");
+  // const auth = useSelector((state) => state.auth);
   const handleChangeBudget = (event, newValue) => {
     setBudgetValue(newValue);
   };
@@ -179,9 +160,6 @@ export default function RightDrawer() {
   function valuetext(value) {
     return `${value}`;
   }
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -269,7 +247,10 @@ export default function RightDrawer() {
             onClick={toggleDrawer(anchor, true)}
             // style={{ backgroundColor: "white" }}
           >
-            <div style={{ fontSize: "1.5rem" }}>Filters</div>
+            <FilterListIcon />
+            <div style={{ fontSize: "1.5rem", marginLeft: "0.5rem" }}>
+              Filters
+            </div>
           </Button>
           <Drawer
             anchor={anchor}

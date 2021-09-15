@@ -6,6 +6,7 @@ import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteApartment } from "../actions/apartments";
+
 function ApartmentCard(props) {
   const { app } = props;
   const [open, setOpen] = React.useState(false);
@@ -23,9 +24,6 @@ function ApartmentCard(props) {
   };
   const handleClickOpen = () => {
     setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
   };
   const handleDelete = () => {
     dispatch(deleteApartment(app.id));
@@ -60,7 +58,7 @@ function ApartmentCard(props) {
           Posted by Realtor
           <h2>{app.realtor.name}</h2>
         </div>
-        {auth.user.role == "user" ? (
+        {auth.user.role === "user" ? (
           <Button
             className="apartment__btn"
             style={{ marginLeft: "auto" }}
@@ -78,11 +76,7 @@ function ApartmentCard(props) {
             >
               Edit
             </Button>
-            <AddApartmentModal
-              app={app}
-              open={open}
-              handleClose={handleClose}
-            />
+            <AddApartmentModal app={app} open={open} setOpen={setOpen} />
             <Button variant="outlined" color="secondary" onClick={handleClick}>
               Delete
             </Button>

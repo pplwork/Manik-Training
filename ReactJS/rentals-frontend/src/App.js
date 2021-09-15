@@ -8,15 +8,11 @@ import { getAuthTokenFromLocalStorage } from "./helpers/utils";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import Home from "./Components/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticateUser } from "./actions/auth";
 import { ToastContainer } from "react-toastify";
-import UserSearch from "./Components/UserSearch";
 import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
-import HomeMainPage from "./Components/HomeMainPage";
-import AddApartmentModal from "./Components/AddApartmentModal";
 import UserProfile from "./Components/UserProfile";
 import MainPage from "./Components/MainPage";
 import MainUser from "./Components/MainUser";
@@ -41,14 +37,13 @@ const PrivateRoute = (privateRouteProps) => {
 function App() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const [open, setOpen] = React.useState(false);
   useEffect(() => {
     const token = getAuthTokenFromLocalStorage();
     if (token) {
       const user = jwtDecode(token);
       dispatch(authenticateUser(user));
     }
-  }, []);
+  }, [dispatch]);
   console.log(auth.user);
   return (
     <>

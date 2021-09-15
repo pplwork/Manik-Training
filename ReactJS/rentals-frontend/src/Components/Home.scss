@@ -26,6 +26,9 @@
     @media only screen and (max-width: 63.75em) {
       padding: 1rem 4rem 0rem 4rem;
     }
+    @media only screen and (max-width: 31.25em) {
+      padding: 1rem 2rem 0rem 2rem;
+    }
     &::-webkit-scrollbar {
       display: none;
     }
@@ -65,6 +68,12 @@
 
 .map {
   margin-bottom: 3rem;
+  &__dimensions {
+    height: 400px;
+    @media only screen and (max-width: 37.5em) {
+      height: 300px;
+    }
+  }
 }
 
 .homepagemain {

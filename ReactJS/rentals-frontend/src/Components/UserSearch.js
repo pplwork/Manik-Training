@@ -14,26 +14,13 @@ import { toast } from "react-toastify";
 function UserSearch() {
   const [email, setEmail] = useState("");
   const [user, setUser] = useState("");
-  const [error, setError] = useState({ value: null, message: "" });
-  const [open, setOpen] = useState(false);
   const EmailInput = useRef(null);
   Geocode.setApiKey("AIzaSyAywJ46VQknaZbBSC5aZKgkQHffaoqEDII");
   Geocode.setLanguage("en");
   Geocode.setRegion("in");
+  // eslint-disable-next-line
   const handleSubmit = () => {
     const url = APIUrls.fetchUser(email);
-    // axios
-    //   .get(url, {
-    //     headers: {
-    //       Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log("yaha se aaya", response);
-    //   })
-    //   .catch((error) => {
-    //     console.log("udhar error aaya", error.response);
-    //   });
     fetch(url, {
       headers: {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
@@ -85,7 +72,7 @@ function UserSearch() {
           }}
           type="email"
           className="search__input"
-          style={{ fontSize: "3rem" }}
+          // style={{ fontSize: "3rem" }}
           placeholder="Enter Mail"
         />
         <SearchIcon style={{ fontSize: "3rem" }} onClick={handleSubmit} />
@@ -101,7 +88,11 @@ function UserSearch() {
               margin: "5rem 0",
             }}
           >
-            <img src={nothing} style={{ height: "25rem", width: "30rem" }} />
+            <img
+              src={nothing}
+              alt=""
+              style={{ height: "25rem", width: "30rem" }}
+            />
             <div
               style={{
                 fontSize: "2rem",

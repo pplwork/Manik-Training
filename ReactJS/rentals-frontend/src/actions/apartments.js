@@ -7,7 +7,7 @@ import {
 } from "../actions/actionTypes";
 
 import { APIUrls } from "../helpers/urls";
-import { getAuthTokenFromLocalStorage, getFormBody } from "../helpers/utils";
+import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
 export function fetchApartments() {
   return (dispatch) => {

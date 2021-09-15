@@ -10,7 +10,6 @@ import {
   CLEAR_AUTH_STATE,
 } from "./actionTypes";
 import { APIUrls } from "../helpers/urls";
-import axios from "axios";
 import { toast } from "react-toastify";
 export function startLogin() {
   return {

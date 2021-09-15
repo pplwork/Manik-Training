@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function Page404() {
   return (
     <div className="notfound">
-      <img className="notfound__img" src={svg}></img>
+      <img className="notfound__img" src={svg} alt=""></img>
       <div className="notfound__text">404 . Page not found</div>
       <Link to="/">
         <Button className="notfound__btn" variant="contained">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./UserCard.scss";
 import user from "../assets/user2.png";
 import Button from "@material-ui/core/Button";
@@ -65,22 +65,51 @@ function UserCard(props) {
       </div>
       {auth.user.role === "admin" ? (
         <div className="userCard__btnWrapper">
-          <Button className="userCard__btn" onClick={handleClickOpen}>
-            Edit
-          </Button>
-          <EditUserModal
-            user={props.user}
-            open={open}
-            handleClose={handleClose}
-            setUser={props.setUser}
-          />
-          <Button
-            color="secondary"
-            className="userCard__btn"
-            onClick={handleClick}
-          >
-            Delete
-          </Button>
+          {auth.user.role === props.user.role ? (
+            <>
+              <Button
+                className="userCard__btn"
+                style={{ width: "20rem" }}
+                onClick={handleClickOpen}
+                variant="outlined"
+              >
+                Edit
+              </Button>
+              <EditUserModal
+                user={props.user}
+                open={open}
+                handleClose={handleClose}
+                setUser={props.setUser}
+              />
+              {/* <Button
+                color="secondary"
+                className="userCard__btn"
+                onClick={handleClick}
+              >
+                Delete
+              </Button> */}
+            </>
+          ) : (
+            <>
+              <Button className="userCard__btn" onClick={handleClickOpen}>
+                Edit
+              </Button>
+              <EditUserModal
+                user={props.user}
+                open={open}
+                handleClose={handleClose}
+                setUser={props.setUser}
+              />
+              <Button
+                color="secondary"
+                className="userCard__btn"
+                onClick={handleClick}
+              >
+                Delete
+              </Button>
+            </>
+          )}
+
           <Popover
             id={id}
             open={openPoper}

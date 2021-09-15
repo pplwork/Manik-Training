@@ -6,8 +6,18 @@
   align-items: center;
   gap: 3rem;
   padding: 5rem 0;
+  &__input {
+    font-size: 3rem !important;
+    @media only screen and (max-width: 31.25em) {
+      font-size: 2rem !important;
+    }
+  }
   &__inputLabel {
     font-size: 1.75rem !important;
+    @media only screen and (max-width: 31.25em) {
+      font-size: 1.5rem !important;
+      margin-bottom: 1rem !important;
+    }
   }
 }
 

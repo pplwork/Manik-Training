@@ -1,21 +1,12 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import "./Signup.scss";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { startSignup, signup, clearAuthState } from "../actions/auth";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import FilledInput from "@material-ui/core/FilledInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Input from "@material-ui/core/Input";
-import { FormControl } from "@material-ui/core";
 
 class Signup extends Component {
   constructor(props) {
@@ -50,16 +41,16 @@ class Signup extends Component {
       ) {
         error = "Please Enter Valid Email";
       }
-    } else if (field == "password") {
+    } else if (field === "password") {
       if (!value) {
         error = "Please Enter Password";
       } else if (value.length < 6) {
         error = "Password should be greater than 6 letters";
       }
-    } else if (field == "confirmPassword") {
+    } else if (field === "confirmPassword") {
       if (!value) {
         error = "Please Enter Confirm Password";
-      } else if (value != this.state.password.value) {
+      } else if (value !== this.state.password.value) {
         error = "The password you entered does not match!";
       }
     }
@@ -105,7 +96,7 @@ class Signup extends Component {
   };
 
   render() {
-    const { inProgress, error, isLoggedin, isSignedUp } = this.props.auth;
+    const { isLoggedin } = this.props.auth;
     const { name, email, password, confirmPassword } = this.state;
     if (isLoggedin) {
       return <Redirect to="/" />;
