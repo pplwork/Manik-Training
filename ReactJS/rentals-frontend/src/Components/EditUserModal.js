@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,16 +15,25 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { toast } from "react-toastify";
 import "./EditUserModal.scss";
-import { useSelector } from "react-redux";
-function AddApartmentModal(props) {
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthenticatedUser } from "../actions/auth";
+
+function EditUserModal(props) {
   const { open, handleClose } = props;
   const [name, setName] = useState({ value: props.user.name, error: null });
   const [email, setEmail] = useState({ value: props.user.email, error: null });
   const [role, setRole] = useState({ value: props.user.role, error: null });
   const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setName({ value: props.user.name, error: null });
+    setEmail({ value: props.user.email, error: null });
+    setRole({ value: props.user.role, error: null });
+  }, [props.user.name, props.user.email, props.user.role]);
   const handleSubmit = () => {
     let promise = new Promise((resolve, reject) => {
       const url = APIUrls.updateUser(props.user.id);
+      console.log("ab email kya hein", email.value);
       fetch(url, {
         method: "PUT",
         headers: {
@@ -42,6 +51,9 @@ function AddApartmentModal(props) {
           if (data.id) {
             if (props.setUser) {
               props.setUser(data);
+              if (auth.user.id === data.id) {
+                dispatch(setAuthenticatedUser(data));
+              }
             }
             handleClose();
             resolve("User edited Successfuly");
@@ -193,4 +205,4 @@ function AddApartmentModal(props) {
   );
 }
 
-export default AddApartmentModal;
+export default EditUserModal;

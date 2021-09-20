@@ -124,7 +124,6 @@ function HomeMainPage(props) {
   function valuetext(value) {
     return `${value}`;
   }
-  console.log(apartments);
 
   return (
     <div className="homepagemain">

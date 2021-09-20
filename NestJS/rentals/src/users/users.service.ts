@@ -29,6 +29,7 @@ export class UsersService {
     let check = await this.userRepo.findOne({
       email: updateUserDto.email.toLowerCase().trim(),
     });
+    console.log(user, updateUserDto);
     const enumRole = ['user', 'realtor', 'admin'];
     if (!enumRole.includes(updateUserDto.role)) {
       throw new HttpException(

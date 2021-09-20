@@ -15,6 +15,7 @@ function UserCard(props) {
   const [open, setOpen] = React.useState(false);
   const auth = useSelector((state) => state.auth);
   const id = openPoper ? "simple-popover" : undefined;
+  console.log("card se aaya bhaii", props);
   const handleClosePoper = () => {
     setAnchorEl(null);
   };

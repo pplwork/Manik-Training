@@ -19,6 +19,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { changeApartment, createApartment } from "../actions/apartments";
+
 function AddApartmentModal(props) {
   const { open, setOpen, app } = props;
   const [name, setName] = useState(
@@ -43,6 +44,7 @@ function AddApartmentModal(props) {
     app ? { value: app.price, error: null } : { value: "", error: null }
   );
   const [updated, setUpdated] = useState(false);
+  const dispatch = useDispatch();
   let [isRentable, setIsRentable] = useState(app ? `${app.isRentable}` : "");
   const handleChange = (e) => {
     setRooms({ value: e.target.value, error: null });
@@ -50,6 +52,7 @@ function AddApartmentModal(props) {
   const handleChangeRentable = (event) => {
     setIsRentable(event.target.value);
   };
+
   const handleClose = () => {
     setOpen(false);
     if (!app) {
@@ -63,7 +66,7 @@ function AddApartmentModal(props) {
       setUpdated(false);
     }
   };
-  const dispatch = useDispatch();
+
   const handleUploadClick = (e) => {
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);

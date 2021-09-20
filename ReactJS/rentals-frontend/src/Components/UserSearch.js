@@ -18,9 +18,13 @@ function UserSearch() {
   Geocode.setApiKey("AIzaSyAywJ46VQknaZbBSC5aZKgkQHffaoqEDII");
   Geocode.setLanguage("en");
   Geocode.setRegion("in");
+  console.log("user search se aaya", user);
   // eslint-disable-next-line
   const handleSubmit = () => {
     let promise = new Promise((resolve, reject) => {
+      if (!email) {
+        reject("Please Enter Email");
+      }
       const url = APIUrls.fetchUser(email);
       fetch(url, {
         headers: {
@@ -82,6 +86,7 @@ function UserSearch() {
           }
           ref={EmailInput}
           onChange={(e) => {
+            console.log("email change hui", e.target.value);
             setEmail(e.target.value);
           }}
           type="email"

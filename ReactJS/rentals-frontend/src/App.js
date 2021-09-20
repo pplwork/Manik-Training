@@ -45,6 +45,7 @@ function App() {
       dispatch(authenticateUser(user));
     }
   }, [dispatch]);
+
   return (
     <>
       <Router>

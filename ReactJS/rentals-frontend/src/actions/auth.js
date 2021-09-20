@@ -74,6 +74,7 @@ export function login(email, password) {
 
 export function authenticateUser(user) {
   return (dispatch) => {
+    console.log(user);
     const url = APIUrls.fetchUser(user.email);
     fetch(url)
       .then((response) => response.json())
