@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import UserCard from "./UserCard";
 import "./UserProfile.scss";
 function UserProfile(props) {
   console.log("props are", props);
+  const [user, setUser] = useState(props);
   return (
     <div className="userProfile">
-      <UserCard user={props} />
+      <UserCard user={user} setUser={setUser} />
     </div>
   );
 }

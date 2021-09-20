@@ -13,6 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Divider } from "@material-ui/core";
 // import { Link } from 'react-router-dom';
 const useStyles = makeStyles({
   list: {
@@ -149,6 +150,16 @@ export default function TemporaryDrawer() {
                 onClick={toggleDrawer(anchor, false)}
               >
                 <Typography>Edit User</Typography>
+              </Link>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails className="sidebar__ele">
+              <Link
+                className="sidebar__links"
+                to="/users/add"
+                onClick={toggleDrawer(anchor, false)}
+              >
+                <Typography>Add User</Typography>
               </Link>
             </AccordionDetails>
           </Accordion>

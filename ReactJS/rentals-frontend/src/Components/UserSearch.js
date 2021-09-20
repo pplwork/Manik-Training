@@ -20,23 +20,37 @@ function UserSearch() {
   Geocode.setRegion("in");
   // eslint-disable-next-line
   const handleSubmit = () => {
-    const url = APIUrls.fetchUser(email);
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.fetchUser(email);
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.id) {
+            setUser(data);
+            resolve("User Found!");
+          } else {
+            setUser("");
+            reject(data.message);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.id) {
-          setUser(data);
-          toast.success("User Found !");
-        } else {
-          setUser("");
-          toast.error(data.message);
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
   useEffect(() => {
     let Email = EmailInput.current;

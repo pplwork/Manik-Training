@@ -9,6 +9,7 @@ import {
   UseGuards,
   SetMetadata,
   Put,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -176,7 +177,7 @@ export class UsersController {
   changeRole(@Body() body: ChangeRoleDto) {
     return this.usersService.changeRole(body);
   }
-  @SetMetadata('role', ['admin'])
+  @SetMetadata('role', ['admin', 'realtor', 'user'])
   @UseGuards(RolesGuard)
   @Put(':id')
   @UseGuards(JwtAuthGuard)
@@ -228,8 +229,12 @@ export class UsersController {
       },
     },
   })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req,
+  ) {
+    return this.usersService.update(+id, updateUserDto, req.user);
   }
   @SetMetadata('role', ['admin'])
   @UseGuards(RolesGuard)

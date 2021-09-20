@@ -19,7 +19,16 @@ class Signup extends Component {
       iconVisible: false,
     };
   }
+  fun = (e) => {
+    if (e.keyCode === 13) {
+      this.onFormSubmit();
+    }
+  };
+  componentDidMount() {
+    window.addEventListener("keypress", this.fun);
+  }
   componentWillUnmount() {
+    window.removeEventListener("keypress", this.fun);
     this.props.dispatch(clearAuthState());
   }
 
@@ -59,7 +68,6 @@ class Signup extends Component {
     });
   };
   onFormSubmit = (e) => {
-    e.preventDefault();
     const { email, password, name, confirmPassword } = this.state;
     let send = true;
     if (!email.value) {

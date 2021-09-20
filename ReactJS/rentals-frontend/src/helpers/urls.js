@@ -1,4 +1,5 @@
-const API_ROOT = "http://192.168.1.6:3000";
+// const API_ROOT = "https://rentals-backend.herokuapp.com";
+const API_ROOT = "http://localhost:3000";
 
 export const APIUrls = {
   login: () => `${API_ROOT}/auth/login`,

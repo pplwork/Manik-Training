@@ -20,6 +20,14 @@ class Login extends Component {
       iconVisible: false,
     };
   }
+  fun = (e) => {
+    if (e.keyCode === 13) {
+      this.handleFormSubmit();
+    }
+  };
+  componentDidMount() {
+    window.addEventListener("keypress", this.fun);
+  }
   DoStyles = makeStyles((theme) => ({
     root: {
       "& .MuiTextField-root": {
@@ -30,6 +38,7 @@ class Login extends Component {
   }));
   // classes = this.DoStyles();
   componentWillUnmount() {
+    window.removeEventListener("keypress", this.fun);
     this.props.dispatch(clearAuthState());
   }
   handleEmailChange = (e) => {
@@ -64,7 +73,6 @@ class Login extends Component {
     } else this.setState({ iconVisible: true });
   };
   handleFormSubmit = (e) => {
-    e.preventDefault();
     let send = true;
     const { email, password } = this.state;
     if (!email.value) {

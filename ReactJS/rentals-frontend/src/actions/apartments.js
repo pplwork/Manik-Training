@@ -19,7 +19,6 @@ export function fetchApartments() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (!data.statusCode && !data.status && !data.error) {
           dispatch(updateApartments(data));
         }
@@ -37,7 +36,11 @@ export function fetchFilterApartments(Price, Rooms, size) {
     })
       .then((response) => response.json())
       .then((data) => {
-        dispatch(updateApartments(data));
+        if (!data.statusCode && !data.status && !data.error) {
+          dispatch(updateApartments(data));
+        } else {
+          toast.error(data.message);
+        }
       });
   };
 }
@@ -58,27 +61,41 @@ export function addApartment(apartment) {
 
 export function createApartment(content, handleClose) {
   return (dispatch) => {
-    const url = APIUrls.createApartment();
-    console.log(content);
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.createApartment();
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+        body: JSON.stringify({ ...content }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (!data.statusCode && !data.error && !data.status) {
+            dispatch(addApartment(data));
+            resolve("Apartment added Sucessfuly!");
+            handleClose();
+          } else {
+            reject(`${data.message}`);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-      body: JSON.stringify({ ...content }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (!data.statusCode && !data.error && !data.status) {
-          dispatch(addApartment(data));
-          toast.success("Apartment added Sucessfuly!");
-          handleClose();
-        } else {
-          toast.error(`${data.message}`);
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
 }
 
@@ -91,26 +108,41 @@ export function changeUpdate(apartment) {
 
 export function changeApartment(content, id, handleClose) {
   return (dispatch) => {
-    const url = APIUrls.changeApartment(id);
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.changeApartment(id);
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+        body: JSON.stringify({ ...content }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (!data.statusCode && !data.error && !data.status) {
+            dispatch(changeUpdate(data));
+            resolve("Apartment Edited Sucessfuly!");
+            handleClose();
+          } else {
+            reject(`${data.message}`);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-      body: JSON.stringify({ ...content }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (!data.statusCode && !data.error && !data.status) {
-          dispatch(changeUpdate(data));
-          toast.success("Apartment Edited Sucessfuly!");
-          handleClose();
-        } else {
-          toast.error(`${data.message}`);
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
 }
 
@@ -122,19 +154,36 @@ export function deleteUpdate(id) {
 }
 export function deleteApartment(id) {
   return (dispatch) => {
-    const url = APIUrls.deleteApartment(id);
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.deleteApartment(id);
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.status && !data.statusCode && !data.error) {
+            dispatch(deleteUpdate(id));
+            resolve("Apartment Deleted Successfuly!");
+          } else {
+            reject(`${data.message}`);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.status) {
-          dispatch(deleteUpdate(id));
-          toast.success("Apartment Deleted Successfuly!");
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
 }

@@ -45,7 +45,6 @@ export function login(email, password) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.access_token) {
             localStorage.setItem("token", data.access_token);
             console.log(data.user);
@@ -54,7 +53,7 @@ export function login(email, password) {
             return;
           }
           reject(data.message);
-          dispatch(loginFailed(data.error));
+          dispatch(loginFailed(data.message));
         });
     });
     toast.promise(promise, {
@@ -79,7 +78,9 @@ export function authenticateUser(user) {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        dispatch(setAuthenticatedUser(data));
+        if (!data.error && !data.statusCode && data.status) {
+          dispatch(setAuthenticatedUser(data));
+        }
       });
   };
 }
@@ -97,7 +98,42 @@ export function logoutUser() {
     type: LOG_OUT,
   };
 }
-
+export function adduser(name, email, password, clearState) {
+  return (dispatch) => {
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.signup();
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.name) {
+            resolve("User Added Successfuly");
+            clearState();
+            return;
+          }
+          reject(data.message);
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
+  };
+}
 export function signup(name, email, password) {
   return (dispatch) => {
     let promise = new Promise((resolve, reject) => {

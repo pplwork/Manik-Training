@@ -27,7 +27,6 @@ export class AuthService {
       throw new HttpException('Email does not exist', HttpStatus.UNAUTHORIZED);
   }
   async signup(User: CreateUserDto) {
-    console.log('yeah i am here');
     const check = await this.userRepo.findOne({ email: User.email });
     if (!check) {
       const newUser = this.userRepo.create({

@@ -15,37 +15,54 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { toast } from "react-toastify";
 import "./EditUserModal.scss";
+import { useSelector } from "react-redux";
 function AddApartmentModal(props) {
   const { open, handleClose } = props;
   const [name, setName] = useState({ value: props.user.name, error: null });
   const [email, setEmail] = useState({ value: props.user.email, error: null });
   const [role, setRole] = useState({ value: props.user.role, error: null });
+  const auth = useSelector((state) => state.auth);
   const handleSubmit = () => {
-    const url = APIUrls.updateUser(props.user.id);
-    console.log(email.value);
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.updateUser(props.user.id);
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+        body: JSON.stringify({
+          name: name.value,
+          email: email.value,
+          role: role.value,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.id) {
+            if (props.setUser) {
+              props.setUser(data);
+            }
+            handleClose();
+            resolve("User edited Successfuly");
+          } else {
+            reject(data.message);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-      body: JSON.stringify({
-        name: name.value,
-        email: email.value,
-        role: role.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.id) {
-          props.setUser(data);
-          handleClose();
-          toast.success("User edited Successfuly");
-        } else {
-          toast.error(data.message);
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
   return (
     <Dialog
@@ -119,42 +136,50 @@ function AddApartmentModal(props) {
             }
           }}
         />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: "2rem",
-          }}
-        >
-          <FormLabel
-            component="legend"
-            style={{ fontSize: "1.5rem", marginRight: "1rem" }}
-          >
-            Role :
-          </FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="gender1"
-            value={role.value}
-            onChange={(e) => {
-              setRole({ value: e.target.value, error: null });
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <FormControlLabel value="user" control={<Radio />} label="User" />
-              <FormControlLabel
-                value="realtor"
-                control={<Radio />}
-                label="Realtor"
-              />
-              <FormControlLabel
-                value="admin"
-                control={<Radio />}
-                label="Admin"
-              />
+        {auth.user.role === "admin" ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2rem",
+              }}
+            >
+              <FormLabel
+                component="legend"
+                style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+              >
+                Role :
+              </FormLabel>
+              <RadioGroup
+                aria-label="gender"
+                name="gender1"
+                value={role.value}
+                onChange={(e) => {
+                  setRole({ value: e.target.value, error: null });
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <FormControlLabel
+                    value="user"
+                    control={<Radio />}
+                    label="User"
+                  />
+                  <FormControlLabel
+                    value="realtor"
+                    control={<Radio />}
+                    label="Realtor"
+                  />
+                  <FormControlLabel
+                    value="admin"
+                    control={<Radio />}
+                    label="Admin"
+                  />
+                </div>
+              </RadioGroup>
             </div>
-          </RadioGroup>
-        </div>
+          </>
+        ) : null}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

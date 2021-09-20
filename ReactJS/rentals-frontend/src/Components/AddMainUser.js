@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import AddUser from "./AddUser";
 import Home from "./Home";
 import TemporaryDrawer from "./test";
-import UserSearch from "./UserSearch";
-function MainUser() {
+function AddMainUser() {
   const [left, setLeft] = useState(false);
   useEffect(() => {
+    console.log("add main user aaya");
     const setUI = () => {
       if (document.documentElement.clientWidth < 820) {
         setLeft(true);
@@ -21,9 +22,9 @@ function MainUser() {
   return (
     <div style={{ display: "flex" }}>
       {left ? <TemporaryDrawer /> : <Home />}
-      <UserSearch />
+      <AddUser />
     </div>
   );
 }
 
-export default MainUser;
+export default AddMainUser;

@@ -42,6 +42,7 @@ function AddApartmentModal(props) {
   const [ammount, setAmmount] = React.useState(
     app ? { value: app.price, error: null } : { value: "", error: null }
   );
+  const [updated, setUpdated] = useState(false);
   let [isRentable, setIsRentable] = useState(app ? `${app.isRentable}` : "");
   const handleChange = (e) => {
     setRooms({ value: e.target.value, error: null });
@@ -59,6 +60,7 @@ function AddApartmentModal(props) {
       setfloorsize({ value: "", error: null });
       setAmmount({ value: "", error: null });
       setAddress({ value: "", error: null });
+      setUpdated(false);
     }
   };
   const dispatch = useDispatch();
@@ -66,10 +68,10 @@ function AddApartmentModal(props) {
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);
     formdata.append("upload_preset", "ofy9z5sj");
-    console.log(e.target.files[0]);
     if (e.target.files[0].size > 1048576) {
       setphotoLink({ value: "", error: "Max Size: 1 MB" });
     } else {
+      setUpdated(true);
       fetch("https://api.cloudinary.com/v1_1/dmimdxlso/image/upload", {
         method: "POST",
         body: formdata,
@@ -115,8 +117,14 @@ function AddApartmentModal(props) {
       setAmmount({ value: "", error: "Please Enter Price" });
       send = false;
     }
-    if (!photoLink.value) {
+    if (!photoLink.value && !updated) {
       setphotoLink({ value: "", error: "Please Add photo" });
+    }
+    if (!photoLink.value && updated) {
+      setphotoLink({
+        value: "",
+        error: "Please Wait for photo to get Uploaded!",
+      });
     }
     if (send === false) {
       return;
@@ -137,7 +145,6 @@ function AddApartmentModal(props) {
           handleClose
         )
       );
-      // handleClose();
     } else {
       dispatch(
         createApartment(
@@ -153,7 +160,6 @@ function AddApartmentModal(props) {
           handleClose
         )
       );
-      // handleClose();
     }
   };
   return (
@@ -322,6 +328,11 @@ function AddApartmentModal(props) {
                   setfloorsize({
                     value: e.target.value,
                     error: "Max Size : 4000 Sq.ft",
+                  });
+                } else if (e.target.value === 0) {
+                  setfloorsize({
+                    value: e.target.value,
+                    error: "Value can't be 0",
                   });
                 } else if (!e.target.value) {
                   setfloorsize({

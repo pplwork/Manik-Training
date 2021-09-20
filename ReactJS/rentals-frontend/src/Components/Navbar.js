@@ -68,7 +68,8 @@ export default function ButtonAppBar() {
               rentals
             </Typography>
           </Link>
-          {auth.user.role === "admin" && auth.user ? (
+          {(auth.user.role === "realtor" || auth.user.role === "admin") &&
+          auth.user ? (
             <Button
               style={{
                 color: "white",

@@ -14,7 +14,6 @@ function UserCard(props) {
   const openPoper = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
   const auth = useSelector((state) => state.auth);
-
   const id = openPoper ? "simple-popover" : undefined;
   const handleClosePoper = () => {
     setAnchorEl(null);
@@ -29,24 +28,41 @@ function UserCard(props) {
     setOpen(false);
   };
   const handleDelete = () => {
-    const url = APIUrls.deleteUser(props.user.id);
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+    let promise = new Promise((resolve, reject) => {
+      const url = APIUrls.deleteUser(props.user.id);
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.name) {
+            handleClosePoper();
+            if (props.setUser) {
+              props.setUser("");
+            }
+            resolve("User Deleted!");
+          } else {
+            reject(data.message);
+          }
+        });
+    });
+    toast.promise(promise, {
+      pending: "Please Wait!",
+      success: {
+        render({ data }) {
+          return data;
+        },
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.name) {
-          handleClosePoper();
-          props.setUser("");
-          toast.success("User Deleted!");
-        } else {
-          toast.error(data.message);
-        }
-      });
+      error: {
+        render({ data }) {
+          return data;
+        },
+      },
+    });
   };
   return (
     <div className="userCard">
@@ -65,7 +81,7 @@ function UserCard(props) {
       </div>
       {auth.user.role === "admin" ? (
         <div className="userCard__btnWrapper">
-          {auth.user.role === props.user.role ? (
+          {auth.user.email === props.user.email ? (
             <>
               <Button
                 className="userCard__btn"
@@ -153,7 +169,25 @@ function UserCard(props) {
           </Popover>
         </div>
       ) : (
-        ""
+        <>
+          <Button
+            className="userCard__btn"
+            onClick={handleClickOpen}
+            variant="outlined"
+            style={{
+              alignSelf: "center",
+              width: "20rem",
+            }}
+          >
+            Edit
+          </Button>
+          <EditUserModal
+            user={props.user}
+            open={open}
+            handleClose={handleClose}
+            setUser={props.setUser}
+          />
+        </>
       )}
     </div>
   );

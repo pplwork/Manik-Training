@@ -10,7 +10,9 @@ import {
   IsNumber,
   IsPositive,
   Matches,
+  Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 export class UpdateAppartmentDto extends PartialType(CreateAppartmentDto) {
@@ -45,13 +47,15 @@ export class UpdateAppartmentDto extends PartialType(CreateAppartmentDto) {
   @ApiProperty({ example: '1250', description: 'Carpet Area of Apartment' })
   @IsNumber()
   @IsNotEmpty()
-  @IsPositive()
+  @Min(1)
+  @Max(4000)
   floorSize: number;
 
   @ApiProperty({ example: '2500000', description: 'Price in Rupees' })
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
+  @Max(100000)
   price: number;
 
   @ApiProperty({
@@ -59,8 +63,9 @@ export class UpdateAppartmentDto extends PartialType(CreateAppartmentDto) {
     description: 'Number of Rooms in the Apartment',
   })
   @IsNumber()
+  @Min(1)
+  @Max(6)
   @IsNotEmpty()
-  @IsPositive()
   Rooms: number;
 
   @ApiProperty({

@@ -9,8 +9,6 @@ function MainPage() {
 
   useEffect(() => {
     const setUI = () => {
-      console.log("ye aa kya ");
-      console.log(window.innerWidth);
       if (
         document.documentElement.clientWidth < 1300 &&
         document.documentElement.clientWidth < 820

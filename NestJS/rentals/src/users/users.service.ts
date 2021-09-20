@@ -21,13 +21,11 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto, User) {
     const user = await this.userRepo.findOne(id);
     if (!user) {
       this.exception();
     }
-    console.log(user);
-    console.log(updateUserDto.email);
     let check = await this.userRepo.findOne({
       email: updateUserDto.email.toLowerCase().trim(),
     });
@@ -36,17 +34,23 @@ export class UsersService {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Please specify a valid role',
+          message: 'Please specify a valid role',
         },
         HttpStatus.NOT_FOUND,
       );
     }
-    console.log(check.email, user.email);
     if (!check || check.email == user.email) {
       user.name = updateUserDto.name.trim();
       user.password = updateUserDto.password;
       user.email = updateUserDto.email.toLowerCase().trim();
-      user.role = updateUserDto.role;
+      if (updateUserDto.role !== user.role && User.role !== 'admin') {
+        throw new HttpException(
+          "You don't have the permissions to perform the task",
+          HttpStatus.FORBIDDEN,
+        );
+      } else {
+        user.role = updateUserDto.role;
+      }
       return this.userRepo.save(user);
     } else {
       throw new HttpException(

@@ -12,6 +12,7 @@ import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Divider } from "@material-ui/core";
 const Accordion = withStyles({
   root: {
     border: "1px solid rgba(0, 0, 0, .125)",
@@ -83,7 +84,6 @@ function Home(props) {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-  console.log("auth is ", auth.user);
   if (!auth.user) {
     <Redirect to="/login" />;
     return;
@@ -148,6 +148,12 @@ function Home(props) {
                   <AccordionDetails className="sidebar__ele">
                     <Link className="sidebar__links" to="/users">
                       <Typography>Edit User</Typography>
+                    </Link>
+                  </AccordionDetails>
+                  <Divider />
+                  <AccordionDetails className="sidebar__ele">
+                    <Link className="sidebar__links" to="/users/add">
+                      <Typography>Add User</Typography>
                     </Link>
                   </AccordionDetails>
                 </Accordion>

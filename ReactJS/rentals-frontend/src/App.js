@@ -16,6 +16,7 @@ import { Redirect } from "react-router-dom";
 import UserProfile from "./Components/UserProfile";
 import MainPage from "./Components/MainPage";
 import MainUser from "./Components/MainUser";
+import AddMainUser from "./Components/AddMainUser";
 import Page404 from "./Components/Page404";
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component, props } = privateRouteProps;
@@ -44,7 +45,6 @@ function App() {
       dispatch(authenticateUser(user));
     }
   }, [dispatch]);
-  console.log(auth.user);
   return (
     <>
       <Router>
@@ -66,10 +66,18 @@ function App() {
               isLoggedin={auth.isLoggedin}
             />
             <PrivateRoute
+              exact
+              path="/users/add"
+              component={AddMainUser}
+              isLoggedin={auth.isLoggedin}
+            />
+            <PrivateRoute
+              exact
               path="/users"
               component={MainUser}
               isLoggedin={auth.isLoggedin}
             />
+
             {/* <Route
               exact
               path="/user/profile"

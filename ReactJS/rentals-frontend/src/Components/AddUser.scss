@@ -1,0 +1,21 @@
+@import "./variables.scss";
+.addUser {
+  height: 90.5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10rem;
+  &__heading {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  &__main {
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid $color-secondary;
+  }
+}

@@ -1,15 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsAlphanumeric,
-  IsEmail,
-  IsLatLong,
-  isNotEmpty,
   IsNotEmpty,
   IsNumber,
   IsPositive,
   Matches,
+  Max,
   MaxLength,
-  MinLength,
+  Min,
 } from 'class-validator';
 
 export class CreateAppartmentDto {
@@ -35,19 +32,24 @@ export class CreateAppartmentDto {
   })
   @Matches(
     /https:\/\/res\.cloudinary\.com\/.+\/image\/upload\/.+\/.+\.(jpg|png|jpeg|jfif)/,
+    {
+      message: 'Please Enter Valid Photo',
+    },
   )
   @IsNotEmpty()
   photoLink: string;
   @ApiProperty({ example: '1250', description: 'Carpet Area of Apartment' })
   @IsNumber()
+  @Min(1)
+  @Max(4000)
   @IsNotEmpty()
-  @IsPositive()
   floorSize: number;
 
   @ApiProperty({ example: '2500000', description: 'Price in Rupees' })
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
+  @Max(100000)
   price: number;
 
   @ApiProperty({
@@ -57,6 +59,8 @@ export class CreateAppartmentDto {
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()
+  @Min(1)
+  @Max(6)
   Rooms: number;
 
   @ApiProperty({
