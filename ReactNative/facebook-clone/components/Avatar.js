@@ -4,7 +4,14 @@ import { StyleSheet, Text, View, Image } from "react-native";
 const Avatar = ({ source, style }) => {
   return (
     <View style={{ ...styles.container, ...style }}>
-      <Image source={{ uri: source }} style={{ ...styles.Image, ...style }} />
+      {source ? (
+        <Image
+          source={typeof source == "number" ? source : { uri: source }}
+          style={{ ...styles.Image, ...style }}
+        />
+      ) : (
+        false
+      )}
     </View>
   );
 };

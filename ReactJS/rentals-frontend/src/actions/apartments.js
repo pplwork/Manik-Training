@@ -9,9 +9,10 @@ import {
 import { APIUrls } from "../helpers/urls";
 import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
-export function fetchApartments() {
+export function fetchApartments(offset) {
   return (dispatch) => {
-    const url = APIUrls.fetchApartments();
+    const url = APIUrls.fetchApartments(offset);
+    console.log(url);
     fetch(url, {
       headers: {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
@@ -26,9 +27,9 @@ export function fetchApartments() {
   };
 }
 
-export function fetchFilterApartments(Price, Rooms, size) {
+export function fetchFilterApartments(Price, Rooms, size, offset) {
   return (dispatch) => {
-    const url = APIUrls.fetchFilterApartments(Price, Rooms, size);
+    const url = APIUrls.fetchFilterApartments(Price, Rooms, size, offset);
     fetch(url, {
       headers: {
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,

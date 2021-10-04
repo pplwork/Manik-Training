@@ -4,24 +4,19 @@ import { useIsFocused } from "@react-navigation/native";
 import ToolBar from "./ToolBar";
 import UsersStory from "./UsersStory";
 import Feed from "./Feed";
-import { db } from "../firebase";
+// import { db } from "../firebase";
+import firestore from "@react-native-firebase/firestore";
 
 const HomeScreen = (props) => {
   const isFocused = useIsFocused();
-  const [feed, setFeed] = useState(null);
+  const [feed, setFeed] = useState("");
   useEffect(() => {
     if (isFocused)
       props.StackNavigation.setOptions({
         headerShown: true,
       });
   });
-  useEffect(() => {
-    (async () => {
-      const user = await db.collection("users").get();
-      const data = user.docs.map((doc) => doc.data());
-      setFeed(data[0].HomeFeed[0]);
-    })();
-  });
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.View}>

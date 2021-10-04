@@ -11,6 +11,7 @@ import {
 } from "./actionTypes";
 import { APIUrls } from "../helpers/urls";
 import { toast } from "react-toastify";
+import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 export function startLogin() {
   return {
     type: LOGIN_START,
@@ -94,7 +95,25 @@ export function setAuthenticatedUser(user) {
 }
 
 export function logoutUser() {
-  localStorage.removeItem("token");
+  return (dispatch) => {
+    const url = APIUrls.logout();
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then((response) => response.json)
+      .then((data) => {
+        if (!data.statusCode && !data.status && !data.error) {
+          localStorage.removeItem("token");
+          console.log(data);
+          dispatch(logout());
+        }
+      });
+  };
+}
+export function logout() {
   return {
     type: LOG_OUT,
   };

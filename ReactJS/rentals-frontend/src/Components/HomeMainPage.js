@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Slider from "@material-ui/core/Slider";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { fetchApartments, fetchFilterApartments } from "../actions/apartments";
 import ApartmentCard from "./ApartmentCard";
 import WrappedMap from "./Map";
 import { Redirect } from "react-router-dom";
+import Pagination from "@material-ui/lab/Pagination";
 const BudgetMarks = [
   {
     value: 1,
@@ -101,19 +102,37 @@ function HomeMainPage(props) {
   const [budgetValue, setBudgetValue] = React.useState([1, 80]);
   const [bedroomValue, setBedroomValue] = React.useState([1, 6]);
   const [sizeValue, setSizeValue] = React.useState([1, 3500]);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   if (!auth.user) {
     <Redirect to="/login" />;
   }
   useEffect(() => {
-    dispatch(fetchApartments());
-  }, [dispatch]);
+    dispatch(
+      fetchFilterApartments(
+        budgetValue,
+        bedroomValue,
+        sizeValue,
+        5 * (page - 1)
+      )
+    );
+  }, [page, dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchApartments());
+  // }, [dispatch]);
   const handleChangeBudget = (event, newValue) => {
     setBudgetValue(newValue);
   };
   const handleSubmitFilter = () => {
-    dispatch(fetchFilterApartments(budgetValue, bedroomValue, sizeValue));
+    dispatch(
+      fetchFilterApartments(
+        budgetValue,
+        bedroomValue,
+        sizeValue,
+        5 * (page - 1)
+      )
+    );
   };
   const handleChangeBedroom = (event, newValue) => {
     setBedroomValue(newValue);
@@ -124,7 +143,6 @@ function HomeMainPage(props) {
   function valuetext(value) {
     return `${value}`;
   }
-
   return (
     <div className="homepagemain">
       {props.right ? null : (
@@ -206,6 +224,18 @@ function HomeMainPage(props) {
               return <ApartmentCard app={app} key={app.id} />;
             })
           : ""}
+        <div className="pagination">
+          <Pagination
+            defaultPage={page}
+            count={5}
+            color="secondary"
+            variant="outlined"
+            size="large"
+            onChange={(event, value) => {
+              setPage(value);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

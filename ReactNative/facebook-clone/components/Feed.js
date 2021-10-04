@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Avatar from "./Avatar";
+import firestore from "@react-native-firebase/firestore";
 import {
   Entypo,
   AntDesign,
@@ -8,234 +9,178 @@ import {
   MaterialCommunityIcons,
   FontAwesome5,
 } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const Feed = ({ data }) => {
+  const [posts, setPosts] = useState([]);
+  const logged = useSelector((state) => state.auth);
+  useEffect(() => {
+    (async () => {
+      let posts = (await firestore().collection("posts").get()).docs.map(
+        (doc) => {
+          let id = doc.id;
+          let dt = doc.data();
+          return { id, ...dt };
+        }
+      );
+      // let map = (doc) => {
+      //   console.log("yaha par", doc.data());
+      //   posts.push(doc.data());
+      // };
+      // await firestore()
+      //   .collection("posts")
+      //   .onSnapshot((docsnap) => {
+      //     docsnap.docs.map(map);
+      //   });
+      let data = await Promise.all(
+        posts.map(async (post) => {
+          let random = (
+            await firestore().collection("users").doc(post.user).get()
+          ).data();
+          return {
+            Profile: random.photo,
+            Name: random.name,
+            caption: post.caption,
+            comments: post.comments,
+            likes: post.likes,
+            link: post.link,
+            id: post.id,
+            shares: post.shares,
+          };
+        })
+      );
+      setPosts(data);
+    })();
+  }, []);
+  const toggleLike = async (postId) => {
+    let post = (await firestore().collection("posts").doc(postId).get()).data();
+    if (post.likes.includes(logged.user.id)) {
+      let index = post.likes.indexOf(logged.user.id);
+      post.likes.splice(index, 1);
+      firestore()
+        .collection("posts")
+        .doc(postId)
+        .update({ ...post, likes: post.likes });
+    } else {
+      let updated = post.likes.push(logged.user.id);
+      firestore()
+        .collection("posts")
+        .doc(postId)
+        .update({ ...post, likes: post.likes });
+    }
+  };
   return (
     <>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <Avatar source={data} />
-            <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.UserText}>Royal Entertainment</Text>
-              <View style={styles.row}>
-                <Text style={styles.time}>9m</Text>
-                <Entypo name="dot-single" size={13} color="#747476" />
-                <Entypo name="globe" size={11} color="#747476" />
-              </View>
-            </View>
-          </View>
-          <Entypo
-            // style={{alignSelf: 'flex-start'}}
-            name="dots-three-horizontal"
-            size={15}
-            color="#222121"
-          />
-        </View>
-        <Text style={styles.post}>Lorem ipsum dolor sit amet.</Text>
-        <Image source={require("../assets/post1.jpg")} style={styles.Photo} />
-        <View style={styles.footer}>
-          <View style={styles.footerCount}>
-            <View style={styles.row}>
-              <View style={styles.IconCount}>
-                <AntDesign name="like1" size={11} color="#FFFFFF" />
-              </View>
-              <View
-                style={{
-                  ...styles.IconCount,
-                  backgroundColor: "#FB5A75",
-                  marginLeft: -5,
-                  zIndex: 1,
-                }}
-              >
-                <AntDesign name="heart" size={11} color="#ffffff" />
-              </View>
-              <Text style={styles.TextCount}>10K</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.TextCount}>2k Comments</Text>
-              <Entypo name="dot-single" size={12} color="#747476" />
-              <Text style={styles.TextCount}>550 Shares</Text>
-            </View>
-          </View>
-          <View style={styles.seperator}></View>
-          <View style={styles.footerMenu}>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <AntDesign name="like2" size={20} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Like</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <FontAwesome5 name="comment-alt" size={18} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Comment</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <MaterialCommunityIcons
-                  name="share-outline"
-                  size={26}
-                  color="#747476"
+      {posts.map((post) => {
+        return (
+          <React.Fragment key={post.link}>
+            <View style={styles.container} key={post.link}>
+              <View style={styles.header}>
+                <View style={styles.row}>
+                  <Avatar source={post.Profile} />
+                  <View style={{ paddingLeft: 10 }}>
+                    <Text style={styles.UserText}>{post.Name}</Text>
+                    <View style={styles.row}>
+                      <Text style={styles.time}>9m</Text>
+                      <Entypo name="dot-single" size={13} color="#747476" />
+                      <Entypo name="globe" size={11} color="#747476" />
+                    </View>
+                  </View>
+                </View>
+                <Entypo
+                  // style={{alignSelf: 'flex-start'}}
+                  name="dots-three-horizontal"
+                  size={15}
+                  color="#222121"
                 />
               </View>
-              <Text style={styles.Text}>Share</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={styles.bottomDivider} />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <Avatar source={require("../assets/user4.jpg")} />
-            <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.UserText}>Shawn George</Text>
-              <View style={styles.row}>
-                <Text style={styles.time}>Yesterday at 12:26 PM</Text>
-                <Entypo name="dot-single" size={13} color="#747476" />
-                <Entypo name="globe" size={11} color="#747476" />
+              <Text style={styles.post}>{post.caption}</Text>
+              <Image source={{ uri: post.link }} style={styles.Photo} />
+              <View style={styles.footer}>
+                <View style={styles.footerCount}>
+                  <View style={styles.row}>
+                    <View style={styles.IconCount}>
+                      <AntDesign name="like1" size={11} color="#FFFFFF" />
+                    </View>
+                    <View
+                      style={{
+                        ...styles.IconCount,
+                        backgroundColor: "#FB5A75",
+                        marginLeft: -5,
+                        zIndex: 1,
+                      }}
+                    >
+                      <AntDesign name="heart" size={11} color="#ffffff" />
+                    </View>
+                    <Text style={styles.TextCount}>{post.likes.length}</Text>
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.TextCount}>
+                      {post.comments} Comments
+                    </Text>
+                    <Entypo name="dot-single" size={12} color="#747476" />
+                    <Text style={styles.TextCount}>{post.shares} Shares</Text>
+                  </View>
+                </View>
+                <View style={styles.seperator}></View>
+                <View style={styles.footerMenu}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      toggleLike(post.id);
+                    }}
+                  >
+                    {post.likes && post.likes.includes(logged.user.id) ? (
+                      <>
+                        <View style={styles.Icon}>
+                          <AntDesign name="like1" size={20} color="#3578E5" />
+                        </View>
+                        <Text
+                          style={{
+                            ...styles.Text,
+                            color: "#3578E5",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Like
+                        </Text>
+                      </>
+                    ) : (
+                      <>
+                        <View style={styles.Icon}>
+                          <AntDesign name="like2" size={20} color="#747476" />
+                        </View>
+                        <Text style={styles.Text}>Like</Text>
+                      </>
+                    )}
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}>
+                    <View style={styles.Icon}>
+                      <FontAwesome5
+                        name="comment-alt"
+                        size={18}
+                        color="#747476"
+                      />
+                    </View>
+                    <Text style={styles.Text}>Comment</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button}>
+                    <View style={styles.Icon}>
+                      <MaterialCommunityIcons
+                        name="share-outline"
+                        size={26}
+                        color="#747476"
+                      />
+                    </View>
+                    <Text style={styles.Text}>Share</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-          <Entypo
-            // style={{alignSelf: 'flex-start'}}
-            name="dots-three-horizontal"
-            size={15}
-            color="#222121"
-          />
-        </View>
-        <Text style={styles.post}>Lorem ipsum dolor sit amet.</Text>
-        <Image source={require("../assets/post2.jpg")} style={styles.Photo} />
-        <View style={styles.footer}>
-          <View style={styles.footerCount}>
-            <View style={styles.row}>
-              <View style={styles.IconCount}>
-                <AntDesign name="like1" size={11} color="#FFFFFF" />
-              </View>
-              <View
-                style={{
-                  ...styles.IconCount,
-                  backgroundColor: "#FB5A75",
-                  marginLeft: -5,
-                  zIndex: 1,
-                }}
-              >
-                <AntDesign name="heart" size={11} color="#ffffff" />
-              </View>
-              <Text style={styles.TextCount}>10K</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.TextCount}>2k Comments</Text>
-              <Entypo name="dot-single" size={12} color="#747476" />
-              <Text style={styles.TextCount}>550 Shares</Text>
-            </View>
-          </View>
-          <View style={styles.seperator}></View>
-          <View style={styles.footerMenu}>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <AntDesign name="like2" size={20} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Like</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <FontAwesome5 name="comment-alt" size={18} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Comment</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <MaterialCommunityIcons
-                  name="share-outline"
-                  size={26}
-                  color="#747476"
-                />
-              </View>
-              <Text style={styles.Text}>Share</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={styles.bottomDivider} />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.row}>
-            <Avatar source={require("../assets/user2.jpg")} />
-            <View style={{ paddingLeft: 10 }}>
-              <Text style={styles.UserText}>Ethel Shaw</Text>
-              <View style={styles.row}>
-                <Text style={{ ...styles.time, fontSize: 13 }}>
-                  Sat at 3:45PM
-                </Text>
-                <Entypo name="dot-single" size={13} color="#747476" />
-                <Entypo name="globe" size={11} color="#747476" />
-              </View>
-            </View>
-          </View>
-          <Entypo
-            // style={{alignSelf: 'flex-start'}}
-            name="dots-three-horizontal"
-            size={15}
-            color="#222121"
-          />
-        </View>
-        <Text style={styles.post}>Lorem ipsum dolor sit amet.</Text>
-        <Image source={require("../assets/post3.jpg")} style={styles.Photo} />
-        <View style={styles.footer}>
-          <View style={styles.footerCount}>
-            <View style={styles.row}>
-              <View style={styles.IconCount}>
-                <AntDesign name="like1" size={11} color="#FFFFFF" />
-              </View>
-              <View
-                style={{
-                  ...styles.IconCount,
-                  backgroundColor: "#FB5A75",
-                  marginLeft: -5,
-                  zIndex: 1,
-                }}
-              >
-                <AntDesign name="heart" size={11} color="#ffffff" />
-              </View>
-              <Text style={styles.TextCount}>5K</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.TextCount}>820 Comments</Text>
-              <Entypo name="dot-single" size={12} color="#747476" />
-              <Text style={styles.TextCount}>326 Shares</Text>
-            </View>
-          </View>
-          <View style={styles.seperator}></View>
-          <View style={styles.footerMenu}>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <AntDesign name="like2" size={20} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Like</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <FontAwesome5 name="comment-alt" size={18} color="#747476" />
-              </View>
-              <Text style={styles.Text}>Comment</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <View style={styles.Icon}>
-                <MaterialCommunityIcons
-                  name="share-outline"
-                  size={26}
-                  color="#747476"
-                />
-              </View>
-              <Text style={styles.Text}>Share</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={styles.bottomDivider} />
+            <View style={styles.bottomDivider} />
+          </React.Fragment>
+        );
+      })}
     </>
   );
 };

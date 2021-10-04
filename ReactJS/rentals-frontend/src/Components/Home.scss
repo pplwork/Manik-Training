@@ -22,6 +22,8 @@
     flex: 1;
     padding: 1rem 6rem 0rem 6rem;
     height: 91.5vh;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     @media only screen and (max-width: 63.75em) {
       padding: 1rem 4rem 0rem 4rem;
@@ -100,4 +102,8 @@
   @media only screen and (max-width: 63.75em) {
     margin-left: 2rem;
   }
+}
+.pagination {
+  padding: 3rem;
+  margin: 0 auto;
 }

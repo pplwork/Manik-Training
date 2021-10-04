@@ -4,7 +4,7 @@
             "outputFile": "E:\\Pplwork\\Training\\ReactNative\\facebook-clone\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v21\\values-watch-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\91836\\.gradle\\caches\\transforms-3\\c810a29ee9cc32eddbe9f435a5d40943\\transformed\\appcompat-1.2.0\\res\\values-watch-v21\\values-watch-v21.xml",
+                    "source": "C:\\Users\\91836\\.gradle\\caches\\transforms-3\\94645064b929c6f026cdbb84bfcb5029\\transformed\\appcompat-1.2.0\\res\\values-watch-v21\\values-watch-v21.xml",
                     "from": {
                         "startLines": "2,6,10",
                         "startColumns": "4,4,4",
